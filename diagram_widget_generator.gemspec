@@ -9,7 +9,7 @@ Gem::Specification.new do |spec|
   spec.version     = DiagramWidgetGenerator::VERSION
   spec.authors     = [""]
   spec.email       = [""]
-  spec.homepage    = "none"
+  spec.homepage    = "https://www.this-is-just-a-test.de"
   spec.summary     = "A Vue based Rails Engine to generate Diagrams"
   spec.description = "A Vue base Rails Engine for everyone who want to have a simple Diagram Generator and embedd as a Widget to your own Website."
   spec.license     = "MIT"
