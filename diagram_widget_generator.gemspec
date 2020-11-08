@@ -11,7 +11,7 @@ Gem::Specification.new do |spec|
   spec.email       = [""]
   spec.homepage    = "TODO"
   spec.summary     = "TODO: Summary of DiagramWidgetGenerator."
-  spec.description = "TODO: Description of DiagramWidgetGenerator."
+  spec.description = "A Vue base Rails Engine for everyone who want to have a simple Diagram Generator and embedd as a Widget to your own Website."
   spec.license     = "MIT"
 
   # Prevent pushing this gem to RubyGems.org. To allow pushes either set the 'allowed_push_host'
