@@ -7,8 +7,12 @@
     "@rails/ujs": "^6.0.0",
     "@rails/webpacker": "4.2.2",
     "@vue/compiler-sfc": "^3.0.2",
+    "bootstrap": "^5.0.0-alpha3",
+    "highcharts": "^8.2.2",
+    "popper.js": "^2.0.0-next.4",
     "turbolinks": "^5.2.0",
     "vue": "^3.0.2",
+    "vue-highcharts": "^0.2.0",
     "vue-loader": "^16.0.0-rc.1",
     "vuex": "^4.0.0-rc.1"
   },
