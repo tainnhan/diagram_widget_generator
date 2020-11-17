@@ -1,22 +1,36 @@
 <template>
-  <h2>{{ text }}</h2>
-  <button class="btn btn-danger">Button</button>
-  <div style="width: 400px; height: 200px;">
-    <Highcharts :options="stockOptions"></Highcharts>
+  <the-navbar></the-navbar>
+  <div class="container">
+    <button v-if="isSelected === 'IndexPage'" class="btn btn-primary" @click="selectPage">Neues Diagramm erstellen</button>
+    <component :is="isSelected" class="mt-5"></component>
   </div>
+  <the-footer></the-footer>
 </template>
 
 <script>
-import { ref, reactive } from 'vue';
+import TheNavbar from './components/layout/TheNavbar';
+import TheFooter from './components/layout/TheFooter';
+import FormPage from './components/FormPage';
+import IndexPage from './components/IndexPage';
+
+import { ref } from 'vue';
 export default {
+  components: {
+    TheNavbar,
+    TheFooter,
+    FormPage,
+    IndexPage
+  },
   setup() {
-    const text = ref('Hello World');
-    const stockOptions = reactive({
-      series: [{
-        data: [1,2,3] // sample data
-      }]
-    })
-    return { text, stockOptions }
+    const isSelected = ref('FormPage');
+    const showButton = ref(true);
+
+    function selectPage() {
+      isSelected.value = isSelected.value === 'IndexPage' ? 'FormPage' : 'IndexPage';
+      showButton.value = !showButton.value;
+    }
+
+    return { isSelected, selectPage }
   }
 }
 </script>
