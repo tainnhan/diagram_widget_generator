@@ -1,6 +1,6 @@
 <template>
-<div class="card">
-  <div class="card-body">
+<div class="mt-5">
+  <div class="text-center">
     <highcharts :options="options"></highcharts>
   </div>
 </div>

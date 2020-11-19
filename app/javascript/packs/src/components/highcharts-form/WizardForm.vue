@@ -2,7 +2,7 @@
   <div class="card">
     <div class="card-body">
       <component :is="selectedComponent.value"></component>
-      <button class="btn btn-primary" @click="selectComponent">Weiter</button>
+      <button class="btn btn-primary mt-3" @click="selectComponent">Weiter</button>
     </div>
   </div>
 </template>

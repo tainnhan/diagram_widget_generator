@@ -42,13 +42,16 @@
       </div>
     </section>
     <section>
-      <div class="mb-3">
+      <div >
         <label for="chart_type">Chart</label>
         <select id="chart_type" class="form-select" v-model="chartType.text">
           <option v-for="chart in chartType.type" :value="chart.value" :key="chart.text">{{chart.text}}</option>
         </select>
       </div>
     </section>
+    <input type="range"  v-model.number="chartSize.width" class="form-range" min="50" max="3000">
+    <input type="range"  v-model.number="chartSize.height" class="form-range" min="50" max="3000">
+
   </form>
 </template>
 
@@ -60,6 +63,10 @@
     setup(){
       const store = useStore();
       const titleSubtitleConfig = store.getters.titleSubtitle;
+      const chartSize = reactive({
+        width: 50,
+        height: 50,
+      })
 
       function titleSubtitlePayload(data) {
         return {
@@ -90,10 +97,16 @@
       })
 
       const chartType = reactive({...store.getters.chartTypes});
-      watch(chartType, function () {
+      watch([chartType, chartSize], function () {
         store.dispatch(
           'changeChartsProperties',
-          {property: chartType.property, data: {type: chartType.text}}
+          {
+            property: chartType.property, data: {
+              type: chartType.text,
+              width: chartSize.width,
+              height: chartSize.height
+            }
+          }
         )
       })
 
@@ -101,7 +114,8 @@
       return {
         titleConfig,
         subtitleConfig,
-        chartType
+        chartType,
+        chartSize
       }
     }
   }

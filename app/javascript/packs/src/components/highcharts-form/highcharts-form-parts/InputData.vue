@@ -1,21 +1,35 @@
 <template>
   <h2>Geben Sie hier ihre Chart Daten ein</h2>
-  <div style="position:relative">
+  <div style="position:relative" id="table-wrapper">
   <div class="overflow-auto" style="height:100%">
     <table style=" overflow-x: scroll">
       <thead>
-      <input-data-column :inputColumns="inputColumns" :countColumns="countColumns"></input-data-column>
+      <input-data-column
+        @send-data="applyColumnData"
+        :inputColumns="inputColumns"
+        :countColumns="countColumns"
+      ></input-data-column>
       </thead>
-      <input-data-row  :inputRows="inputRows" :countColumns="countColumns" :countRows="countRows"></input-data-row>
+      <input-data-row
+        @add-columns="addColumns"
+        @add-rows="addRows"
+        @send-data="applyRowData"
+        :inputRows="inputRows"
+        :countColumns="countColumns"
+        :countRows="countRows"
+      ></input-data-row>
     </table>
+    <div v-if="isInvalid" class="alert alert-danger" role="alert">
+      Beim Eingabe der Daten sind nur Zahlen erlaubt. Bitte korrigieren Sie diese.
+    </div>
   </div>
   </div>
-  <button class="btn btn-primary" @click="addRows">Zeile hinzufügen</button>
-  <button class="btn btn-primary" @click="addColumns">Spalte hinzufügen</button>
 </template>
 
 <script>
-  import { ref,reactive  } from 'vue';
+  import useLine from "../../../mixins/line";
+  import { ref,reactive, watch } from 'vue';
+  import { useStore } from 'vuex'
   import InputDataColumn from './InputDataColumn';
   import InputDataRow from './InputDataRow';
   export default {
@@ -24,34 +38,80 @@
       InputDataRow
     },
     setup() {
-      const countRows = ref(2);
-      const countColumns = ref(2);
+      const { convertToXAxisOptions, convertToSeriesOptions, dispatchLineChart } = useLine()
+      const store = useStore();
+      const isInvalid = ref(false)
+      const countRows = ref(3);
+      const countColumns = ref(3);
+      let invalidRows = [];
       const inputRows = reactive({
         data: []
       });
+      fillInputRows();
+
+      function addRows() {
+        inputRows.data[countRows.value] = [];
+        countRows.value += 1;
+      }
+
+      function fillInputRows() {
+        for(let i = 0; i < countRows.value; i++){
+          inputRows.data[i] = [];
+        }
+      }
+
+      function applyRowData(payload) {
+        inputRows.data = payload.data;
+      }
+
+
       const inputColumns = reactive({
         data: []
       })
 
-
-      fillInputRows();
-
-    function addRows() {
-      countRows.value += 1;
-      fillInputRows();
-    }
-    function addColumns() {
-      countColumns.value += 1;
-    }
-
-    function fillInputRows() {
-      for(let i = 0; i < countRows.value; i++){
-        inputRows.data[i] = [];
+      function addColumns() {
+        countColumns.value += 1;
       }
-    }
 
-    //mounted => leere inputRows und inPutData => Ich gebe daten ein => emits zu Parent => countRows +1 => inputRows.data[countRows.value] = []
-    return  { countColumns, countRows, addColumns, addRows, inputRows, inputColumns }
+      function applyColumnData(payload) {
+        inputColumns.data = payload.data
+      }
+
+      function validate(newValue){
+        isInvalid.value = false;
+        for(let i = 0; i < invalidRows.length; i++) {
+          document.getElementById(invalidRows[i]).classList.remove('is-invalid')
+        }
+        invalidRows = [];
+        console.log(newValue.data[2].length);
+        for(let i = 0; i < newValue.data.length; i++){
+          for(let j=1;j < newValue.data[i].length; j++){
+            if(!/^(\d*[.,])?\d+$/.test(newValue.data[i][j]) && newValue.data[i][j]){
+              invalidRows.push(`input_row_${i+1}_${j+1}`)
+              if(!isInvalid.value ) {
+                isInvalid.value = true;
+              }
+            }
+          }
+        }
+        for(let i = 0; i < invalidRows.length; i++) {
+          document.getElementById(invalidRows[i]).classList.add('is-invalid')
+        }
+      }
+
+      watch([inputColumns, inputRows], function (newValues) {
+        validate(newValues[1]);
+        if (invalidRows.length === 0) {
+          dispatchLineChart(store, convertToXAxisOptions(newValues[1]), convertToSeriesOptions(countColumns, newValues[0], newValues[1]))
+        }
+      })
+
+    return {
+      countColumns, countRows,isInvalid,
+      addColumns, addRows,
+      inputRows, inputColumns,
+      applyRowData, applyColumnData
+      }
   }
   }
 </script>

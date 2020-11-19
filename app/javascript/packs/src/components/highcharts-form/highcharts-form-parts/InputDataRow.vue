@@ -1,16 +1,24 @@
 <template>
   <tbody>
-    <tr v-for="(_, index) in countRows" >
-      <th v-for="(_, index_2) in countColumns">
-        <input style="width:100px" class="form-control m-0" type="text" v-model="rows.data[index][index_2]"/>
+    <tr v-for="(n, index) in countRows" >
+      <th v-for="(m, index_2) in countColumns">
+        <input
+          @keyup="changeInputFocus($event, n, m)"
+          :id="'input_row_'+ n + '_' + m"
+          style="width:100px"
+          class="form-control m-0"
+          type="text"
+          v-model="rows.data[index][index_2]"
+        />
       </th>
     </tr>
   </tbody>
 </template>
 
 <script>
-import { reactive, watch } from 'vue';
+import { ref, reactive, watch, onUpdated } from 'vue';
   export default {
+    emits: ['send-data','add-rows', 'add-columns'],
     props: {
       countColumns: {
         type: Number,
@@ -25,16 +33,58 @@ import { reactive, watch } from 'vue';
         required: true
       }
     },
-    setup(props){
+    setup(props , { emit }){
       const rows = reactive(props.inputRows);
+      let updated = false;
+      let inputId = '';
 
-      watch(rows, function () {
-          // hier wird das an die HighJS option chart übergeben
+      watch(rows, function (newValue, oldValue) {
+          emit('send-data', newValue);
+      });
+
+      function changeInputFocus(event,n,m){
+        if(event.keyCode === 37){
+          let element = document.getElementById(`input_row_${n}_${m-1}`)
+          if(element){
+            element.focus()
+          }
+        }
+        if(event.keyCode === 38){
+          let element = document.getElementById(`input_row_${n-1}_${m}`)
+          if(element){
+            element.focus()
+          }
+        }
+        if(event.keyCode === 39){
+          let element = document.getElementById(`input_row_${n}_${m+1}`)
+          inputId = `input_row_${n}_${m+1}`
+          if(element){
+            element.focus()
+          } else {
+            emit('add-columns');
+            updated = true
+          }
+        }
+        if(event.keyCode === 40){
+          let element = document.getElementById(`input_row_${n+1}_${m}`)
+          inputId = `input_row_${n+1}_${m}`
+          if(element){
+            element.focus();
+          } else {
+            emit('add-rows');
+            updated = true
+          }
+        }
+      }
+
+      onUpdated(function () {
+        if(updated){
+          document.getElementById(inputId).focus();
+          updated = false;
+        }
       })
 
-
-
-      return { rows };
+      return { rows, changeInputFocus };
     }
   }
 </script>

@@ -1,14 +1,20 @@
 <template>
   <tr>
     <th v-for="(_, index) in countColumns" :key="'column_' + index">
-      <input style="width:100px" class="form-control m-0" type="text" v-model="columns.data[index]"/>
+      <input
+        style="width:100px"
+        class="form-control m-0"
+        type="text"
+        v-model="columns.data[index]"
+      />
     </th>
   </tr>
 </template>
 
 <script>
-  import { reactive } from 'vue';
+  import { reactive, watch } from 'vue';
   export default {
+    emits: ['send-data'],
     props: {
       countColumns: {
         type: Number,
@@ -19,9 +25,12 @@
         required: true
       }
     },
-    setup(props){
+    setup(props, { emit }){
+      const columns = reactive(props.inputColumns);
+      watch(columns, function (newValue) {
+        emit('send-data', newValue);
+      })
 
-    const columns = reactive(props.inputColumns)
       return { columns }
     },
   }

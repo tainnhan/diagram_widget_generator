@@ -11,7 +11,7 @@ import TheNavbar from './components/layout/TheNavbar';
 import FormPage from './components/FormPage';
 import IndexPage from './components/IndexPage';
 
-import { ref } from 'vue';
+import {onMounted, ref} from 'vue';
 export default {
   components: {
     TheNavbar,
