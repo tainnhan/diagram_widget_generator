@@ -6,5 +6,5 @@ test/dummy/storage/
 test/dummy/tmp/
 node_modules
 test/dummy/public
-public/diagram-widget-generator-packs
+public/diagram-widget-generator-packs/
 tmp/
