@@ -3,8 +3,12 @@
     <div class="col-5">
       <wizard-form></wizard-form>
     </div>
-    <div class="col-7 bg-light" :style="{height: windowHeight + 'px'}">
-      <high-charts-preview></high-charts-preview>
+    <div class="col-7">
+      <div class="card">
+        <div class="card-body">
+            <high-charts-preview></high-charts-preview>
+        </div>
+      </div>
     </div>
   </div>
 </template>

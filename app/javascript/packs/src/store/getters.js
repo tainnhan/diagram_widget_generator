@@ -7,5 +7,17 @@ export default {
   },
   titleSubtitle(state){
     return state.titleSubtitle;
+  },
+  defaultColors(state){
+    return state.defaultColors;
+  },
+  dashStyle(state){
+    return state.dashStyle;
+  },
+  defaultSymbols(state){
+    return state.defaultSymbols;
+  },
+  page(state){
+    return state.page;
   }
 }

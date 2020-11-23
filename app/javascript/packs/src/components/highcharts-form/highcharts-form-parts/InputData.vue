@@ -1,5 +1,5 @@
 <template>
-  <h2>Geben Sie hier ihre Chart Daten ein</h2>
+  <p>Geben Sie hier ihre Chart Daten ein</p>
   <div style="position:relative" id="table-wrapper">
   <div class="overflow-auto" style="height:100%">
     <table style=" overflow-x: scroll">
@@ -19,7 +19,7 @@
         :countRows="countRows"
       ></input-data-row>
     </table>
-    <div v-if="isInvalid" class="alert alert-danger" role="alert">
+    <div v-if="isInvalid" class="alert alert-danger mt-3" role="alert">
       Beim Eingabe der Daten sind nur Zahlen erlaubt. Bitte korrigieren Sie diese.
     </div>
   </div>
@@ -29,7 +29,7 @@
 <script>
   import useLine from "../../../mixins/line";
   import { ref,reactive, watch } from 'vue';
-  import { useStore } from 'vuex'
+    import { useStore } from 'vuex'
   import InputDataColumn from './InputDataColumn';
   import InputDataRow from './InputDataRow';
   export default {
@@ -83,10 +83,9 @@
           document.getElementById(invalidRows[i]).classList.remove('is-invalid')
         }
         invalidRows = [];
-        console.log(newValue.data[2].length);
         for(let i = 0; i < newValue.data.length; i++){
           for(let j=1;j < newValue.data[i].length; j++){
-            if(!/^(\d*[.,])?\d+$/.test(newValue.data[i][j]) && newValue.data[i][j]){
+            if(!/^(\d*[.])?\d+$/.test(newValue.data[i][j]) && newValue.data[i][j]){
               invalidRows.push(`input_row_${i+1}_${j+1}`)
               if(!isInvalid.value ) {
                 isInvalid.value = true;
@@ -102,15 +101,19 @@
       watch([inputColumns, inputRows], function (newValues) {
         validate(newValues[1]);
         if (invalidRows.length === 0) {
-          dispatchLineChart(store, convertToXAxisOptions(newValues[1]), convertToSeriesOptions(countColumns, newValues[0], newValues[1]))
+          dispatchLineChart(
+            convertToXAxisOptions(newValues[1]),
+            convertToSeriesOptions(countColumns, newValues[0], newValues[1])
+          )
         }
       })
+
 
     return {
       countColumns, countRows,isInvalid,
       addColumns, addRows,
       inputRows, inputColumns,
-      applyRowData, applyColumnData
+      applyRowData, applyColumnData,
       }
   }
   }

@@ -1,8 +1,7 @@
 export default {
   property: 'chart',
-  text: '',
+  text: 'line',
   type: [
     { text: "Line", value: "line" },
-    { text: "Pie", value: "pie" }
   ]
 }

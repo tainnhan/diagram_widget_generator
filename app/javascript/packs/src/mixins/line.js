@@ -1,5 +1,8 @@
 /* Especially for Line Chart Conversion, it will be later placed in a mixin*/
+import { useStore } from 'vuex';
+
 export default function() {
+  const store = useStore();
   function convertToXAxisOptions(rowData) {
     let array = [];
     for (let i = 0; i < rowData.data.length; i++) {
@@ -48,13 +51,16 @@ export default function() {
     return finalArray;
   }
 
-  function dispatchLineChart(store, axisOptions, seriesOptions) {
-    store.dispatch('changeChartsProperties', {
+  async function dispatchLineChart (axisOptions, seriesOptions) {
+    await store.dispatch('changeChartsProperties', {
       property: 'xAxis', data: {
         type: 'category', categories: axisOptions
       }
     })
-    store.dispatch('changeChartsProperties', {property: 'series', data: seriesOptions})
+    await store.dispatch('changeChartsProperties', {
+      property: 'series',
+      data: seriesOptions
+    })
   }
   
   

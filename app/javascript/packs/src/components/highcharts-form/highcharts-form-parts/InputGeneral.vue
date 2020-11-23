@@ -64,8 +64,8 @@
       const store = useStore();
       const titleSubtitleConfig = store.getters.titleSubtitle;
       const chartSize = reactive({
-        width: 50,
-        height: 50,
+        width: null,
+        height: null,
       })
 
       function titleSubtitlePayload(data) {
