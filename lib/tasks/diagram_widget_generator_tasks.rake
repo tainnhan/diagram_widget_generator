@@ -49,3 +49,11 @@ end
 
 # Compile packs after we've compiled all other assets during precompilation
 skip_webpacker_precompile = %w(no false n f).include?(ENV["WEBPACKER_PRECOMPILE"])
+
+unless skip_webpacker_precompile
+  if Rake::Task.task_defined?("assets:precompile")
+    enhance_assets_precompile
+  else
+    Rake::Task.define_task("assets:precompile" => "diagram_widget_generator:webpacker:compile")
+  end
+end
