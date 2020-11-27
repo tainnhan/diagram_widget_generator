@@ -11,7 +11,9 @@
     </button>
     <ul class="dropdown-menu" aria-labelledby="create_highCharts_dropdown">
       <li class="dropdown-item" style="cursor: pointer" @click="selectPage">Diagramm manuell erstellen</li>
+      <!--
       <li class="dropdown-item" style="cursor: pointer">Import(JSON)</li>
+      -->
     </ul>
   </div>
 </template>

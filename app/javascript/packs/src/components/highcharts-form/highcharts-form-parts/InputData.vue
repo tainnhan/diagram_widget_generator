@@ -63,12 +63,23 @@
     class="btn btn-outline-primary mt-3 float-right"
     @click="setFormPart"
   >Weiter</button>
+  <i
+    id="help_tooltip"
+    class="fas fa-question-circle mt-3"
+    data-toggle="popover"
+    data-container="body"
+    data-placement="bottom"
+    data-content="Sie können mithilfe der Pfeiltasten zwischen den verschienden Feldern wechseln oder gegebenfalls neue Zeilen oder Spalten erstellen."
+    style="cursor: pointer"
+  >
+  </i>
 </template>
 
 <script>
   import useLine from "../../../mixins/line";
-  import { ref,reactive, watch, onUpdated } from 'vue';
-    import { useStore } from 'vuex'
+  import { ref,reactive, watch, onUpdated, onMounted } from 'vue';
+  import bootstrap from 'bootstrap/dist/js/bootstrap.bundle';
+  import { useStore } from 'vuex'
   import InputDataColumn from './InputDataColumn';
   import InputDataRow from './InputDataRow';
   export default {
@@ -201,6 +212,10 @@
         }
       })
 
+      onMounted(function () {
+        const element = document.getElementById('help_tooltip')
+        const popover = new bootstrap.Popover(element)
+      })
 
     return {
       countColumns, countRows,isInvalid,

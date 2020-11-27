@@ -9,9 +9,8 @@
 import TheNavbar from './components/layout/TheNavbar';
 import FormPage from './components/FormPage';
 import IndexPage from './components/IndexPage';
-import bootstrap from 'bootstrap/dist/js/bootstrap.bundle';
 import { useStore } from 'vuex';
-import { onMounted, computed } from 'vue';
+import { computed } from 'vue';
 export default {
   components: {
     TheNavbar,
@@ -24,12 +23,6 @@ export default {
       return store.getters.page
     })
 
-    onMounted(function () {
-      let tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-toggle="tooltip"]'))
-      tooltipTriggerList.map(function (tooltipTriggerEl) {
-       return new bootstrap.Tooltip(tooltipTriggerEl)
-      })
-    })
 
     return { isSelected }
   }

@@ -7,6 +7,7 @@
       <highcharts :options="options"></highcharts>
     </div>
     <div class="card-footer">
+      <!--
       <button
         data-toggle="tooltip"
         data-placement="bottom"
@@ -41,6 +42,7 @@
           <i class="fas fa-download"></i>
         </button>
       </div>
+      -->
     </div>
   </div>
 </template>
