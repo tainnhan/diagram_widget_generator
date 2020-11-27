@@ -1,5 +1,4 @@
 <template>
-  <form @submit.prevent>
     <section>
       <div class="mb-3">
         <label for="title" class="form-label">Titel</label>
@@ -27,13 +26,13 @@
         <input id="subtitle" class="form-control" type="text" v-model="subtitleConfig.text"/>
       </div>
       <div class="row">
-        <div class="mb-3 col-6">
+        <div class="mb-3 col-md-6">
           <label for="subtitle_align">Ausrichtung Subtitel</label>
           <select id="subtitle_align" class="form-select" v-model="subtitleConfig.alignSelected" >
             <option v-for="align in subtitleConfig.align" :value="align.value" :key="align.text">{{align.text}}</option>
           </select>
         </div>
-        <div class="mb-3 col-6">
+        <div class="mb-3 col-md-6">
           <label for="vertical_subtitle_align">Vertikale Ausrichtung Subtitel</label>
           <select id="vertical_subtitle_align" class="form-select" v-model="subtitleConfig.verticalAlignSelected">
             <option v-for="align in subtitleConfig.verticalAlign" :value="align.value" :key="align.text">{{align.text}}</option>
@@ -42,17 +41,22 @@
       </div>
     </section>
     <section>
-      <div >
+      <div>
         <label for="chart_type">Chart</label>
         <select id="chart_type" class="form-select" v-model="chartType.text">
           <option v-for="chart in chartType.type" :value="chart.value" :key="chart.text">{{chart.text}}</option>
         </select>
       </div>
     </section>
+      <button
+              type="button"
+              class="btn btn-outline-primary mt-3 float-right"
+              @click="setFormPart"
+      >Weiter</button>
+    <!--
     <input type="range"  v-model.number="chartSize.width" class="form-range" min="50" max="3000">
     <input type="range"  v-model.number="chartSize.height" class="form-range" min="50" max="3000">
-
-  </form>
+      --->
 </template>
 
 <script>
@@ -102,20 +106,28 @@
           'changeChartsProperties',
           {
             property: chartType.property, data: {
-              type: chartType.text,
-              width: chartSize.width,
-              height: chartSize.height
+              type: chartType.text
             }
           }
         )
       })
 
 
+      function setFormPart() {
+
+
+
+
+        store.dispatch('setFormPart', {
+          data: 'InputData'
+        })
+      }
       return {
         titleConfig,
         subtitleConfig,
         chartType,
-        chartSize
+        chartSize,
+        setFormPart
       }
     }
   }

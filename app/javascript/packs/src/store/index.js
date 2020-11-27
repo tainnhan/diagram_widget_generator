@@ -24,7 +24,10 @@ const store = createStore({
       page: 'IndexPage',
       titleSubtitle,
       chartTypes,
-      highChartsOptions
+      highChartsOptions,
+      formPart: 'InputGeneral',
+      chartList: [],
+      reloadList: false
     }
   },
   getters,

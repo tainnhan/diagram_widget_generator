@@ -10,5 +10,26 @@ export default {
   },
   setPage(state, payload) {
     state.page = payload.data;
+  },
+  setReload(state){
+    state.reload = true;
+  },
+  setChartsList(state, payload){
+    state.chartList = payload
+  },
+  setFormPart(state, payload) {
+    state.formPart = payload.data
+  },
+  resetForm(state) {
+    state.highChartsOptions = {
+      plotOptions: {
+        series: {
+          animation: false
+        }
+      }
+    }
   }
+
 }
+
+// daten senden -> speihert erstmal in db -> chartlist wirdw eitergeführt

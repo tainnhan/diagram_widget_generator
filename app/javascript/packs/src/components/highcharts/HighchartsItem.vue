@@ -1,9 +1,10 @@
 <template>
   <div class="card mt-3">
     <div class="card-header">
-      Der Titel vom deinem Chart
+      {{ options.title ? options.title.text : '' }}
     </div>
-    <div class="card-body" style="height: 300px">
+    <div class="card-body" style="">
+      <highcharts :options="options"></highcharts>
     </div>
     <div class="card-footer">
       <button
@@ -43,3 +44,17 @@
     </div>
   </div>
 </template>
+<script>
+  import { reactive } from 'vue';
+  export default {
+    props: {
+      options: {
+        type: Object,
+        required: true
+      }
+    },
+    setup(props) {
+
+    }
+  }
+</script>

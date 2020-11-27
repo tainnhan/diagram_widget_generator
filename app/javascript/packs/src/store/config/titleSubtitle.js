@@ -2,8 +2,8 @@
 
 export default {
   text: '',
-  alignSelected: '',
-  verticalAlignSelected: '',
+  alignSelected: 'center',
+  verticalAlignSelected: 'top',
   align: [
     { text: "Links", value: "left" },
     { text: "Rechts", value: "right" },

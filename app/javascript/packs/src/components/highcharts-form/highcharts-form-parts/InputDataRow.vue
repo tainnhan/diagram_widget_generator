@@ -1,12 +1,13 @@
 <template>
   <tbody>
     <tr v-for="(n, index) in countRows" >
-      <th v-for="(m, index_2) in countColumns">
+      <th v-for="(m, index_2) in countColumns" :class="inputClass(m)">
         <input
           @keyup="changeInputFocus($event, n, m)"
           :id="'input_row_'+ n + '_' + m"
-          style="width:100px"
-          class="form-control m-0"
+          style="max-width: 80px"
+          class="m-0 border-0"
+          :class="inputClass(m)"
           type="text"
           v-model="rows.data[index][index_2]"
         />
@@ -16,9 +17,9 @@
 </template>
 
 <script>
-import { ref, reactive, watch, onUpdated } from 'vue';
+import { reactive, watch, onUpdated } from 'vue';
   export default {
-    emits: ['send-data','add-rows', 'add-columns'],
+    emits: ['send-data','add-rows', 'add-columns', 'on-blur'],
     props: {
       countColumns: {
         type: Number,
@@ -38,24 +39,32 @@ import { ref, reactive, watch, onUpdated } from 'vue';
       let updated = false;
       let inputId = '';
 
-      watch(rows, function (newValue, oldValue) {
+      function inputClass (m) {
+        if(m===1){
+           return "bg-light"
+        } else {
+          return "pseudo-class"
+        }
+      }
+
+      watch(rows, function (newValue) {
           emit('send-data', newValue);
       });
 
       function changeInputFocus(event,n,m){
-        if(event.keyCode === 37){
+        if(event.key === "ArrowLeft"){
           let element = document.getElementById(`input_row_${n}_${m-1}`)
           if(element){
             element.focus()
           }
         }
-        if(event.keyCode === 38){
+        if(event.key === "ArrowUp"){
           let element = document.getElementById(`input_row_${n-1}_${m}`)
           if(element){
             element.focus()
           }
         }
-        if(event.keyCode === 39){
+        if(event.key === "ArrowRight"){
           let element = document.getElementById(`input_row_${n}_${m+1}`)
           inputId = `input_row_${n}_${m+1}`
           if(element){
@@ -65,7 +74,7 @@ import { ref, reactive, watch, onUpdated } from 'vue';
             updated = true
           }
         }
-        if(event.keyCode === 40){
+        if(event.key === "ArrowDown"){
           let element = document.getElementById(`input_row_${n+1}_${m}`)
           inputId = `input_row_${n+1}_${m}`
           if(element){
@@ -84,7 +93,13 @@ import { ref, reactive, watch, onUpdated } from 'vue';
         }
       })
 
-      return { rows, changeInputFocus };
+
+      return { rows, changeInputFocus, inputClass};
     }
   }
 </script>
+<style scoped>
+  input:focus {
+    outline: none;
+  }
+</style>

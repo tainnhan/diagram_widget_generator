@@ -7,5 +7,6 @@ module DiagramWidgetGenerator
 
     def show
     end
+
   end
 end

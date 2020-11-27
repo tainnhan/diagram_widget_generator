@@ -21,6 +21,11 @@
       <option v-for="align in legendVerticalAlign" :value="align.value">{{ align.name }}</option>
     </select>
   </div>
+  <button
+          type="button"
+          class="btn btn-outline-primary mt-3 float-right"
+          @click="setFormPart"
+  >Weiter</button>
 </template>
 
 <script>
@@ -68,10 +73,16 @@
         })
       })
 
+      function setFormPart() {
+        store.dispatch('setFormPart', {
+          data: 'InputTooltip'
+        })
+      }
       return {
         legendLayout, selectedLegendLayout,
         selectedLegendAlign, legendAlign,
-        enableLegend , selectedLegendVerticalAlign, legendVerticalAlign
+        enableLegend , selectedLegendVerticalAlign, legendVerticalAlign,
+        setFormPart
       }
     }
   }

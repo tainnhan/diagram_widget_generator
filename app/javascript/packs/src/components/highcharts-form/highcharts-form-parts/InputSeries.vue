@@ -28,6 +28,11 @@
     <label class="form-check-label" for="checkbox_data_labels">Data Label anzeigen</label>
     <input class="form-check-input" type="checkbox" id="checkbox_data_labels" v-model="checkDataLabels">
   </div>
+  <button
+          type="button"
+          class="btn btn-outline-primary mt-3 float-right"
+          @click="setFormPart"
+  >Weiter</button>
 </template>
 
 <script>
@@ -124,11 +129,16 @@
         })
       })
 
+      function setFormPart() {
+        store.dispatch('setFormPart', {
+          data: 'InputLegend'
+        })
+      }
       return {
         series, selected, defaultColors,
         selectedColor, dashStyle, selectedDash,
         enableMarkers, selectedSymbol, defaultSymbols,
-        checkDataLabels
+        checkDataLabels, setFormPart
       }
 
     }

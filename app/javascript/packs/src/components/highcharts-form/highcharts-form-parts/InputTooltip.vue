@@ -47,6 +47,11 @@
       />
     </div>
   </section>
+  <button
+          type="button"
+          class="btn btn-outline-primary mt-3 float-right"
+          @click="setFormPart"
+  >Weiter</button>
 </template>
 <script>
   import { ref, watch } from 'vue';
@@ -85,7 +90,11 @@
           }
         })
       })
-
+      function setFormPart() {
+        store.dispatch('setFormPart', {
+          data: 'InputCredits'
+        })
+      }
 
       return {
         enableTooltip,
@@ -93,7 +102,8 @@
         backgroundColorTooltip,
         borderWidthTooltip,
         borderRadiusTooltip,
-        borderColorTooltip
+        borderColorTooltip,
+        setFormPart
       }
     }
   }

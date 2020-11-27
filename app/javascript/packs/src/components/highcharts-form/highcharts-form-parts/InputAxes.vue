@@ -52,6 +52,11 @@
       <label for="reverse_yAxis">Y-Achse Werte inversieren</label>
     </div>
   </section>
+  <button
+          type="button"
+          class="btn btn-outline-primary mt-3 float-right"
+          @click="setFormPart"
+  >Weiter</button>
 </template>
 
 <script>
@@ -156,16 +161,20 @@
         }
 
       })
-
-
-
+      
+      function setFormPart() {
+        store.dispatch('setFormPart', {
+          data: 'InputSeries'
+        })
+      }
 
 
       return {
         inverseAxis,
         xAxisOptions,
         yAxisOptions,
-        series
+        series,
+        setFormPart
       };
     }
   }

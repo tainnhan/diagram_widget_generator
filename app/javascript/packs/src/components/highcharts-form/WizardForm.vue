@@ -1,16 +1,18 @@
 <template>
   <div class="card">
     <div class="card-body">
-      <component :is="selectedComponent.value"></component>
-      <button
-        class="btn btn-outline-primary mt-3 float-right"
-        @click="selectComponent"
-      >{{ buttonText }}</button>
+      <form @submit.prevent="submitForm">
+        <component :is="selectedComponent"></component>
+        <button v-if="selectedComponent === 'InputCredits'"
+          type="submit"
+          class="btn btn-outline-primary mt-3 float-right"
+        >Speichern</button>
+      </form>
     </div>
   </div>
 </template>
 <script>
-  import {  reactive, computed } from 'vue';
+  import { computed } from 'vue';
   import { useStore } from 'vuex';
   import InputGeneral from "../highcharts-form/highcharts-form-parts/InputGeneral";
   import InputData from '../highcharts-form/highcharts-form-parts/InputData';
@@ -24,40 +26,31 @@
     components: {
       InputGeneral, InputData, InputAxes, InputSeries, InputLegend, InputTooltip, InputCredits
     },
-    setup(props, { emit }) {
+    setup() {
       const store = useStore();
-      const selectedComponent = reactive({
-        index: 0,
-        value: 'InputGeneral'
-      })
-      const allFormComponents = [
-        'InputGeneral','InputData',
-        'InputAxes', 'InputSeries',
-        'InputLegend', 'InputTooltip', 'InputCredits'
-      ];
 
-      const buttonText = computed(function () {
-        if (selectedComponent.value === 'InputCredits'){
-          return 'Speichern';
-        } else {
-          return 'Weiter';
-        }
+      const selectedComponent = computed(function () {
+        return store.getters.formPart
       })
 
-      function selectComponent(){
-        if(selectedComponent.index < 6) {
-          selectedComponent.index += 1;
-          selectedComponent.value = allFormComponents[selectedComponent.index];
-        } else {
-          store.dispatch('setPage', {
-            data: 'IndexPage'
-          })
-        }
+
+      const formData = computed(function () {
+        return store.getters.highChartsOptions;
+      })
+
+     async function submitForm() {
+        await store.dispatch('submitForm', {
+          data: formData.value
+        });
+
+        await store.dispatch('setPage', {
+          data: 'IndexPage'
+        })
       }
+
       return {
         selectedComponent,
-        selectComponent,
-        buttonText
+        submitForm
       }
     }
   }

@@ -19,5 +19,11 @@ export default {
   },
   page(state){
     return state.page;
+  },
+  chartList(state) {
+    return state.chartList
+  },
+  formPart(state) {
+    return state.formPart
   }
 }
