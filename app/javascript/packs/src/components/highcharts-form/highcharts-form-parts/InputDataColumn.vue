@@ -4,6 +4,7 @@
       <input
         :id="'input_row_0' + '_' + `${index+1}`"
         class="m-0 border-0 bg-light"
+        :key="'column_'+index"
         style="max-width:80px"
         @keyup="changeInputFocus($event, index)"
         type="text"

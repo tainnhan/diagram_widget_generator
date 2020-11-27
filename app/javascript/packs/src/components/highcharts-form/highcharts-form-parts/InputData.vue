@@ -4,42 +4,59 @@
     Die Rot markieren Felder dürfen nicht leer gelassen werden und nur Zahlen sind zugelassen. Bitte korregieren Sie diese.
   </div>
   <div style="position:relative" id="table-wrapper">
-  <div class="overflow-auto row" style="max-height: 500px">
-    <div class="col-1">
-      <table class="table table-borderless">
-        <thead>
-          <tr>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <th>-</th>
-          </tr>
-        </tbody>
-      </table>
+    <div class="overflow-auto row" >
+      <div class="col-1">
+        <table id="data_delete_buttons" class="table table-borderless" style="margin-top:55px">
+          <thead>
+            <tr style="height: 45px">
+              <th></th>
+            </tr>
+          </thead>
+          <tbody v-if="countRows > 1">
+            <tr style="height: 43px" v-for="(n, index) in countRows" :key="'row_button_'+ n">
+              <th style="cursor: pointer" @click="destroyRow(index)"><i class="far fa-minus-square" ></i></th>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="col-11">
+        <table class="table table-borderless mb-0 table-responsive" style="width: auto">
+          <thead>
+            <tr>
+              <th v-for="(n, index) in countColumns" :key="n">
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th v-for="(n, index) in countColumns"  class="text-center"  :key="n">
+                  <i v-if="n >2" class="far fa-minus-square" style="cursor: pointer; width: 81px" @click="destroyColumn(index)"></i>
+                  <div v-else style="width: 81px"></div>
+              </th>
+            </tr>
+          </tbody>
+        </table>
+        <!--  Data Table  -->
+        <table class="table table-bordered" style="width: auto">
+          <thead>
+          <input-data-column
+            @send-data="applyColumnData"
+            :inputColumns="inputColumns"
+            :countColumns="countColumns"
+            @add-columns="addColumns"
+          ></input-data-column>
+          </thead>
+          <input-data-row
+            @add-columns="addColumns"
+            @add-rows="addRows"
+            @send-data="applyRowData"
+            :inputRows="inputRows"
+            :countColumns="countColumns"
+            :countRows="countRows"
+          ></input-data-row>
+        </table>
+      </div>
     </div>
-    <div class="col-10">
-      <table class="table table-bordered col-11" style="overflow-x: scroll; width: 10px">
-        <thead>
-        <input-data-column
-          @send-data="applyColumnData"
-          :inputColumns="inputColumns"
-          :countColumns="countColumns"
-          @add-columns="addColumns"
-        ></input-data-column>
-        </thead>
-        <input-data-row
-          @add-columns="addColumns"
-          @add-rows="addRows"
-          @send-data="applyRowData"
-          :inputRows="inputRows"
-          :countColumns="countColumns"
-          :countRows="countRows"
-        ></input-data-row>
-      </table>
-    </div>
-  </div>
   </div>
   <button
     type="button"
@@ -50,7 +67,7 @@
 
 <script>
   import useLine from "../../../mixins/line";
-  import { ref,reactive, watch, onMounted } from 'vue';
+  import { ref,reactive, watch, onUpdated } from 'vue';
     import { useStore } from 'vuex'
   import InputDataColumn from './InputDataColumn';
   import InputDataRow from './InputDataRow';
@@ -126,9 +143,13 @@
           isInvalid.value = true
           for(let i = 0; i < invalidRows.length; i++) {
             let element = document.getElementById(invalidRows[i])
-            element.style.backgroundColor = "#f8d7da"
-            element.parentElement.style.backgroundColor = "#f8d7da"
+
+            if(element) {
+              element.style.backgroundColor = "#f8d7da"
+              element.parentElement.style.backgroundColor = "#f8d7da"
+            }
           }
+
           invalidRows = []
         } else {
           store.dispatch('setFormPart', {
@@ -150,6 +171,35 @@
 
 
 
+    let updateInvalidRow = false
+
+      function destroyRow(index) {
+        countRows.value -= 1;
+        inputRows.data = inputRows.data.filter((item,i) => index !== i )
+        updateInvalidRow = true
+      }
+
+      const showDeleteButton = ref(false)
+
+
+
+      function destroyColumn(index) {
+        countColumns.value -= 1;
+        inputColumns.data[0] = ''
+        inputColumns.data = inputColumns.data.filter((item,i) => index !== i)
+        for(let i=0; i < inputRows.data.length; i++) {
+          inputRows.data[i][0] = ''
+          inputRows.data[i] = inputRows.data[i].filter((item, i) => index !== i)
+        }
+        updateInvalidRow = true
+      }
+
+      onUpdated(function () {
+        if(updateInvalidRow) {
+          invalidRows = invalidRows.filter(item => document.getElementById(item));
+          updateInvalidRow = false
+        }
+      })
 
 
     return {
@@ -157,7 +207,9 @@
       addColumns, addRows,
       inputRows, inputColumns,
       applyRowData, applyColumnData,
-      setFormPart
+      setFormPart, destroyRow,
+      showDeleteButton,
+      destroyColumn
       }
   }
   }

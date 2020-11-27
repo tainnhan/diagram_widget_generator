@@ -10,6 +10,7 @@
           :class="inputClass(m)"
           type="text"
           v-model="rows.data[index][index_2]"
+          :key="'input_row_'+ n + '_' + m"
         />
       </th>
     </tr>
