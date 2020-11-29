@@ -20,18 +20,18 @@
 
 <script>
   import { useStore } from 'vuex';
+  import { useRouter } from 'vue-router';
+
   export default {
     setup(){
-      const store = useStore()
+      const store = useStore();
+      const router = useRouter();
       function selectPage() {
         store.dispatch('resetForm');
-
         store.dispatch('setFormPart',{
           data: 'InputGeneral'
           })
-        store.dispatch('setPage', {
-          data: 'FormPage'
-        })
+        router.push('/diagram/new')
       }
       return { selectPage }
     }

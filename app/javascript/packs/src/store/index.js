@@ -2,15 +2,22 @@ import { createStore  } from 'vuex';
 import getters from './getters';
 import actions from './actions';
 import mutations from './mutations';
+import titleConfiguration from './config/title';
+import subtitleConfiguration from './config/subtitle';
 
-import titleSubtitle from './config/titleSubtitle';
-import chartTypes from './config/chartTypes';
+import chartConfiguration from './config/chart';
 import highChartsOptions from './config/highChartsOptions';
 
 const store = createStore({
   state() {
     return {
-      defaultSymbols: ['circle', 'square','diamond', 'triangle','triangle-down'],
+      titleConfiguration,
+      subtitleConfiguration,
+      chartConfiguration,
+      defaultSymbols: [
+        'circle', 'square','diamond',
+        'triangle','triangle-down'
+      ],
       defaultColors: [
         '#7cb5ec', '#434348', '#90ed7d',
         '#f7a35c', '#8085e9', '#f15c80',
@@ -22,8 +29,6 @@ const store = createStore({
         'DashDot', 'LongDashDot', 'LongDashDotDot'
       ],
       page: 'IndexPage',
-      titleSubtitle,
-      chartTypes,
       highChartsOptions,
       formPart: 'InputGeneral',
       chartList: [],
@@ -34,5 +39,6 @@ const store = createStore({
   mutations,
   actions
 });
+
 
 export default store;

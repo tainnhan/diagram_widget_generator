@@ -2,11 +2,14 @@ export default {
   highChartsOptions(state) {
     return state.highChartsOptions;
   },
-  chartTypes(state){
-    return state.chartTypes;
+  titleConfiguration(state){
+    return state.titleConfiguration;
   },
-  titleSubtitle(state){
-    return state.titleSubtitle;
+  subtitleConfiguration(state){
+    return state.subtitleConfiguration;
+  },
+  chartConfiguration(state){
+    return state.chartConfiguration;
   },
   defaultColors(state){
     return state.defaultColors;

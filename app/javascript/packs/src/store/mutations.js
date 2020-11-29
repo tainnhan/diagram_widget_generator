@@ -1,6 +1,7 @@
 export default {
   changeChartsProperties(state, payload) {
       state.highChartsOptions[payload.property] = payload.data;
+      console.log(state.highChartsOptions);
   },
   changeSeriesDataAttribute(state, payload ) {
     state.highChartsOptions.series[payload.index][payload.attribute] = payload.data

@@ -16,6 +16,7 @@
     "vue": "^3.0.2",
     "vue-highcharts": "^0.2.0",
     "vue-loader": "^16.0.0-rc.1",
+    "vue-router": "^4.0.0-rc.5",
     "vuex": "^4.0.0-rc.1"
   },
   "version": "0.1.0",

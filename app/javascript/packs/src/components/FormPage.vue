@@ -16,7 +16,7 @@
 
 <script>
   import { ref, onMounted, onUnmounted } from 'vue';
-  import WizardForm from './highcharts-form/WizardForm';
+  import WizardForm from './form/WizardForm';
   import HighChartsPreview from './highcharts/HighchartsPreview';
   export default {
     components: {

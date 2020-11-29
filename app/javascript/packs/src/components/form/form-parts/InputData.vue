@@ -78,10 +78,10 @@
 <script>
   import useLine from "../../../mixins/line";
   import { ref,reactive, watch, onUpdated, onMounted } from 'vue';
+  import { useRouter } from 'vue-router';
   import bootstrap from 'bootstrap/dist/js/bootstrap.bundle';
-  import { useStore } from 'vuex'
-  import InputDataColumn from './InputDataColumn';
-  import InputDataRow from './InputDataRow';
+  import InputDataColumn from './table/InputDataColumn';
+  import InputDataRow from './table/InputDataRow';
   export default {
     components: {
       InputDataColumn,
@@ -89,7 +89,7 @@
     },
     setup() {
       const { convertToXAxisOptions, convertToSeriesOptions, dispatchLineChart } = useLine()
-      const store = useStore();
+      const router = useRouter();
       const isInvalid = ref(false)
       let invalidRows = [];
 
@@ -163,9 +163,7 @@
 
           invalidRows = []
         } else {
-          store.dispatch('setFormPart', {
-            data: 'InputAxes'
-          })
+          router.push('/diagram/new/axis')
         }
       }
 
