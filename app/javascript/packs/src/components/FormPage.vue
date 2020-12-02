@@ -15,9 +15,9 @@
 
 
 <script>
-  import { ref, onMounted, onUnmounted } from 'vue';
   import WizardForm from './form/WizardForm';
   import HighChartsPreview from './highcharts/HighchartsPreview';
+  import bootstrap from "bootstrap/dist/js/bootstrap.bundle";
   export default {
     components: {
       WizardForm,

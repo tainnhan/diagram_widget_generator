@@ -1,3 +1,4 @@
+
 export default {
   highChartsOptions(state) {
     return state.highChartsOptions;
@@ -8,11 +9,14 @@ export default {
   subtitleConfiguration(state){
     return state.subtitleConfiguration;
   },
+  legendConfiguration(state){
+    return state.legendConfiguration
+  },
   chartConfiguration(state){
     return state.chartConfiguration;
   },
-  defaultColors(state){
-    return state.defaultColors;
+  seriesConfiguration(state){
+    return state.seriesConfiguration;
   },
   dashStyle(state){
     return state.dashStyle;

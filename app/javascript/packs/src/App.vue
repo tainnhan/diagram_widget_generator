@@ -1,6 +1,6 @@
 <template>
   <the-navbar></the-navbar>
-  <div class="container mt-5">
+  <div id="container" class="container mt-5">
     <router-view></router-view>
   </div>
 </template>

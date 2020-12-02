@@ -1,7 +1,41 @@
 export default {
   changeChartsProperties(state, payload) {
       state.highChartsOptions[payload.property] = payload.data;
-      console.log(state.highChartsOptions);
+  },
+
+  changePropertyWithOneKey(state, { first_key, data }){
+    state.highChartsOptions[first_key] = data
+
+  },
+  changePropertyWithTwoKeys(state, { first_key, second_key, data }){
+    state.highChartsOptions[first_key][second_key] = data
+
+  },
+  changePropertyWithThreeKeys(state, { first_key, second_key, third_key, data }){
+    state.highChartsOptions[first_key][second_key][third_key] = data
+
+  },
+  changePropertyWithKeyIndex(state, { first_key, first_index, data }){
+    state.highChartsOptions[first_key][first_index] = data
+
+  },
+  changePropertyWithKeyIndexKey(state, { first_key,second_key, first_index, data }){
+    state.highChartsOptions[first_key][first_index][second_key] = data
+
+  },
+  changePropertyWithKeyIndexKeyKey(state, { first_key, first_index, second_key, third_key, data }){
+    state.highChartsOptions[first_key][first_index][second_key][third_key] = data
+  },
+  changePropertyWithKeyIndexKeyIndexKey(state, { first_key,second_index, first_index, second_key, third_key, data }){
+    state.highChartsOptions[first_key][first_index][second_key][second_index][third_key] = data
+  },
+
+  changePropertyWithFourKeys(state, { first_key, second_key, third_key, fourth_key,  data }){
+    state.highChartsOptions[first_key][second_key][third_key][fourth_key] = data
+  },
+
+  changeChartOptions(state, payload) {
+    state.highChartsOptions.chart[payload.attribute] = payload.data;
   },
   changeSeriesDataAttribute(state, payload ) {
     state.highChartsOptions.series[payload.index][payload.attribute] = payload.data

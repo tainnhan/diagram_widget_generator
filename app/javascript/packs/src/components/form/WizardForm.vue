@@ -1,12 +1,8 @@
 <template>
   <div class="card">
     <div class="card-body">
-      <form @submit.prevent="submitForm">
-        <router-view></router-view>
-        <button v-if="selectedComponent === 'InputCredits'"
-          type="submit"
-          class="btn btn-outline-primary mt-3 float-right"
-        >Speichern</button>
+      <form @submit.prevent>
+        <component :is="selectedComponent"></component>
       </form>
     </div>
   </div>
@@ -15,30 +11,23 @@
   import { computed } from 'vue';
   import { useStore } from 'vuex';
   import { useRouter } from 'vue-router'
+  import InputGeneral from "./form-parts/InputGeneral";
+  import InputSeries from "./form-parts/InputSeries";
+  import InputData from "./form-parts/InputData";
+  import InputAxes from "./form-parts/InputAxes";
+  import InputLegend from "./form-parts/InputLegend";
+  import InputTooltip from "./form-parts/InputTooltip";
+  import InputCredits from "./form-parts/InputCredits";
 
   export default {
-
+    components: {
+      InputCredits, InputTooltip, InputLegend, InputAxes, InputData, InputSeries, InputGeneral
+    },
     setup() {
       const store = useStore();
-      const router = useRouter();
-      const selectedComponent = computed(function () {
-        return store.getters.formPart
-      })
-
-      const formData = computed(function () {
-        return store.getters.highChartsOptions;
-      })
-
-      function submitForm() {
-        store.dispatch('submitForm', {
-          data: formData.value
-        });
-        router.push('/diagram');
-      }
-
+      const selectedComponent = computed(function () { return store.getters.formPart })
       return {
         selectedComponent,
-        submitForm
       }
     }
   }

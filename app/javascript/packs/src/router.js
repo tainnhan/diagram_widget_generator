@@ -13,16 +13,7 @@ const router = createRouter({
   history: createWebHistory(),
   routes: [
     { path: '/diagram', component: IndexPage },
-    { path: '/diagram/new', component: FormPage , children: [
-        { path: 'general', component: InputGeneral },
-        { path: 'data', component: InputData },
-        { path: 'axis', component: InputAxes },
-        { path: 'series', component: InputSeries },
-        { path: 'legend', component: InputLegend },
-        { path: 'tooltip', component: InputTooltip },
-        { path: 'credits', component: InputCredits },
-      ]
-    },
+    { path: '/diagram/new', component: FormPage },
     { path: '/diagram/edit/:id', component: FormPage },
 
     ]

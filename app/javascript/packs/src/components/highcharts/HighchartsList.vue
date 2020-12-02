@@ -19,7 +19,7 @@
       const store = useStore();
 
       const list = computed(function () {
-        return store.getters.chartList;
+        return store.getters.chartList.reverse();
       })
 
       onMounted(function () {

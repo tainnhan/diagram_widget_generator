@@ -2,6 +2,9 @@ export default {
   changeChartsProperties( context, payload ) {
     context.commit('changeChartsProperties', payload )
   },
+  changeChartOptions(context, payload) {
+    context.commit('changeChartOptions', payload)
+  },
   changeSeriesDataAttribute(context, payload ) {
     context.commit('changeSeriesDataAttribute', payload )
   },
@@ -43,5 +46,36 @@ export default {
   },
   resetForm(context) {
     context.commit('resetForm')
+  },
+  changePropertyWithOneKey(context, payload){
+    context.commit('changePropertyWithOneKey', payload)
+
+  },
+  changePropertyWithTwoKeys(context, payload){
+    context.commit('changePropertyWithTwoKeys', payload)
+
+  },
+  changePropertyWithThreeKeys(context, payload){
+    context.commit('changePropertyWithThreeKeys', payload)
+
+  },
+  changePropertyWithKeyIndex(context, payload){
+    context.commit('changePropertyWithKeyIndex', payload)
+
+  },
+  changePropertyWithKeyIndexKey(context, payload){
+    context.commit('changePropertyWithKeyIndexKey', payload)
+
+  },
+  changePropertyWithKeyIndexKeyKey(context, payload){
+    context.commit('changePropertyWithKeyIndexKeyKey', payload)
+
+  },
+  changePropertyWithKeyIndexKeyIndexKey( context, payload){
+    context.commit('changePropertyWithKeyIndexKeyIndexKey', payload)
+
+  },
+  changePropertyWithFourKeys(context, payload){
+    context.commit('changePropertyWithFourKeys', payload)
   }
 }

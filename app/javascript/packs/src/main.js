@@ -4,9 +4,10 @@ import Store from './store/index';
 import Highcharts from 'highcharts';
 import Router from './router';
 import loadExporting from 'highcharts/modules/exporting';
+import loadData from 'highcharts/modules/data';
 import VueHighcharts from 'vue-highcharts';
 loadExporting(Highcharts);
-
+loadData(Highcharts);
 
 const app = createApp(App);
 app.use(VueHighcharts, { Highcharts });
