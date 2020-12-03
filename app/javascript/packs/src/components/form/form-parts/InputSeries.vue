@@ -4,8 +4,7 @@
       <option v-for="(data, index) in series" :value="index" :key="data.name + index"> {{ data.name }}</option>
     </select>
   </div>
-  <component is="SeriesLine" :series="selectedSeries" :selected="selected"></component>
-  <enabled-markers></enabled-markers>
+  <component :is="chartType" :series="selectedSeries" :selected="selected"></component>
   <enable-data-labels></enable-data-labels>
   <button
           type="button"
@@ -17,16 +16,33 @@
 <script>
   import { computed, ref } from 'vue';
   import { useStore } from 'vuex';
-  import enabledMarkers from "../options/plotOptions/series/marker/EnabledMarkers";
   import enableDataLabels from "../options/plotOptions/series/dataLabels/EnableDataLabels";
   import SeriesLine from "./type/SimpleSeriesLine";
+  import SeriesColumn from "./type/SimpleSeriesColumn";
+  import SeriesArea from "./type/SimpleSeriesArea";
+  import SeriesPie from "./type/SimpleSeriesPie";
   export default {
     components: {
-      SeriesLine, enabledMarkers, enableDataLabels
+      SeriesLine, enableDataLabels, SeriesColumn, SeriesArea, SeriesPie
     },
     setup() {
       const store = useStore();
       const selected =  ref(0);
+      const chartType = computed(function () {
+        let type = store.getters.highChartsOptions.chart.type
+        switch (type) {
+          case 'line':
+            return 'SeriesLine';
+          case 'column':
+            return 'SeriesColumn';
+          case 'area' :
+            return 'SeriesArea';
+          case 'pie' :
+            return 'SeriesPie';
+        }
+      })
+
+
       const series = computed(function () { return store.getters.highChartsOptions['series'] })
       const selectedSeries = computed(function () { return store.getters.highChartsOptions['series'][selected.value] })
 
@@ -36,7 +52,7 @@
           data: 'InputLegend'
         })
       }
-      return { series, selected, selectedSeries, setFormPart }
+      return { series, selected, selectedSeries, setFormPart, chartType }
     }
   }
 </script>

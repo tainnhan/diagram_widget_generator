@@ -23,7 +23,7 @@
 </template>
 
 <script>
-  import { reactive, watch, onMounted } from 'vue';
+  import {reactive, watch, onMounted, computed} from 'vue';
   import arrayToCsvConverter from "../../../mixins/arrayToCsv";
   import { useRouter } from 'vue-router';
   import dataTable from "../DataTable";
@@ -82,6 +82,15 @@
         }
       }
 
+
+      const chooseComponent = computed(function () {
+        if(store.getters.highChartsOptions.chart.type === 'pie') {
+          return 'InputTooltip'
+        } else {
+          return 'InputAxes'
+        }
+      })
+
       function submitData() {
         const list = document.getElementsByClassName('check-value');
         for(let item of list) {
@@ -98,7 +107,7 @@
           }
         } else {
           store.dispatch('setFormPart', {
-            data: 'InputAxes'
+            data: chooseComponent.value
           })
         }
       }

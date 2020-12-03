@@ -7,6 +7,8 @@
   <line-color :color="color" :selected="selected"></line-color>
   <line-dash-style :dash-style="dashStyle" :selected="selected"></line-dash-style>
   <line-marker :series="series" :selected="selected"></line-marker>
+  <enabled-markers></enabled-markers>
+
 </template>
 
 <script>
@@ -14,6 +16,8 @@
   import lineDashStyle from "../../options/series/line/LineDashStyle";
   import lineMarkerSymbol from "../../options/series/line/marker/LineMarkerSymbol";
   import lineMarker from "../../options/series/line/LineMarker";
+  import enabledMarkers from "../../options/plotOptions/series/marker/EnabledMarkers";
+
   import { computed } from 'vue';
   import { useStore } from 'vuex';
   export default {
@@ -21,7 +25,8 @@
       lineColor,
       lineDashStyle,
       lineMarkerSymbol,
-      lineMarker
+      lineMarker,
+      enabledMarkers
     },
     props: {
       series: {
@@ -46,7 +51,6 @@
       // DashStyle Line Options
       const dashStyle = computed(function () { return series.value.dashStyle ? series.value.dashStyle : 'Solid' })
 
-      // Line Marker
 
 
       return { color, dashStyle, series }

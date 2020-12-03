@@ -27,6 +27,13 @@
           data: {}
         })
       }
+      if(!highChartsOptions.value.chart.type){
+        store.dispatch('changePropertyWithTwoKeys', {
+          first_key: 'chart',
+          second_key: 'type',
+          data: 'line'
+        })
+      }
 
       watch(chart, function (newValue) {
         store.dispatch('changePropertyWithTwoKeys', {

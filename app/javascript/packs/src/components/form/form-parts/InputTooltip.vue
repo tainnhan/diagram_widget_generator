@@ -1,6 +1,6 @@
 <template>
   <tooltip-enabled></tooltip-enabled>
-  <tooltip-shared></tooltip-shared>
+  <tooltip-shared v-if="chartType !== 'pie'"></tooltip-shared>
   <tooltip-background-color></tooltip-background-color>
   <tooltip-border-width></tooltip-border-width>
   <tooltip-border-radius></tooltip-border-radius>
@@ -19,6 +19,8 @@
   import tooltipBorderRadius from "../options/tooltip/TooltipBorderRadius";
   import tooltipBorderColor from "../options/tooltip/TooltipBorderColor";
   import { useStore } from 'vuex';
+  import { computed } from 'vue';
+
 
 
   export default {
@@ -28,6 +30,9 @@
     },
     setup(){
       const store = useStore();
+      const chartType = computed(function () {
+        return store.getters.highChartsOptions.chart?.type
+      })
       function setFormPart() {
         store.dispatch('setFormPart', {
           data: 'InputCredits'
@@ -35,7 +40,8 @@
       }
 
       return {
-        setFormPart
+        setFormPart,
+        chartType
       }
     }
   }
