@@ -10,8 +10,16 @@
   export default {
     setup(){
       const store = useStore();
-      const text = ref('')
+      const hasTitle = computed(function () {
+        return store.getters.highChartsOptions.xAxis?.title?.text ?
+          store.getters.highChartsOptions.xAxis.title.text :
+          '';
+      })
+      const text = ref(hasTitle.value)
       const highChartsOptions = computed(function () { return store.getters.highChartsOptions })
+
+
+
 
       if(!highChartsOptions.value.xAxis){
         store.dispatch('changePropertyWithOneKey', {

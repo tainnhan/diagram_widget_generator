@@ -11,7 +11,12 @@
   export default {
     setup() {
       const store = useStore();
-      const enableLegend = ref(true);
+      const hasEnableLegend = computed(function () {
+        return store.getters.highChartsOptions.legend?.enabled ?
+          store.getters.highChartsOptions.legend?.enabled :
+          true
+      })
+      const enableLegend = ref(hasEnableLegend.value);
       const highChartsOptions = computed(function () {
         return store.getters.highChartsOptions
       })

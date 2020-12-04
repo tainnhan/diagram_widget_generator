@@ -39,7 +39,6 @@
           data: 'InputData'
         })
       }
-      console.log(window.location.origin);
 
       return { setFormPart }
     }

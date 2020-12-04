@@ -13,7 +13,12 @@
     setup(){
       const store = useStore();
       const highChartsOptions = computed(function (){ return store.getters.highChartsOptions })
-      const enableMarkers = ref(true);
+      const hasEnableMarkers = computed(function () {
+        return store.getters.highChartsOptions.plotOptions?.series?.marker?.enabled ?
+          store.getters.highChartsOptions.plotOptions?.series?.marker?.enabled :
+          true;
+      })
+      const enableMarkers = ref(hasEnableMarkers.value);
 
       if(!highChartsOptions.value.plotOptions) {
         store.dispatch('changePropertyWithOneKey', {

@@ -13,7 +13,12 @@
     setup(){
       const store = useStore();
       const highChartsOptions = computed(function (){ return store.getters.highChartsOptions })
-      const checkDataLabels = ref(false);
+      const hasDataLabels = computed(function () {
+        return store.getters.highChartsOptions.plotOptions?.series?.dataLabels?.enabled ?
+          store.getters.highChartsOptions.plotOptions?.series?.dataLabels?.enabled :
+          false;
+      })
+      const checkDataLabels = ref(hasDataLabels.value);
 
       if(!highChartsOptions.value.plotOptions) {
         store.dispatch('changePropertyWithOneKey', {

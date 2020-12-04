@@ -1,7 +1,7 @@
 <template>
   <div class="mb-3">
-    <label class="form-label" for="symbol_select">Symbol</label>
-    <select class="form-select" id="symbol_select" v-model="selectedSymbol">
+    <label class="form-label" for="area_marker_symbol">Symbol</label>
+    <select class="form-select" id="area_marker_symbol" v-model="selectedSymbol">
       <option v-for="symbol in symbols" :value="symbol">{{ symbol }}</option>
     </select>
   </div>
@@ -37,14 +37,11 @@
       })
 
 
-      if(!highChartsOptions.value.series[selected.value].marker) {
-        store.dispatch('changePropertyWithKeyIndexKey', {
-          first_key: 'series',
-          first_index: props.selected,
-          second_key: 'marker',
-          data: {}
-        })
-      }
+      initializeMarkerObject(selected.value)
+
+      watch(selected, function (newValue) {
+        initializeMarkerObject(newValue)
+      })
 
 
       watch(selectedSymbol, function (newValue) {
@@ -56,6 +53,31 @@
           data: newValue
         })
       })
+
+
+
+
+      function initializeMarkerObject(newValue){
+        if(!highChartsOptions.value.series[selected.value].marker) {
+          store.dispatch('changePropertyWithKeyIndexKey', {
+            first_key: 'series',
+            first_index: newValue,
+            second_key: 'marker',
+            data: {}
+          })
+        }
+
+        if(!highChartsOptions.value.series[selected.value].marker.symbol) {
+          store.dispatch('changePropertyWithKeyIndexKeyKey', {
+            first_key: 'series',
+            first_index: newValue,
+            second_key: 'marker',
+            third_key: 'symbol',
+            data: symbol.value
+          })
+        }
+      }
+
 
       return { symbols, selectedSymbol }
     }

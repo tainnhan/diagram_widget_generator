@@ -25,7 +25,7 @@
       })
 
       const dash = computed(function () {
-        return dashOption.value ? dashOption.value : dashStyle[selected.value % 11]
+        return dashOption.value ? dashOption.value : 'Solid'
       })
 
       const selectedDash = ref(dash.value)

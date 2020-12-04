@@ -12,7 +12,7 @@
 
 <script>
   import { useStore } from 'vuex';
-  import { useRouter } from 'vue-router'
+  import { useRouter, useRoute } from 'vue-router'
   import {computed, reactive, watch} from 'vue';
   import creditsEnabled from "../options/credits/CreditsEnabled";
   import creditsText from "../options/credits/CreditsText";
@@ -25,15 +25,18 @@
       setup(){
         const store = useStore();
         const router = useRouter();
+        const route = useRoute();
         const formData = computed(function () {
              return store.getters.highChartsOptions;
         })
 
          async function submitForm() {
-          await store.dispatch('submitForm', {
-              data: formData.value
-          });
-          await router.push('/diagram')
+            if(route.params.id) {
+              await store.dispatch('putChart', { data: formData.value, id: route.params.id })
+            } else {
+              await store.dispatch('submitForm', { data: formData.value });
+            }
+              await router.push('/diagram')
           }
 
           return {submitForm}

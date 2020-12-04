@@ -32,5 +32,8 @@ export default {
   },
   formPart(state) {
     return state.formPart
+  },
+  doEdit(state){
+    return state.doEdit
   }
 }

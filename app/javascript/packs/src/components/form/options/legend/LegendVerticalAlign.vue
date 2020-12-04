@@ -13,7 +13,12 @@
   export default {
     setup() {
       const store = useStore();
-      const selectedVerticalAlign = ref('bottom'); // default value
+      const hasLegendVerticalAlign = computed(function () {
+        return store.getters.highChartsOptions.legend?.verticalAlign ?
+          store.getters.highChartsOptions.legend?.verticalAlign :
+          'horizontal'
+      })
+      const selectedVerticalAlign = ref(hasLegendVerticalAlign.value); // default value
       const options = computed(function () {return store.getters.legendConfiguration.verticalAlign })
       const highChartsOptions = computed(function () {return store.getters.highChartsOptions })
 

@@ -14,7 +14,7 @@
   </div>
   </teleport>
   <p>Geben Sie hier ihre Chart Daten ein</p>
-  <data-table @get-data="setData"></data-table>
+  <data-table @get-data="setData" :data="startingData" :rows="rows" :columns="columns"></data-table>
   <button
     type="button"
     class="btn btn-outline-primary mt-3 float-right"
@@ -23,7 +23,7 @@
 </template>
 
 <script>
-  import {reactive, watch, onMounted, computed} from 'vue';
+  import {reactive, watch, onMounted, computed,ref } from 'vue';
   import arrayToCsvConverter from "../../../mixins/arrayToCsv";
   import { useRouter } from 'vue-router';
   import dataTable from "../DataTable";
@@ -36,15 +36,30 @@
     },
     setup() {
       const tableData = reactive({ data: [] })
-      const router = useRouter();
-      const { headerToCsv, arrayToCsv } = arrayToCsvConverter()
+      const { headerToCsv, arrayToCsv, csvToArray } = arrayToCsvConverter()
       const store = useStore();
       let series = [];
       let invalidRows = [];
+      const rows = ref(3);
+      const columns = ref(3);
+      const startingData = ref([])
       let toast;
+
+
+      /* Diese Funktion wird ausgeführt wenn ein Chart bearbeitet wird  */
+      const csvData = store.getters.highChartsOptions.data?.csv;
+      if(csvData) {
+        startingData.value = csvToArray(csvData)
+        rows.value = startingData.value.length;
+        columns.value = startingData.value[0].length
+      }
+
+
+
       function setData(data) {
         tableData.data = data.data;
       }
+
 
 
     watch(tableData, function (newValue) {
@@ -55,12 +70,13 @@
       }
       validate()
       if(invalidRows.length === 0) {
-         store.dispatch('changeChartsProperties', {
-           property: 'series',
-           data: series
-         })
-         store.dispatch('changeChartsProperties', {
-           property: 'data',
+        store.dispatch('changePropertyWithOneKey', {
+          first_key: 'series',
+          data: series
+        })
+
+         store.dispatch('changePropertyWithOneKey', {
+           first_key: 'data',
            data: {
            csv: csv
            }
@@ -112,11 +128,12 @@
         }
       }
 
+
       onMounted(function () {
         let element = document.getElementById('toast');
         toast =  new bootstrap.Toast(element)
       })
-      return { setData, submitData }
+      return { setData, submitData, startingData, rows , columns }
 
   }
   }

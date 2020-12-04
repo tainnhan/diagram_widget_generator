@@ -1,8 +1,8 @@
 <template>
   <div class="mb-3">
-    <label class="form-label" for="symbol_select">Symbol</label>
-    <select class="form-select" id="symbol_select" v-model="selectedSymbol">
-      <option v-for="symbol in defaultSymbols" :value="symbol">{{ symbol }}</option>
+    <label class="form-label" for="line_marker_symbol">Symbol</label>
+    <select class="form-select" id="line_marker_symbol" v-model="selectedSymbol">
+      <option v-for="symbol in symbols" :value="symbol">{{ symbol }}</option>
     </select>
   </div>
 </template>
@@ -11,10 +11,6 @@
   import { ref, computed, watch } from 'vue';
   export default {
     props: {
-      symbol: {
-        type: String,
-        required: true
-      },
       selected: {
         type: Number,
         required: true
@@ -22,13 +18,31 @@
     },
     setup(props){
       const store = useStore();
-      const defaultSymbols = store.getters.seriesConfiguration.defaultSymbols;
-      const symbol = computed(function () { return props.symbol })
+      const selected = computed(function () { return props.selected })
+      const symbols = store.getters.seriesConfiguration.defaultSymbols;
+      const highChartsOptions = computed(function () {
+        return store.getters.highChartsOptions
+      })
+      const symbolOption = computed(function () {
+        return store.getters.highChartsOptions.series[selected.value].marker?.symbol;
+      })
+
+      const symbol = computed(function () {
+        return symbolOption.value ? symbolOption.value : symbols[selected.value % 5 ]
+      })
       const selectedSymbol = ref(symbol.value)
 
       watch(symbol, function (newValue) {
         selectedSymbol.value = newValue
       })
+
+
+      initializeMarkerObject(selected.value)
+
+      watch(selected, function (newValue) {
+       initializeMarkerObject(newValue)
+      })
+
 
       watch(selectedSymbol, function (newValue) {
         store.dispatch('changePropertyWithKeyIndexKeyKey', {
@@ -40,7 +54,32 @@
         })
       })
 
-      return { defaultSymbols, selectedSymbol }
+
+
+
+      function initializeMarkerObject(newValue){
+        if(!highChartsOptions.value.series[selected.value].marker) {
+          store.dispatch('changePropertyWithKeyIndexKey', {
+            first_key: 'series',
+            first_index: newValue,
+            second_key: 'marker',
+            data: {}
+          })
+        }
+
+        if(!highChartsOptions.value.series[selected.value].marker.symbol) {
+          store.dispatch('changePropertyWithKeyIndexKeyKey', {
+            first_key: 'series',
+            first_index: newValue,
+            second_key: 'marker',
+            third_key: 'symbol',
+            data: symbol.value
+          })
+        }
+      }
+
+
+      return { symbols, selectedSymbol }
     }
   }
 </script>

@@ -1,5 +1,4 @@
 require_dependency "diagram_widget_generator/application_controller"
-
 module DiagramWidgetGenerator
   class ApiController < ApplicationController
 
@@ -9,10 +8,22 @@ module DiagramWidgetGenerator
       widget.add_json_file(widget_params[:options])
     end
 
+    def delete_chart
+      head :no_content
+      widget = Widget.find(params[:id])
+      widget.destroy
+    end
+
+    def edit_chart
+      head :no_content
+      widget = Widget.find(params[:id])
+      widget.high_chart.purge
+      widget.add_json_file(widget_params[:options])
+    end
+
     def charts
       charts = Widget.all
       array = []
-
       charts.each do |chart|
         options = {
             id: chart.id,

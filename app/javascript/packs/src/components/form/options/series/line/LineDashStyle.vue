@@ -11,10 +11,6 @@
   import { computed,ref, watch } from 'vue';
   export default {
     props: {
-      dashStyle: {
-        type: String,
-        required: true
-      },
       selected: {
         type: Number,
         required: true
@@ -22,8 +18,15 @@
     },
     setup(props){
       const store = useStore();
+      const selected = computed(function () { return props.selected })
       const dashStyle = store.getters.seriesConfiguration.dashStyle;
-      const dash = computed(function () { return props.dashStyle  })
+      const dashOption = computed(function () {
+        return store.getters.highChartsOptions.series[selected.value].dashStyle
+      })
+      const dash = computed(function () {
+        return dashOption.value ? dashOption.value : 'Solid'
+      })
+
       const selectedDash = ref(dash.value)
 
       watch(dash, function (newValue) {
@@ -31,9 +34,10 @@
       })
 
       watch(selectedDash, function (newValue) {
-        store.dispatch('changeSeriesDataAttribute',{
-          index: props.selected,
-          attribute: 'dashStyle',
+        store.dispatch('changePropertyWithKeyIndexKey',{
+          first_key: 'series',
+          first_index: props.selected,
+          second_key: 'dashStyle',
           data: newValue
         })
       })

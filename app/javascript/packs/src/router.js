@@ -14,7 +14,7 @@ const router = createRouter({
   routes: [
     { path: '/diagram', component: IndexPage },
     { path: '/diagram/new', component: FormPage },
-    { path: '/diagram/edit/:id', component: FormPage },
+    { path: '/diagram/edit/:id', component: FormPage, props: true },
 
     ]
 })

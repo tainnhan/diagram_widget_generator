@@ -11,7 +11,12 @@
   export default {
     setup() {
       const store = useStore();
-      const enableCredits = ref(true);
+      const hasEnableCredits = computed(function () {
+        return store.getters.highChartsOptions.credits?.enabled ?
+          store.getters.highChartsOptions.credits.enabled : true;
+      })
+
+      const enableCredits = ref(hasEnableCredits.value);
       const highChartsOptions = computed(function () {
         return store.getters.highChartsOptions
       })

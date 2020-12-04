@@ -13,7 +13,12 @@
   export default {
     setup() {
       const store = useStore();
-      const selectedLegendLayout = ref('horizontal'); // default value
+      const hasLegendLayout = computed(function () {
+        return store.getters.highChartsOptions.legend?.layout ?
+          store.getters.highChartsOptions.legend?.layout :
+          'horizontal'
+      })
+      const selectedLegendLayout = ref(hasLegendLayout.value); // default value
       const options = computed(function () {return store.getters.legendConfiguration.layout })
       const highChartsOptions = computed(function () {return store.getters.highChartsOptions })
 

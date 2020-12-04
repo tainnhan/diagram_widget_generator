@@ -5,7 +5,7 @@ export default {
     '#e4d354', '#2b908f', '#f45b5b', '#91e8e1'
   ],
   defaultSymbols: [
-    'circle', 'square','diamond',
+    'circle','diamond', 'square',
     'triangle','triangle-down'
   ],
   dashStyle: [

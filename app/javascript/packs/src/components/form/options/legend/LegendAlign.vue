@@ -13,7 +13,12 @@
   export default {
     setup() {
       const store = useStore();
-      const selectedLegendAlign = ref('center'); // default value
+      const hasLegendAlign = computed(function () {
+        return store.getters.highChartsOptions.legend?.align ?
+          store.getters.highChartsOptions.legend?.align :
+          'center'
+      })
+      const selectedLegendAlign = ref(hasLegendAlign.value); // default value
       const options = computed(function () {return store.getters.legendConfiguration.align })
       const highChartsOptions = computed(function () {return store.getters.highChartsOptions })
 

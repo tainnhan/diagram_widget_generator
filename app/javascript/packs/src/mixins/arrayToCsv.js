@@ -2,7 +2,7 @@ export default function () {
   function headerToCsv(data){
     let csvHeader = "";
     data.forEach(function (item, index) {
-      csvHeader += item === '' ? '\"null\"' : `\"${item}\"`;
+      csvHeader += item === '' ? 'null' : `${item}`;
       csvHeader += index < data.length - 1 ? ';' : '\n';
     })
     return csvHeader;
@@ -16,7 +16,7 @@ export default function () {
           csv += item_2
         }
         if(item_2 !=='' && index_2 === 0) {
-          csv += `\"${item_2}\"`
+          csv += `${item_2}`
         }
 
         csv += index_2 < item.length - 1 ? ';' : '\n'
@@ -25,5 +25,17 @@ export default function () {
     return csv;
   }
 
-  return { headerToCsv, arrayToCsv }
+  function csvToArray(csvData){
+    let data = [];
+    let test = csvData.split("\n");
+    for (let i = 0; i < test.length; i++) {
+      let value = test[i].split(";");
+      data.push(value)
+    }
+    data.pop()
+
+    return data;
+  }
+
+  return { headerToCsv, arrayToCsv, csvToArray }
 }

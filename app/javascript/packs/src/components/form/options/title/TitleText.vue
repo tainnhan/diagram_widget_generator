@@ -10,7 +10,10 @@
   export default {
     setup() {
       const store = useStore();
-      const title = ref('');
+      const hasTitle = computed(function () {
+        return store.getters.highChartsOptions.title?.text ? store.getters.highChartsOptions.title.text : ''
+      })
+      const title = ref(hasTitle.value);
       const highChartsOptions = computed(function () { return store.getters.highChartsOptions })
 
       if(!highChartsOptions.value.title) {

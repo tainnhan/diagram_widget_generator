@@ -11,7 +11,12 @@
   export default {
     setup() {
       const store = useStore();
-      const enableSharedTooltip = ref(false);
+      const hasTooltipShared = computed(function () {
+        return store.getters.highChartsOptions.tooltip?.shared ?
+          store.getters.highChartsOptions.tooltip?.shared :
+          false
+      })
+      const enableSharedTooltip = ref(hasTooltipShared.value);
       const highChartsOptions = computed(function () {
         return store.getters.highChartsOptions
       })

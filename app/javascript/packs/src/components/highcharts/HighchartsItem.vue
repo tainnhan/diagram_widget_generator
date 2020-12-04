@@ -7,12 +7,12 @@
       <highcharts :options="options"></highcharts>
     </div>
     <div class="card-footer">
-      <!--
       <button
         data-toggle="tooltip"
         data-placement="bottom"
         title="Bearbeiten"
         class="btn btn-outline-success"
+        @click="editChart(chartId)"
       >
         <i class="fas fa-edit"></i>
       </button>
@@ -21,6 +21,7 @@
         data-toggle="tooltip"
         data-placement="bottom"
         title="Löschen"
+        @click="deleteChart"
       >
         <i class="fas fa-trash"></i>
       </button>
@@ -42,21 +43,53 @@
           <i class="fas fa-download"></i>
         </button>
       </div>
-      -->
     </div>
   </div>
 </template>
 <script>
+  import DeleteButton from "./highcharts-item/DeleteButton";
+  import { useRouter } from 'vue-router';
   import { reactive } from 'vue';
+  import { useStore } from 'vuex';
   export default {
+    components: {
+      DeleteButton
+    },
     props: {
       options: {
         type: Object,
+        required: true
+      },
+      chartId: {
+        type: Number,
         required: true
       }
     },
     setup(props) {
 
+      const store = useStore();
+      const router = useRouter();
+
+      function deleteChart() {
+        const result = confirm("Wollen Sie diese Chart wirklich löschen ?")
+        if (result ) {
+          store.dispatch('deleteChart', {
+            id: props.chartId
+          })
+        }
+      }
+
+       function editChart(id){
+         store.dispatch('editChart', {
+          id: id
+        })
+         store.dispatch('setFormPart',{
+           data: 'InputGeneral'
+         })
+        router.push('/diagram/edit/' + id)
+      }
+
+      return { deleteChart, editChart }
     }
   }
 </script>

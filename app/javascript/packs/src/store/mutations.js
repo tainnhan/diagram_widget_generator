@@ -1,8 +1,6 @@
-export default {
-  changeChartsProperties(state, payload) {
-      state.highChartsOptions[payload.property] = payload.data;
-  },
+import highChartsOptions from "./config/highChartsOptions";
 
+export default {
   changePropertyWithOneKey(state, { first_key, data }){
     state.highChartsOptions[first_key] = data
 
@@ -34,23 +32,18 @@ export default {
     state.highChartsOptions[first_key][second_key][third_key][fourth_key] = data
   },
 
-  changeChartOptions(state, payload) {
-    state.highChartsOptions.chart[payload.attribute] = payload.data;
-  },
-  changeSeriesDataAttribute(state, payload ) {
-    state.highChartsOptions.series[payload.index][payload.attribute] = payload.data
-  },
-  changePlotOptions(state, payload) {
-    state.highChartsOptions.plotOptions[payload.property][payload.attribute] = payload.data;
-  },
-  setPage(state, payload) {
-    state.page = payload.data;
-  },
-  setReload(state){
-    state.reload = true;
-  },
   setChartsList(state, payload){
     state.chartList = payload
+  },
+  setPathName(state, payload) {
+    state.pathName = payload.pathname
+  },
+  deleteChart(state, payload) {
+    state.chartList = state.chartList.filter(item => item.id !== payload.id).reverse()
+  },
+  editChart(state, payload) {
+    const chart = state.chartList.filter(item => payload.id === item.id)
+    state.highChartsOptions = chart[0].data
   },
   setFormPart(state, payload) {
     state.formPart = payload.data
@@ -63,6 +56,9 @@ export default {
         }
       }
     }
+  },
+  setDoEdit(state, payload){
+    state.doEdit = payload.data
   }
 
 }

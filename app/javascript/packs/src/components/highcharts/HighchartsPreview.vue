@@ -5,13 +5,15 @@
 </template>
 
 <script>
-import { reactive } from 'vue';
+import { computed } from 'vue';
 import { useStore } from 'vuex';
 
 export default {
   setup() {
     const store = useStore();
-    const options = reactive(store.getters.highChartsOptions)
+    const options = computed(function () {
+      return store.getters.highChartsOptions;
+    })
     return { options }
   }
 }

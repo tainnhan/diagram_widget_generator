@@ -17,11 +17,11 @@ const store = createStore({
       chartConfiguration,
       seriesConfiguration,
       legendConfiguration,
-      page: 'IndexPage',
       highChartsOptions,
       formPart: 'InputGeneral',
       chartList: [],
-      reloadList: false
+      pathName: '',
+      doEdit: false
     }
   },
   getters,

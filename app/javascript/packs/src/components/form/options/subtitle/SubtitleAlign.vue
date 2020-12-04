@@ -12,7 +12,10 @@
   export default {
     setup() {
       const store = useStore();
-      const alignSelected = ref('center');
+      const hasAlign = computed(function () {
+        return store.getters.highChartsOptions.subtitle?.align ? store.getters.highChartsOptions.subtitle.align : 'center'
+      })
+      const alignSelected = ref(hasAlign.value);
       const alignOptions = computed(function(){ return store.getters.subtitleConfiguration.align })
       const highChartsOptions = computed(function () { return store.getters.highChartsOptions })
 

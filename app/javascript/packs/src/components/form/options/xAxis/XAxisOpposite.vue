@@ -10,7 +10,13 @@
   export default {
     setup(){
       const store = useStore();
-      const opposite = ref(false)
+
+      const hasOpposite = computed(function () {
+        return store.getters.highChartsOptions.xAxis?.opposite ?
+          store.getters.highChartsOptions.xAxis.opposite : false;
+      })
+
+      const opposite = ref(hasOpposite.value);
       const highChartsOptions = computed(function () { return store.getters.highChartsOptions })
 
       if(!highChartsOptions.value.xAxis){

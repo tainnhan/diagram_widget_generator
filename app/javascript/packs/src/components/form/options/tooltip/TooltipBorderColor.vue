@@ -16,7 +16,12 @@
   export default {
     setup() {
       const store = useStore();
-      const tooltipBorderColor = ref(undefined)
+      const hasTooltipBorderColor = computed(function () {
+        return store.getters.highChartsOptions.tooltip?.borderColor ?
+          store.getters.highChartsOptions.tooltip?.borderColor :
+          undefined
+      })
+      const tooltipBorderColor = ref(hasTooltipBorderColor.value)
       const highChartsOptions = computed(function () {
         return store.getters.highChartsOptions
       })

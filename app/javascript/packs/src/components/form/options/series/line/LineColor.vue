@@ -1,7 +1,7 @@
 <template>
   <div>
     <label for="series_color" class="form-label" > Farbe für die Daten</label>
-    <input style="max-width: 100%"  v-model="color" id="series_color" type="color" class="form-control-color w-100">
+    <input style="max-width: 100%"  v-model="selectedColor" id="series_color" type="color" class="form-control-color w-100">
   </div>
 </template>
 
@@ -10,10 +10,6 @@
   import { useStore } from 'vuex';
   export default {
     props: {
-      color: {
-        type: String,
-        required: true
-      },
       selected: {
         type: Number,
         required: true
@@ -21,26 +17,29 @@
     },
     setup(props) {
       const store = useStore();
-      const updatedColor = computed(function () {
-        return props.color;
+      const selected = computed(function () { return props.selected })
+      const colorOption = computed(function () {
+        return store.getters.highChartsOptions.series[selected.value].color
       })
-      const color = ref(updatedColor.value);
-
-
-      watch(updatedColor, function (newValue) {
-        color.value = newValue;
+      const color = computed(function () {
+        return colorOption.value ? colorOption.value : store.getters.seriesConfiguration.defaultColors[selected.value % 10]
       })
 
+      const selectedColor = ref(color.value);
       watch(color, function (newValue) {
+        selectedColor.value = newValue;
+      })
+
+      watch(selectedColor, function (newValue) {
         store.dispatch('changePropertyWithKeyIndexKey', {
           first_key: 'series',
-          first_index: props.selected,
+          first_index: selected.value,
           second_key: 'color',
           data: newValue
         })
       })
 
-      return { color, updatedColor }
+      return { selectedColor }
     }
   }
 </script>

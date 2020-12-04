@@ -12,7 +12,10 @@
   export default {
     setup() {
       const store = useStore();
-      const verticalAlignSelected = ref('top');
+      const hasVerticalAlign = computed(function () {
+        return store.getters.highChartsOptions.title?.verticalAlign ? store.getters.highChartsOptions.title.verticalAlign : 'top'
+      })
+      const verticalAlignSelected = ref(hasVerticalAlign.value);
       const verticalAlignOptions = computed(function(){ return store.getters.titleConfiguration.verticalAlign })
       const highChartsOptions = computed(function () { return store.getters.highChartsOptions })
 

@@ -11,7 +11,12 @@
   export default {
     setup() {
       const store = useStore();
-      const text = ref('');
+      const hasCaptionText = computed(function () {
+        return store.getters.highChartsOptions.caption?.text ?
+        store.getters.highChartsOptions.caption.text :
+          ''
+      })
+      const text = ref(hasCaptionText.value);
       const highChartsOptions = computed(function () {
         return store.getters.highChartsOptions
       })

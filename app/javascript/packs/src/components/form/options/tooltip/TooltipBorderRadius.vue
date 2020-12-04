@@ -16,7 +16,12 @@
   export default {
     setup() {
       const store = useStore();
-      const tooltipBorderRadius = ref(3);
+      const hasTooltipBorderRadius = computed(function () {
+        return store.getters.highChartsOptions.tooltip?.borderRadius ?
+          store.getters.highChartsOptions.tooltip?.borderRadius :
+          3
+      })
+      const tooltipBorderRadius = ref(hasTooltipBorderRadius.value);
       const highChartsOptions = computed(function () {
         return store.getters.highChartsOptions
       })

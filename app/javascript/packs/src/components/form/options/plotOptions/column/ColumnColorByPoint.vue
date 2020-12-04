@@ -11,7 +11,12 @@
   export default {
     setup(){
       const store = useStore();
-      const enableColorByPoint = ref(false);
+      const hasEnableColorPoint = computed(function () {
+        return store.getters.highChartsOptions.plotOptions?.column?.colorByPoint ?
+          store.getters.highChartsOptions.plotOptions.column.colorByPoint :
+          false
+      })
+      const enableColorByPoint = ref(hasEnableColorPoint.value);
       const highChartsOptions = computed(function () {
         return store.getters.highChartsOptions;
       })

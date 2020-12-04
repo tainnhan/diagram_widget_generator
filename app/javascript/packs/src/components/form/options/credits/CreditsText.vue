@@ -11,7 +11,12 @@
   export default {
     setup() {
       const store = useStore();
-      const text = ref('');
+      const hasCreditsText = computed(function () {
+        return store.getters.highChartsOptions.credits?.text ?
+          store.getters.highChartsOptions.credits.text : 'https://www.highcharts.com';
+      })
+
+      const text = ref(hasCreditsText.value);
       const highChartsOptions = computed(function () {
         return store.getters.highChartsOptions
       })

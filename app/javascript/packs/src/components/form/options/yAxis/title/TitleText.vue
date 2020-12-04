@@ -10,7 +10,13 @@
   export default {
     setup(){
       const store = useStore();
-      const text = ref('')
+
+      const hasTitle = computed(function () {
+        return store.getters.highChartsOptions.yAxis?.title?.text ?
+          store.getters.highChartsOptions.yAxis.title.text :
+          '';
+      })
+      const text = ref(hasTitle.value)
       const highChartsOptions = computed(function () { return store.getters.highChartsOptions })
 
       if(!highChartsOptions.value.yAxis){

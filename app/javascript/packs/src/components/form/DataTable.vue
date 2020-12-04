@@ -85,9 +85,24 @@
 
   export default {
     emits: ['getData'],
+    props: {
+      data: {
+        type: Array,
+        required: false,
+        default: []
+      },
+      rows: {
+        type: Number,
+        required: true
+      },
+      columns: {
+        type: Number,
+        required: true
+      }
+    },
     setup(props, {emit } ){
-      const numbersOfRows = ref(3);
-      const numberOfColumns = ref(3);
+      const numbersOfRows = ref(props.rows);
+      const numberOfColumns = ref(props.columns);
       const dataArray = reactive({data: createDataArray()})
       let inputId = ''
 
@@ -124,7 +139,8 @@
     function changeInputFocus(event, n, m) {
       if(event.key === "ArrowLeft") {
         let element = document.getElementById(`input_row_${n}_${m-1}`)
-        if(element) {
+
+        if(element && event.target.selectionStart === 0 ) {
           element.focus()
         }
       }
@@ -136,9 +152,9 @@
       }
       if(event.key === "ArrowRight"){
         let element = document.getElementById(`input_row_${n}_${m+1}`)
-        if(element) {
+        if(element && event.target.selectionStart === event.target.value.length ) {
           element.focus()
-        } else {
+        } else if(event.target.selectionStart === event.target.value.length){
           addColumns()
           inputId = `input_row_${n}_${m+1}`
 
@@ -168,9 +184,14 @@
 
 
       function createDataArray() {
-        let array = [];
-        for(let i = 0; i < numbersOfRows.value; i++ ) {
-          array.push(Array.apply(null, Array(numberOfColumns.value)).map(function () { return '' }));
+        let array = props.data;
+        if(array.length === 0) {
+          for (let i = 0; i < numbersOfRows.value; i++) {
+            array.push(Array.apply(null, Array(numberOfColumns.value)).map(function () {
+              return ''
+            }));
+
+          }
         }
         return array;
       }

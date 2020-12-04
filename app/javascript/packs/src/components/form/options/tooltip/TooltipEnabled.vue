@@ -11,7 +11,12 @@
   export default {
     setup() {
       const store = useStore();
-      const enableTooltip = ref(true);
+      const hasEnableTooltip = computed(function () {
+        return store.getters.highChartsOptions.tooltip?.enabled ?
+          store.getters.highChartsOptions.tooltip?.enabled :
+          true
+      })
+      const enableTooltip = ref(hasEnableTooltip.value);
       const highChartsOptions = computed(function () {
         return store.getters.highChartsOptions
       })

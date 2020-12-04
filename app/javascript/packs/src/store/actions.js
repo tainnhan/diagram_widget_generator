@@ -1,21 +1,9 @@
 export default {
-  changeChartsProperties( context, payload ) {
-    context.commit('changeChartsProperties', payload )
-  },
-  changeChartOptions(context, payload) {
-    context.commit('changeChartOptions', payload)
-  },
-  changeSeriesDataAttribute(context, payload ) {
-    context.commit('changeSeriesDataAttribute', payload )
-  },
-  changePlotOptions(context, payload) {
-    context.commit('changePlotOptions', payload )
-  },
-  setPage(context, payload) {
-    context.commit('setPage', payload )
-  },
+
+
+/****************************** CRUD FUNKTIONALITÄTEN ************************************************************/
   async submitForm(context, payload) {
-    const url = window.location.href + '/create';
+    const url = window.location.origin + context.state.pathName + '/create';
     const csrf = document.querySelector("meta[name='csrf-token']").getAttribute('content');
     const data = {
       options: payload.data
@@ -32,8 +20,9 @@ export default {
     context.commit('setReload')
   },
 
+  //GET
   async fetchCharts(context) {
-    const url = window.location.href + '/charts.json';
+    const url = window.location.origin + context.state.pathName + '/charts.json';
     await fetch(url)
       .then(response => response.json())
       .then(data => {
@@ -41,12 +30,42 @@ export default {
       })
       .catch((error) => console.log(error))
   },
-  setFormPart(context, payload){
-    context.commit('setFormPart', payload)
+
+  //DELETE
+  async deleteChart(context, payload){
+    const url = window.location.origin + context.state.pathName + '/delete'+ '/' + payload.id;
+    const csrf = document.querySelector("meta[name='csrf-token']").getAttribute('content');
+    await fetch(url , {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-CSRF-Token': csrf
+      }
+    }).then(data => context.commit('deleteChart', payload))
+      .catch((error) => console.log(error))
   },
-  resetForm(context) {
-    context.commit('resetForm')
+
+  //PUT
+  async putChart(context, payload) {
+    const url = window.location.origin + context.state.pathName + '/edit'+ '/' + payload.id;
+    const csrf = document.querySelector("meta[name='csrf-token']").getAttribute('content');
+    const data = {
+      options: payload.data
+    }
+    await fetch(url, {
+      method: 'PUT',
+      mode: 'cors',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-CSRF-Token': csrf
+      },
+      body: JSON.stringify(data)
+    }).catch((error) => console.log(error))
   },
+
+
+  /****************************** Für HighChartsOptionen ************************************************************/
+
   changePropertyWithOneKey(context, payload){
     context.commit('changePropertyWithOneKey', payload)
 
@@ -58,6 +77,9 @@ export default {
   changePropertyWithThreeKeys(context, payload){
     context.commit('changePropertyWithThreeKeys', payload)
 
+  },
+  changePropertyWithFourKeys(context, payload){
+    context.commit('changePropertyWithFourKeys', payload)
   },
   changePropertyWithKeyIndex(context, payload){
     context.commit('changePropertyWithKeyIndex', payload)
@@ -75,7 +97,31 @@ export default {
     context.commit('changePropertyWithKeyIndexKeyIndexKey', payload)
 
   },
-  changePropertyWithFourKeys(context, payload){
-    context.commit('changePropertyWithFourKeys', payload)
+
+  /***********************************************************************************************************/
+
+  // EDIT INTERNAL VUE HIGHCHARTS OPTIONS
+  editChart(context, payload){
+    context.commit('editChart', payload)
+  },
+  setFormPart(context, payload){
+    context.commit('setFormPart', payload)
+  },
+  resetForm(context) {
+    context.commit('resetForm')
+  },
+
+  setPathName(context) {
+    const pathname = document.getElementById('widget').getAttribute('data-pathname')
+    context.commit('setPathName', {
+      pathname: pathname
+    })
+  },
+  setDoEdit(context, payload){
+    context.commit('setDoEdit', payload);
   }
+
 }
+
+
+

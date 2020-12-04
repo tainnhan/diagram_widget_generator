@@ -16,7 +16,12 @@
   export default {
     setup() {
       const store = useStore();
-      const backgroundColorTooltip = ref('#f7f7f7')
+      const hasTooltipBackgroundColor = computed(function () {
+        return store.getters.highChartsOptions.tooltip?.backgroundColor ?
+          store.getters.highChartsOptions.tooltip?.backgroundColor :
+          '#f7f7f7'
+      })
+      const backgroundColorTooltip = ref(hasTooltipBackgroundColor.value)
       const highChartsOptions = computed(function () {
         return store.getters.highChartsOptions
       })
