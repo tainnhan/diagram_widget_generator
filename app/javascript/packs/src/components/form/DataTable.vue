@@ -135,7 +135,7 @@
 
 
 
-
+    let changeFocus = false;
     function changeInputFocus(event, n, m) {
       if(event.key === "ArrowLeft") {
         let element = document.getElementById(`input_row_${n}_${m-1}`)
@@ -145,6 +145,7 @@
         }
       }
       if(event.key === "ArrowUp"){
+        changeFocus = false;
         let element = document.getElementById(`input_row_${n-1}_${m}`)
         if(element) {
           element.focus()
@@ -152,15 +153,18 @@
       }
       if(event.key === "ArrowRight"){
         let element = document.getElementById(`input_row_${n}_${m+1}`)
-        if(element && event.target.selectionStart === event.target.value.length ) {
+        let focus = event.target.selectionStart === event.target.value.length
+        if(focus) { changeFocus = true }
+        if(element && focus ) {
           element.focus()
-        } else if(event.target.selectionStart === event.target.value.length){
+        } else if(focus){
           addColumns()
           inputId = `input_row_${n}_${m+1}`
 
         }
       }
       if(event.key === "ArrowDown") {
+        changeFocus = false
         let element = document.getElementById(`input_row_${n+1}_${m}`)
         if(element) {
           element.focus()

@@ -47,14 +47,10 @@
   </div>
 </template>
 <script>
-  import DeleteButton from "./highcharts-item/DeleteButton";
   import { useRouter } from 'vue-router';
   import { reactive } from 'vue';
   import { useStore } from 'vuex';
   export default {
-    components: {
-      DeleteButton
-    },
     props: {
       options: {
         type: Object,
