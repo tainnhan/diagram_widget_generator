@@ -1,4 +1,7 @@
 <template>
+  <toast-message toastIdName="csv_toast_error" @send-toast="setToast">
+    Ihre CSV-Datei ist nicht valid! Bitte schauen Sie ob die Anzahl der Werte pro Zeile überall gleich sind.
+  </toast-message>
   <div style="position: relative">
     <div class="overflow-auto row">
       <div class="col-1">
@@ -68,20 +71,15 @@
       </div>
     </div>
   </div>
-  <i
-    id="help_tooltip"
-    class="fas fa-question-circle mt-3 ml-5"
-    data-toggle="popover"
-    data-container="body"
-    data-placement="bottom"
-    data-content="Sie können mithilfe der Pfeiltasten zwischen den verschienden Feldern wechseln oder gegebenfalls neue Zeilen oder Spalten erstellen."
-    style="cursor: pointer"
-  >
-  </i>
+  <div class="float-left">
+  <input @change="importCsv($event)" type="file" class="csv-input float-right" id="csv-input" accept="text/csv">
+  <label class=" mt-3 btn btn-outline-primary" style="cursor:pointer" for="csv-input">Import CSV</label>
+  </div>
 </template>
 
 <script>
   import { reactive, ref, onUpdated, watch } from 'vue';
+  import ToastMessage from "../UI/ToastMessage";
 
   export default {
     emits: ['getData'],
@@ -100,12 +98,16 @@
         required: true
       }
     },
+    components: {
+      ToastMessage
+    },
     setup(props, {emit } ){
       const numbersOfRows = ref(props.rows);
       const numberOfColumns = ref(props.columns);
       const dataArray = reactive({data: createDataArray()})
       let inputId = ''
-
+      let csvValid = true;
+      let toast;
 
       function addRows() {
         dataArray.data[numbersOfRows.value] = Array.apply(null, Array(numberOfColumns.value)).map(function () { return '' });
@@ -135,40 +137,21 @@
 
 
 
-    let changeFocus = false;
     function changeInputFocus(event, n, m) {
       if(event.key === "ArrowLeft") {
-        let element = document.getElementById(`input_row_${n}_${m-1}`)
-
-        if(element && event.target.selectionStart === 0 ) {
-          element.focus()
-        }
+        changeFocus(`input_row_${n}_${m-1}`,event)
       }
       if(event.key === "ArrowUp"){
-        changeFocus = false;
-        let element = document.getElementById(`input_row_${n-1}_${m}`)
-        if(element) {
-          element.focus()
-        }
+        changeFocus(`input_row_${n-1}_${m}`,event)
       }
       if(event.key === "ArrowRight"){
-        let element = document.getElementById(`input_row_${n}_${m+1}`)
-        let focus = event.target.selectionStart === event.target.value.length
-        if(focus) { changeFocus = true }
-        if(element && focus ) {
-          element.focus()
-        } else if(focus){
-          addColumns()
-          inputId = `input_row_${n}_${m+1}`
-
-        }
+       if(!changeFocus(`input_row_${n}_${m+1}`, event)){
+         addColumns()
+         inputId = `input_row_${n}_${m+1}`
+       }
       }
       if(event.key === "ArrowDown") {
-        changeFocus = false
-        let element = document.getElementById(`input_row_${n+1}_${m}`)
-        if(element) {
-          element.focus()
-        } else {
+        if(!changeFocus(`input_row_${n+1}_${m}`, event)){
           addRows()
           inputId = `input_row_${n+1}_${m}`
         }
@@ -201,15 +184,122 @@
       }
 
     watch(dataArray, function (newValue) {
-      emit('getData', newValue);
+        emit('getData', {
+          data:newValue,
+          csvValid: csvValid
+        });
     })
 
+    function changeFocus(inputId,event) {
+        let element = document.getElementById(inputId);
+        if (element){
+          if(event.target.value.length === event.target.selectionEnd || event.target.selectionEnd === 0) {
+            element.selectionStart = element.value.length;
+            element.selectionEnd = element.value.length;
+            element.focus()
+          }
+          return true;
+        }
+        else {
+          return false;
+        }
+
+    }
+
+    //CSV File HAndling
+
+      function importCsv(event) {
+        const file = event.target.files[0];
+        const reader = new FileReader();
+        reader.readAsText(file);
+        reader.onload = loaded;
+        reader.onerror = errorHandler
+        event.target.value = '';
+      }
+
+      function loaded(event) {
+        let csvArray = [];
+        const result = event.target.result;
+        result.replace(',',';');
+        const array = result.split('\n');
+        array.forEach(function (item) {
+          let subArray = item.split(";");
+          csvArray.push(subArray);
+        })
+        //validate
+        if(validateValues(csvArray) && validateCsvStructure(csvArray)){
+          createRowsColumnsFromCsv(csvArray)
+          dataArray.data = csvArray;
+        } else if(validateValues(csvArray) && !validateCsvStructure(csvArray)) {
+          csvValid = false;
+          toast.show();
+        } else{
+          createRowsColumnsFromCsv(csvArray)
+          csvValid = false;
+          dataArray.data = csvArray;
+        }
+
+      }
+
+      function validateValues(csvArray){
+        let removeHeaderArray = csvArray.filter((item, index) => index !== 0);
+        for(let i = 0; i < removeHeaderArray.length; i++ ){
+          removeHeaderArray[i] = removeHeaderArray[i].filter( (item, index) => index !== 0);
+        }
+        const data = removeHeaderArray.flat()
+
+        //if every value in an array is a number return true
+        return !data.some(isNaN);
+      }
+
+      function validateCsvStructure(csvArray){
+        let array = [];
+        csvArray.forEach(item => array.push(item.length));
+        return array.every((val,i, arr) => val === arr[0]);
+      }
+
+      function createRowsColumnsFromCsv(csvArray){
+        if(numbersOfRows.value < csvArray.length) {
+          for (let i = numbersOfRows.value; i < csvArray.length; i++) {
+            addRows();
+          }
+        } else {
+          for (let i = numbersOfRows.value; i > csvArray.length; i--) {
+            destroyRow(i)
+          }
+        }
+        if(numberOfColumns.value < csvArray[0].length ) {
+          for(let i = numberOfColumns.value; i < csvArray[0].length; i++) {
+            addColumns()
+          }
+        } else {
+          for(let i = numberOfColumns.value; i > csvArray[0].length; i--) {
+            destroyColumn(i)
+          }
+        }
+
+
+      }
+
+
+      function errorHandler(event) {
+        if(event.target.error.name === 'NotReadableError'){
+          console.log('Syntax ist falsch');
+        }
+
+    }
+
+    function setToast(payload) {
+      toast = payload;
+    }
 
     return {
+        setToast,
       numberOfColumns, numbersOfRows,
       dataArray, inputClass,
       changeInputFocus, thClass,
-      destroyRow, destroyColumn
+      destroyRow, destroyColumn,
+      importCsv
       }
     }
   }
@@ -219,6 +309,14 @@
   input:focus {
     outline: none;
   }
+   .csv-input {
+     width: 0.1px;
+     height: 0.1px;
+     opacity: 0;
+     overflow: hidden;
+     position: absolute;
+     z-index: -1;
+   }
 </style>
 
 

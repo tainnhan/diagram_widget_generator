@@ -18,6 +18,7 @@
   import WizardForm from './form/WizardForm';
   import HighChartsPreview from './highcharts/HighchartsPreview';
   import { useStore } from 'vuex';
+  import { useRouter } from 'vue-router';
   export default {
     props: ['id'],
     components: {
@@ -26,16 +27,17 @@
     },
      setup(props){
       const store = useStore();
+      const router = useRouter();
       editChart()
       async function editChart() {
         if(props.id) {
           await store.dispatch('fetchCharts');
           const chart = store.getters.chartList.find(x => x.id === parseInt(props.id))
-
-          if(chart) {
+          if(chart && chart.fromImport === false) {
+            // füllt die HighchartsOptionen Object
             await store.dispatch('editChart', {id: parseInt(props.id)})
           } else {
-            console.log("Diese ID existiert nicht ")
+            await router.push(store.getters.pathName)
           }
         }
       }

@@ -1,11 +1,11 @@
 <template>
+  <chart-type></chart-type>
   <title-text></title-text>
   <title-align></title-align>
   <title-vertical-align></title-vertical-align>
   <subtitle-text></subtitle-text>
   <subtitle-align></subtitle-align>
   <subtitle-vertical-align></subtitle-vertical-align>
-  <chart-type></chart-type>
   <button
           type="button"
           class="btn btn-outline-primary mt-3 float-right"

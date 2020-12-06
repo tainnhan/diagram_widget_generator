@@ -34,7 +34,7 @@
             if(route.params.id) {
               await store.dispatch('putChart', { data: formData.value, id: route.params.id })
             } else {
-              await store.dispatch('submitForm', { data: formData.value });
+              await store.dispatch('submitForm', { data: formData.value, fromImport: false });
             }
               await router.push('/diagram')
           }

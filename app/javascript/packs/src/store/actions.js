@@ -6,6 +6,7 @@ export default {
     const url = window.location.origin + context.state.pathName + '/create';
     const csrf = document.querySelector("meta[name='csrf-token']").getAttribute('content');
     const data = {
+      fromImport: payload.fromImport,
       options: payload.data
     };
 
@@ -16,8 +17,6 @@ export default {
         'X-CSRF-Token': csrf
       },
       body: JSON.stringify(data)}).catch((error) => console.log(error))
-
-    context.commit('setReload')
   },
 
   //GET

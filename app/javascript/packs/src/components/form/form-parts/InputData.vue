@@ -1,30 +1,40 @@
 <template>
   <!-- Kann man seperat in eine komponente bauen -->
-  <teleport to="body">
-  <div style="position: absolute; top: 10px; right: 10px">
-    <div id="toast" class="toast bg-danger text-white" role="alert" aria-live="assertive" aria-atomic="true">
-      <div class="toast-header">
-        <strong class="mr-auto">Fehlermeldung</strong>
-        <button type="button" class="btn-close" data-dismiss="toast" aria-label="Close"></button>
-      </div>
-      <div class="toast-body">
-        Die Rot markieren Felder dürfen nicht leer gelassen werden und nur Zahlen sind zugelassen. Bitte korregieren Sie diese.
-      </div>
+  <toast-message toastIdName="toast_data_input" @send-toast="setToast">
+    Die Rot markieren Felder dürfen nicht leer gelassen werden und nur Zahlen sind zugelassen. Bitte korregieren Sie diese.
+  </toast-message>
+  <div class="row">
+    <div class="col-11">
+      <p class="text-left">Geben Sie hier ihre Chart Daten ein</p>
+    </div>
+    <div class="col-1 text-right">
+      <i
+        id="help_tooltip"
+        class="fas fa-question-circle "
+        data-toggle="popover"
+        data-container="body"
+        data-placement="bottom"
+        data-content="Sie können mithilfe der Pfeiltasten zwischen den verschienden Feldern wechseln oder gegebenfalls neue Zeilen oder Spalten erstellen."
+        style="cursor: pointer"
+      >
+      </i>
     </div>
   </div>
-  </teleport>
-  <p>Geben Sie hier ihre Chart Daten ein</p>
   <data-table @get-data="setData" :data="startingData" :rows="rows" :columns="columns"></data-table>
-  <button
-    type="button"
-    class="btn btn-outline-primary mt-3 float-right"
-    @click="submitData"
+    <div class="float-right">
+    <button
+          type="button"
+          class="btn btn-outline-primary mt-3"
+          @click="submitData"
   >Weiter</button>
+  </div>
+
 </template>
 
 <script>
   import {reactive, watch, onMounted, computed,ref } from 'vue';
   import arrayToCsvConverter from "../../../mixins/arrayToCsv";
+  import ToastMessage from "../../UI/ToastMessage";
   import { useRouter } from 'vue-router';
   import dataTable from "../DataTable";
   import { useStore } from 'vuex';
@@ -32,7 +42,7 @@
 
   export default {
     components: {
-      dataTable
+      dataTable, ToastMessage
     },
     setup() {
       const tableData = reactive({ data: [] })
@@ -44,6 +54,7 @@
       const columns = ref(3);
       const startingData = ref([])
       let toast;
+      let csvValid = true;
 
 
       /* Diese Funktion wird ausgeführt wenn ein Chart bearbeitet wird  */
@@ -56,8 +67,9 @@
 
 
 
-      function setData(data) {
-        tableData.data = data.data;
+      function setData(payload) {
+        tableData.data = payload.data.data;
+        csvValid = payload.csvValid;
       }
 
 
@@ -69,7 +81,7 @@
          series.push({ name: newValue.data[0][i] === '' ? "null" : newValue.data[0][i] })
       }
       validate()
-      if(invalidRows.length === 0) {
+      if(invalidRows.length === 0 && csvValid) {
         store.dispatch('changePropertyWithOneKey', {
           first_key: 'series',
           data: series
@@ -82,6 +94,7 @@
            }
          })
         }
+      csvValid = true;
        series = [];
       })
 
@@ -110,7 +123,7 @@
       function submitData() {
         const list = document.getElementsByClassName('check-value');
         for(let item of list) {
-          if(item.value === '') {
+          if(item.value === '' || isNaN(item.value)) {
             invalidRows.push(item.id);
           }
         }
@@ -119,7 +132,7 @@
             const element = document.getElementById(row);
             element.style.backgroundColor = "#f8d7da"
             element.parentElement.style.backgroundColor = "#f8d7da"
-            toast.show()
+             toast.show()
           }
         } else {
           store.dispatch('setFormPart', {
@@ -128,12 +141,11 @@
         }
       }
 
+      function setToast(data){
+        toast = data;
+      }
 
-      onMounted(function () {
-        let element = document.getElementById('toast');
-        toast =  new bootstrap.Toast(element)
-      })
-      return { setData, submitData, startingData, rows , columns }
+      return { setData, submitData, setToast, startingData, rows , columns }
 
   }
   }

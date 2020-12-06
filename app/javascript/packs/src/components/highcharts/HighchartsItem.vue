@@ -7,7 +7,7 @@
       <highcharts :options="options"></highcharts>
     </div>
     <div class="card-footer">
-      <button
+      <button v-if="!fromImport"
         data-toggle="tooltip"
         data-placement="bottom"
         title="Bearbeiten"
@@ -35,10 +35,12 @@
           <i class="fas fa-link"></i>
         </button>
         <button
+          id="download_json"
           class="btn btn-outline-primary"
           data-toggle="tooltip"
           data-placement="bottom"
           title="Chart downloaden (JSON)"
+          @click="download"
         >
           <i class="fas fa-download"></i>
         </button>
@@ -58,6 +60,10 @@
       },
       chartId: {
         type: Number,
+        required: true
+      },
+      fromImport: {
+        type: Boolean,
         required: true
       }
     },
@@ -85,7 +91,20 @@
         router.push('/diagram/edit/' + id)
       }
 
-      return { deleteChart, editChart }
+      function download() {
+        const chart = store.getters.chartList.filter(item => props.chartId === item.id);
+        const jsonString =  JSON.stringify(chart[0].data)
+        const blob = new Blob([jsonString], {type: 'application/json'})
+        const url = URL.createObjectURL(blob)
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = 'chart.json';
+        link.click()
+        URL.revokeObjectURL(link.href)
+
+      }
+      
+      return { deleteChart, editChart, download }
     }
   }
 </script>

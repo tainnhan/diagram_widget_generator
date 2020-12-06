@@ -9,10 +9,16 @@ import { computed } from 'vue';
 import { useStore } from 'vuex';
 
 export default {
-  setup() {
+  props: {
+    urlData: {
+      type: Object,
+      required: false
+    }
+  },
+  setup(props) {
     const store = useStore();
     const options = computed(function () {
-      return store.getters.highChartsOptions;
+      return props.urlData ? props.urlData : store.getters.highChartsOptions;
     })
     return { options }
   }

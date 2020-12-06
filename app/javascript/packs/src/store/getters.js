@@ -24,6 +24,9 @@ export default {
   defaultSymbols(state){
     return state.defaultSymbols;
   },
+  pathName(state){
+    return state.pathName;
+  },
   page(state){
     return state.page;
   },

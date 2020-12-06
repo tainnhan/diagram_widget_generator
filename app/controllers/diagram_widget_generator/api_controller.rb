@@ -6,6 +6,7 @@ module DiagramWidgetGenerator
       head :no_content
       widget = Widget.create
       widget.add_json_file(widget_params[:options])
+      widget.update(import_json: widget_params[:fromImport])
     end
 
     def delete_chart
@@ -27,6 +28,7 @@ module DiagramWidgetGenerator
       charts.each do |chart|
         options = {
             id: chart.id,
+            fromImport: chart.import_json,
             data: JSON.parse(chart.high_chart.download)
         }
         array.push(options)
@@ -37,9 +39,6 @@ module DiagramWidgetGenerator
       end
     end
 
-    def export_chart_to_json
-
-    end
 
     private
 

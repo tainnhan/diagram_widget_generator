@@ -33,7 +33,7 @@ export default {
   },
 
   setChartsList(state, payload){
-    state.chartList = payload
+    state.chartList = payload.reverse()
   },
   setPathName(state, payload) {
     state.pathName = payload.pathname
@@ -42,8 +42,8 @@ export default {
     state.chartList = state.chartList.filter(item => item.id !== payload.id).reverse()
   },
   editChart(state, payload) {
-    const chart = state.chartList.filter(item => payload.id === item.id)
-    state.highChartsOptions = chart[0].data
+    const chart = state.chartList.find(item => payload.id === item.id)
+    state.highChartsOptions = chart.data;
   },
   setFormPart(state, payload) {
     state.formPart = payload.data
