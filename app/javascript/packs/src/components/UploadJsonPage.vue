@@ -40,6 +40,7 @@
           data: options.option,
           fromImport: true
         })
+        router.push(store.getters.pathName)
       }
 
       return {options, submitChart }
