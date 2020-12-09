@@ -3,7 +3,7 @@ export default {
 
 /****************************** CRUD FUNKTIONALITÄTEN ************************************************************/
   async submitForm(context, payload) {
-    const url = window.location.origin + context.state.pathName + '/create';
+    const url = window.location.origin + context.state.pathName + '/api' + '/create';
     const csrf = document.querySelector("meta[name='csrf-token']").getAttribute('content');
     const data = {
       fromImport: payload.fromImport,
@@ -21,7 +21,7 @@ export default {
 
   //GET
   async fetchCharts(context) {
-    const url = window.location.origin + context.state.pathName + '/charts.json';
+    const url = window.location.origin + context.state.pathName + '/api' + '/charts.json';
     await fetch(url)
       .then(response => response.json())
       .then(data => {
@@ -32,7 +32,7 @@ export default {
 
   //DELETE
   async deleteChart(context, payload){
-    const url = window.location.origin + context.state.pathName + '/delete'+ '/' + payload.id;
+    const url = window.location.origin + context.state.pathName + '/api' + '/delete'+ '/' + payload.id;
     const csrf = document.querySelector("meta[name='csrf-token']").getAttribute('content');
     await fetch(url , {
       method: 'DELETE',
@@ -46,7 +46,7 @@ export default {
 
   //PUT
   async putChart(context, payload) {
-    const url = window.location.origin + context.state.pathName + '/edit'+ '/' + payload.id;
+    const url = window.location.origin + context.state.pathName + '/api' + '/edit'+ '/' + payload.id;
     const csrf = document.querySelector("meta[name='csrf-token']").getAttribute('content');
     const data = {
       options: payload.data

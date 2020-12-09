@@ -1,0 +1,16 @@
+function executeScript() {
+  const packScript = '<%= javascript_pack_tag("iframe") %>';
+  const scriptSrc = packScript.split('"')[1];
+  const pathname = `<%=request.base_url%><%=@pathname %>/chart/<%= @widget_id %>`
+  const scriptLocation = "<%=request.base_url%>" + scriptSrc;
+  const script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src = scriptLocation;
+  script.setAttribute('data-container-id',"chart_<%= @widget_id %>")
+  script.setAttribute('data-pathname', pathname)
+  script.setAttribute('async','')
+  const element = document.getElementById("chart_<%= @widget_id %>")
+  element.appendChild(script)
+}
+
+executeScript()

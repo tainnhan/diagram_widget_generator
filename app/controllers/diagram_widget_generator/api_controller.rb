@@ -4,9 +4,7 @@ module DiagramWidgetGenerator
 
     def create_chart
       head :no_content
-      widget = Widget.create
-      widget.add_json_file(widget_params[:options])
-      widget.update(import_json: widget_params[:fromImport])
+      Widget.create(payload: widget_params[:options], import_json: widget_params[:fromImport])
     end
 
     def delete_chart
@@ -18,8 +16,7 @@ module DiagramWidgetGenerator
     def edit_chart
       head :no_content
       widget = Widget.find(params[:id])
-      widget.high_chart.purge
-      widget.add_json_file(widget_params[:options])
+      widget.update(payload: widget_params[:options])
     end
 
     def charts
@@ -29,7 +26,7 @@ module DiagramWidgetGenerator
         options = {
             id: chart.id,
             fromImport: chart.import_json,
-            data: JSON.parse(chart.high_chart.download)
+            data: chart.payload
         }
         array.push(options)
       end
@@ -39,6 +36,13 @@ module DiagramWidgetGenerator
       end
     end
 
+    def get_single_chart
+      widget = Widget.find(params[:id])
+      respond_to do |format|
+        format.json { render json: widget.payload.to_json }
+      end
+
+    end
 
     private
 

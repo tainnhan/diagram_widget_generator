@@ -1,1 +1,6 @@
+<%content_for :scripts do %>
+  <%= stylesheet_pack_tag "application", media: "all"%>
+  <%= stylesheet_link_tag "diagram_widget_generator/application", media: "all" %>
+  <%= javascript_pack_tag "application" %>
+<% end %>
 <div id="widget" data-pathname="<%= @pathname %>"></div>

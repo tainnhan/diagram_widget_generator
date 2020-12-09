@@ -29,14 +29,14 @@
         const formData = computed(function () {
              return store.getters.highChartsOptions;
         })
-
+        const pathname = store.getters.pathName;
          async function submitForm() {
             if(route.params.id) {
               await store.dispatch('putChart', { data: formData.value, id: route.params.id })
             } else {
               await store.dispatch('submitForm', { data: formData.value, fromImport: false });
             }
-              await router.push('/diagram')
+              await router.push(pathname)
           }
 
           return {submitForm}

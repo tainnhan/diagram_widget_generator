@@ -109,6 +109,8 @@
       let csvValid = true;
       let toast;
 
+
+
       function addRows() {
         dataArray.data[numbersOfRows.value] = Array.apply(null, Array(numberOfColumns.value)).map(function () { return '' });
         numbersOfRows.value += 1;
@@ -166,9 +168,7 @@
       })
 
       function inputClass (m) { return m === 1 ? 'bg-light' : 'check-value' }
-
       function thClass(m) { return m === 1 ? 'bg-light' : '' }
-
 
       function createDataArray() {
         let array = props.data;
@@ -194,7 +194,7 @@
         let element = document.getElementById(inputId);
         if (element){
           if(event.target.value.length === event.target.selectionEnd || event.target.selectionEnd === 0) {
-            element.selectionStart = element.value.length;
+            element.selectionStart = 0;
             element.selectionEnd = element.value.length;
             element.focus()
           }
@@ -206,92 +206,97 @@
 
     }
 
-    //CSV File HAndling
+      /************************************************************************************/
+      // 1. CSV File Import und Handling für unsere Datentabelle
+      // 2. Beim Importieren eines CSV wird, wird diese in Arrays von Arrays geparsed/umgewandelt
+      // 3. Validierung des CSV File (Auf Zahlenwerte, Anzahl Spalten bzw. Anzahl Werte jeder Zeile müssen gleich sein)
+      // 2. Fehlermeldung wenn CSV Struktur falsch
 
-      function importCsv(event) {
-        const file = event.target.files[0];
-        const reader = new FileReader();
-        reader.readAsText(file);
-        reader.onload = loaded;
-        reader.onerror = errorHandler
-        event.target.value = '';
-      }
-
-      function loaded(event) {
-        let csvArray = [];
-        const result = event.target.result;
-        result.replace(',',';');
-        const array = result.split('\n');
-        array.forEach(function (item) {
-          let subArray = item.split(";");
-          csvArray.push(subArray);
-        })
-        //validate
-        if(validateValues(csvArray) && validateCsvStructure(csvArray)){
-          createRowsColumnsFromCsv(csvArray)
-          dataArray.data = csvArray;
-        } else if(validateValues(csvArray) && !validateCsvStructure(csvArray)) {
-          csvValid = false;
-          toast.show();
-        } else{
-          createRowsColumnsFromCsv(csvArray)
-          csvValid = false;
-          dataArray.data = csvArray;
+        function importCsv(event) {
+          const file = event.target.files[0];
+          const reader = new FileReader();
+          reader.readAsText(file);
+          reader.onload = loaded;
+          reader.onerror = errorHandler
+          event.target.value = '';
         }
 
-      }
-
-      function validateValues(csvArray){
-        let removeHeaderArray = csvArray.filter((item, index) => index !== 0);
-        for(let i = 0; i < removeHeaderArray.length; i++ ){
-          removeHeaderArray[i] = removeHeaderArray[i].filter( (item, index) => index !== 0);
-        }
-        const data = removeHeaderArray.flat()
-
-        //if every value in an array is a number return true
-        return !data.some(isNaN);
-      }
-
-      function validateCsvStructure(csvArray){
-        let array = [];
-        csvArray.forEach(item => array.push(item.length));
-        return array.every((val,i, arr) => val === arr[0]);
-      }
-
-      function createRowsColumnsFromCsv(csvArray){
-        if(numbersOfRows.value < csvArray.length) {
-          for (let i = numbersOfRows.value; i < csvArray.length; i++) {
-            addRows();
+        function loaded(event) {
+          let csvArray = [];
+          const result = event.target.result;
+          result.replace(',',';');
+          const array = result.split('\n');
+          array.forEach(function (item) {
+            let subArray = item.split(";");
+            csvArray.push(subArray);
+          })
+          //validate
+          if(validateValues(csvArray) && validateCsvStructure(csvArray)){
+            createRowsColumnsFromCsv(csvArray)
+            dataArray.data = csvArray;
+          } else if(validateValues(csvArray) && !validateCsvStructure(csvArray)) {
+            csvValid = false;
+            toast.show();
+          } else{
+            createRowsColumnsFromCsv(csvArray)
+            csvValid = false;
+            dataArray.data = csvArray;
           }
-        } else {
-          for (let i = numbersOfRows.value; i > csvArray.length; i--) {
-            destroyRow(i)
-          }
-        }
-        if(numberOfColumns.value < csvArray[0].length ) {
-          for(let i = numberOfColumns.value; i < csvArray[0].length; i++) {
-            addColumns()
-          }
-        } else {
-          for(let i = numberOfColumns.value; i > csvArray[0].length; i--) {
-            destroyColumn(i)
-          }
+
         }
 
+        function validateValues(csvArray){
+          let removeHeaderArray = csvArray.filter((item, index) => index !== 0);
+          for(let i = 0; i < removeHeaderArray.length; i++ ){
+            removeHeaderArray[i] = removeHeaderArray[i].filter( (item, index) => index !== 0);
+          }
+          const data = removeHeaderArray.flat()
+
+          //if every value in an array is a number return true
+          return !data.some(isNaN);
+        }
+
+        function validateCsvStructure(csvArray){
+          let array = [];
+          csvArray.forEach(item => array.push(item.length));
+          return array.every((val,i, arr) => val === arr[0]);
+        }
+
+        function createRowsColumnsFromCsv(csvArray){
+          if(numbersOfRows.value < csvArray.length) {
+            for (let i = numbersOfRows.value; i < csvArray.length; i++) {
+              addRows();
+            }
+          } else {
+            for (let i = numbersOfRows.value; i > csvArray.length; i--) {
+              destroyRow(i)
+            }
+          }
+          if(numberOfColumns.value < csvArray[0].length ) {
+            for(let i = numberOfColumns.value; i < csvArray[0].length; i++) {
+              addColumns()
+            }
+          } else {
+            for(let i = numberOfColumns.value; i > csvArray[0].length; i--) {
+              destroyColumn(i)
+            }
+          }
+
+
+        }
+
+
+        function errorHandler(event) {
+          if(event.target.error.name === 'NotReadableError'){
+            console.log('Syntax ist falsch');
+          }
 
       }
 
-
-      function errorHandler(event) {
-        if(event.target.error.name === 'NotReadableError'){
-          console.log('Syntax ist falsch');
-        }
-
-    }
-
-    function setToast(payload) {
-      toast = payload;
-    }
+      function setToast(payload) {
+        toast = payload;
+      }
+      /************************************************************************************/
 
     return {
         setToast,

@@ -1,12 +1,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Diagram widget generator</title>
+  <title>Diagram Widget Generator</title>
+  <%= yield :scripts %>
   <%= csrf_meta_tags %>
   <%= csp_meta_tag %>
-  <%= stylesheet_pack_tag "application", media: "all"%>
-  <%= stylesheet_link_tag "diagram_widget_generator/application", media: "all" %>
-  <%= javascript_pack_tag "application" %>
 </head>
 <body>
 <%= yield %>

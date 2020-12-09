@@ -27,12 +27,13 @@
     setup(){
       const store = useStore();
       const router = useRouter();
+      const pathname = store.getters.pathName;
       function selectPage() {
         store.dispatch('resetForm');
         store.dispatch('setFormPart',{
           data: 'InputGeneral'
           })
-        router.push('/diagram/new')
+        router.push(pathname+ '/new');
       }
 
       function uploaded(event){
