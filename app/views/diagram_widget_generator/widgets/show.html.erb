@@ -1,6 +1,5 @@
 <%content_for :scripts do %>
   <%= javascript_pack_tag "chart" %>
-  <%= stylesheet_pack_tag "chart", media: "all"%>
 <% end %>
 
 <div id="showChart" data-chart-id="<%=@widget_id%>" data-pathname="<%= @pathname %>"></div>
