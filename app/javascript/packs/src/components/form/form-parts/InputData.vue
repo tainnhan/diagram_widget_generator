@@ -2,6 +2,7 @@
   <toast-message toastIdName="toast_data_input" @send-toast="setToast">
     Die Rot markieren Felder dürfen nicht leer gelassen werden und nur Zahlen sind zugelassen. Bitte korregieren Sie diese.
   </toast-message>
+  <!-------
   <div class="row">
     <div class="col-11">
       <p class="text-left">Geben Sie hier ihre Chart Daten ein</p>
@@ -19,19 +20,21 @@
       </i>
     </div>
   </div>
+  ------>
   <data-table @get-data="setData" :data="startingData" :rows="rows" :columns="columns"></data-table>
+  <!----
     <div class="float-right">
     <button
           type="button"
           class="btn btn-outline-primary mt-3"
           @click="submitData"
-  >Weiter</button>
+  >Werte auf Richtigkeit checken</button>
   </div>
-
+  --->
 </template>
 
 <script>
-  import {reactive, watch, onMounted, onUnmounted, computed,ref } from 'vue';
+  import {reactive, watch, computed,ref } from 'vue';
   import arrayToCsvConverter from "../../../mixins/arrayToCsv";
   import ToastMessage from "../../UI/ToastMessage";
   import dataTable from "../DataTable";
@@ -42,22 +45,24 @@
     components: {
       dataTable, ToastMessage
     },
-    setup() {
+    emits: ['submitData','submitBoolean'],
+    setup(props, { emit}) {
       const tableData = reactive({ data: [] })
       const { headerToCsv, arrayToCsv, csvToArray } = arrayToCsvConverter()
       const store = useStore();
       let series = [];
       let invalidRows = [];
-      const rows = ref(3);
-      const columns = ref(3);
-      const startingData = ref([])
+      const rows = ref(4);
+      const columns = ref(2);
+      const startingData = ref([['','Serie'],['Europa', 10.2], ['America',9.8], ['Afrika', 30.2]])
       let toast;
-      let csvValid = true;
+      let csvValid = ref(true);
 
 
       /************************************************************************************/
       // 1. Ausgeführt wenn ein vorhander Chart bearbeitet wird
       // 2. Die Daten des vorhanden Chart befüllt unsere ansonsten leere Startdaten
+      // 3. Die Props werden automatisch dann in DataTable geupdatet
 
         const csvData = store.getters.highChartsOptions.data?.csv;
         if(csvData) {
@@ -73,7 +78,7 @@
 
       function setData(payload) {
         tableData.data = payload.data.data;
-        csvValid = payload.csvValid;
+        csvValid.value = payload.csvValid;
       }
 
 
@@ -86,6 +91,8 @@
           invalidRows = [];
           let csv = headerToCsv(newValue.data[0]) + arrayToCsv(newValue.data.filter((item,i) => i !== 0 ))
           for(let i = 1; i < newValue.data[0].length; i++){
+
+            // In der Form [[x,y],[x,y], [x,y]] -> HighChart Api unter series/chart/data
              series.push({ name: newValue.data[0][i] === '' ? "null" : newValue.data[0][i] })
           }
           validate()
@@ -94,15 +101,14 @@
               first_key: 'series',
               data: series
             })
-
              store.dispatch('changePropertyWithOneKey', {
                first_key: 'data',
                data: {
                csv: csv
                }
              })
+            emit('submitData', submitData);
             }
-          csvValid = true;
            series = [];
           })
 
@@ -127,10 +133,12 @@
             element.parentElement.style.backgroundColor = "#f8d7da"
             toast.show()
           }
+          emit('submitBoolean', false);
         } else {
           store.dispatch('setFormPart', {
             data: chooseComponent.value
           })
+          emit('submitBoolean', true);
         }
       }
 
@@ -168,6 +176,8 @@
         toast = data;
       }
 
+
+      /*
       let popover;
       onMounted(function () {
         const tooltipElement = document.getElementById('help_tooltip');
@@ -176,6 +186,7 @@
       onUnmounted(function () {
         popover.hide();
       })
+       */
       return { setData, submitData, setToast, startingData, rows , columns }
 
   }

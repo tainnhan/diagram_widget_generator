@@ -1,14 +1,14 @@
 <template>
   <index-button></index-button>
-  <high-charts-list></high-charts-list>
+  <high-chart-list></high-chart-list>
 </template>
 <script>
-  import HighChartsList from './highcharts/HighchartsList';
+  import HighChartList from './highcharts/HighchartList';
   import IndexButton from "./UI/IndexButton";
 
   export default {
     components: {
-      HighChartsList,
+      HighChartList,
       IndexButton
     },
     setup() {

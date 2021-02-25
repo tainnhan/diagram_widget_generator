@@ -1,20 +1,35 @@
 <template>
   <div class="mb-3">
-    <label for="title" class="form-label">Titel</label>
-    <input id="title" class="form-control" type="text" v-model="title"/>
+    <label for="title" class="form-label" id="title_label">Titel</label>
+    <input id="title" class="form-control" type="text" placeholder="Das ist mein Titel...." v-model="title"/>
   </div>
 </template>
 <script>
   import { ref, computed, watch } from 'vue';
   import { useStore } from 'vuex';
   export default {
-    setup() {
+    props: {
+      isWizard: {
+        type: Boolean,
+        required: false,
+        default: false
+      }
+    },
+    emits: ['sendTitle'],
+    setup(props, { emit }) {
       const store = useStore();
-      const hasTitle = computed(function () {
-        return store.getters.highChartsOptions.title?.text ? store.getters.highChartsOptions.title.text : ''
+
+      const highChartsOptions = computed(function () {
+        return store.getters.highChartsOptions
       })
+
+      // edit
+      const hasTitle = computed(function () {
+        return highChartsOptions.value.title?.text ? highChartsOptions.value.title.text : ''
+      })
+
       const title = ref(hasTitle.value);
-      const highChartsOptions = computed(function () { return store.getters.highChartsOptions })
+
 
       if(!highChartsOptions.value.title) {
         store.dispatch('changePropertyWithOneKey', {
@@ -37,10 +52,13 @@
           second_key: 'text',
           data: newValue
         })
+        if(props.isWizard) {
+          emit('sendTitle', newValue)
+        }
       })
 
 
-      return { title }
+      return { title,highChartsOptions }
     }
   }
 </script>

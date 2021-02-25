@@ -22,6 +22,7 @@ const store = createStore({
       chartList: [],
       pathName: '',
       doEdit: false
+
     }
   },
   getters,

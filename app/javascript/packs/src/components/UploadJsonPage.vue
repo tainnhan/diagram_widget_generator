@@ -13,7 +13,7 @@
   import { reactive, computed } from 'vue';
   import { useStore } from 'vuex';
   import {useRoute, useRouter} from 'vue-router';
-  import HighchartsPreview from "./highcharts/HighchartsPreview";
+  import HighchartsPreview from "./highcharts/HighchartPreview";
   export default {
     components: {
       TheNavbar,

@@ -6,6 +6,7 @@ import { createRouter, createWebHistory } from "vue-router";
 import FormPage from "./components/FormPage";
 import IndexPage from "./components/IndexPage";
 import UploadJsonPage from "./components/UploadJsonPage";
+import WizardPage from "./components/pages/WizardPage";
 import loadExporting from 'highcharts/modules/exporting';
 import loadData from 'highcharts/modules/data';
 import VueHighcharts from 'vue-highcharts';
@@ -23,8 +24,9 @@ export default () => {
       history: createWebHistory(),
       routes: [
         { path: pathName, component: IndexPage },
-        { path: pathName + '/new', component: FormPage },
-        { path: pathName + '/edit/:id', component: FormPage, props: true },
+        { path: pathName + '/new/wizard', component: WizardPage},
+        { path: pathName + '/new', component: WizardPage },
+        { path: pathName + '/edit/:id', component: WizardPage, props: true },
         { path: pathName + '/json-preview', component: UploadJsonPage }
 
       ]

@@ -30,6 +30,17 @@ export default {
       .catch((error) => console.log(error))
   },
 
+  //GET Single Chart
+  async fetchChart(context, payload){
+    const url = window.location.origin + context.state.pathName + '/api' + '/chart/' + payload.id + '.json';
+    await fetch(url)
+      .then(response => response.json())
+      .then(data => {
+        context.commit('setChart', data)
+      })
+      .catch((error) => console.log(error))
+  },
+
   //DELETE
   async deleteChart(context, payload){
     const url = window.location.origin + context.state.pathName + '/api' + '/delete'+ '/' + payload.id;
@@ -119,7 +130,6 @@ export default {
   setDoEdit(context, payload){
     context.commit('setDoEdit', payload);
   }
-
 }
 
 

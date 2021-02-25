@@ -10,7 +10,7 @@
 <script>
   import { onMounted, computed } from 'vue';
   import { useStore } from 'vuex';
-  import HighChartsItem from './HighchartsItem'
+  import HighChartsItem from './HighchartItem'
   export default {
     components: {
       HighChartsItem,

@@ -1,6 +1,11 @@
 import highChartsOptions from "./config/highChartsOptions";
 
 export default {
+
+  // Die Highchart API hat eine umfangreiche API und Objektstruktur. Viele Attribute bestehen aus genesteten Objekte.
+  //Mit Diesen Mutationen können bis zur dritten Ebene zugegriffen werden,
+  // Falls mehr nötig sein sollten, können welche hinzugefügt werdn.
+
   changePropertyWithOneKey(state, { first_key, data }){
     state.highChartsOptions[first_key] = data
 
@@ -35,6 +40,11 @@ export default {
   setChartsList(state, payload){
     state.chartList = payload.reverse()
   },
+
+  setChart(state, payload){
+    state.highChartsOptions = payload.data;
+  },
+
   setPathName(state, payload) {
     state.pathName = payload.pathname
   },
@@ -60,7 +70,6 @@ export default {
   setDoEdit(state, payload){
     state.doEdit = payload.data
   }
-
 }
 
 // daten senden -> speihert erstmal in db -> chartlist wirdw eitergeführt

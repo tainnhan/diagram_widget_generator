@@ -63,7 +63,15 @@
           </p>
           <div class="input-group">
             <input type="text" :id="'embedChart_'+chartId" class="form-control" :value="embedHtml"/>
-            <button :id="'clip_button_'+chartId" :data-clipboard-target="'#embedChart_'+chartId" class="btn btn-outline-secondary"><i class="far fa-clipboard"></i></button>
+            <button :id="'clip_button_'+chartId" :data-clipboard-target="'#embedChart_'+chartId" class="clip btn btn-outline-secondary"><i class="far fa-clipboard"></i></button>
+          </div>
+          <p class="mx-3 mt-2 mt-5">
+            Können Sie in Ihrem System aus irgendwelchen Gründen, den oben genannten Link nicht verwenden, so können Sie stadtdessen das Iframe hier unten kopieren, dass nicht
+            den Iframe Resizer enthält, ein Tool um Iframes automatisch zu resizen.
+          </p>
+          <div class="input-group">
+            <input type="text" :id="'iframe_'+chartId" class="form-control" :value="embedIframe"/>
+            <button :id="'clip_button_'+chartId" :data-clipboard-target="'#iframe_'+chartId" class="clip btn btn-outline-secondary"><i class="far fa-clipboard"></i></button>
           </div>
         </div>
         <div class="modal-footer">
@@ -112,6 +120,14 @@
       const embedHtml = ref(containerDiv.outerHTML);
 
 
+      const iframe = document.createElement('iframe');
+      iframe.src = url;
+      iframe.height = '450'
+      iframe.style.resize = 'both'
+      iframe.style.overflow = 'auto'
+
+      const embedIframe = ref(iframe.outerHTML)
+
 
 
       const pathname = store.getters.pathName;
@@ -125,12 +141,6 @@
       }
 
        function editChart(id){
-         store.dispatch('editChart', {
-          id: id
-        })
-         store.dispatch('setFormPart',{
-           data: 'InputGeneral'
-         })
         router.push(pathname + '/edit/' + id)
       }
 
@@ -150,7 +160,7 @@
       onMounted(function () {
         const element = document.getElementById(`modal_${props.chartId}`);
         modal = new bootstrap.Modal(element)
-        clipboard = new ClipboardJS(`#clip_button_${props.chartId}`);
+        clipboard = new ClipboardJS('.clip');
       })
 
       onUnmounted(function () {
@@ -164,7 +174,7 @@
       function closeModal() {
         modal.hide()
       }
-      return { deleteChart, editChart, download, openModal, closeModal, embedHtml }
+      return { deleteChart, editChart, download, openModal, closeModal, embedHtml, embedIframe }
     }
   }
 </script>

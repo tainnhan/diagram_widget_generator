@@ -1,4 +1,4 @@
-require_dependency "diagram_widget_generator/application_controller"
+ require_dependency "diagram_widget_generator/application_controller"
 module DiagramWidgetGenerator
   class ApiController < ApplicationController
 
@@ -38,8 +38,12 @@ module DiagramWidgetGenerator
 
     def get_single_chart
       widget = Widget.find(params[:id])
+      chart = {
+          id: widget.id,
+          data: widget.payload
+      }
       respond_to do |format|
-        format.json { render json: widget.payload.to_json }
+        format.json { render json: chart.to_json }
       end
 
     end

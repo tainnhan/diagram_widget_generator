@@ -36,6 +36,8 @@
           </tr>
           </tbody>
         </table>
+
+        <!---Hier werden die Daten richtigen Daten eingegeben  -->
         <table class="table table-bordered" style="width: auto">
           <thead>
             <tr>
@@ -188,6 +190,9 @@
           data:newValue,
           csvValid: csvValid
         });
+        if(csvValid === false) {
+          csvValid = true;
+        }
     })
 
     function changeFocus(inputId,event) {
@@ -222,21 +227,12 @@
         }
 
         function loaded(event) {
-          let csvArray = [];
-          const result = event.target.result;
-          result.replace(',',';');
-          const array = result.split('\n');
-          array.forEach(function (item) {
-            let subArray = item.split(";");
-            csvArray.push(subArray);
-          })
-          //validate
-          if(validateValues(csvArray) && validateCsvStructure(csvArray)){
+          const result = event.target.result.trim();
+          let csvArray = transformCsv(result)
+
+          if(valuesAreNumbers(csvArray)){
             createRowsColumnsFromCsv(csvArray)
             dataArray.data = csvArray;
-          } else if(validateValues(csvArray) && !validateCsvStructure(csvArray)) {
-            csvValid = false;
-            toast.show();
           } else{
             createRowsColumnsFromCsv(csvArray)
             csvValid = false;
@@ -245,7 +241,7 @@
 
         }
 
-        function validateValues(csvArray){
+        function valuesAreNumbers(csvArray){
           let removeHeaderArray = csvArray.filter((item, index) => index !== 0);
           for(let i = 0; i < removeHeaderArray.length; i++ ){
             removeHeaderArray[i] = removeHeaderArray[i].filter( (item, index) => index !== 0);
@@ -256,10 +252,34 @@
           return !data.some(isNaN);
         }
 
-        function validateCsvStructure(csvArray){
+
+        function transformCsv(csvString){
+          const result = csvString.slice()
+          let csvArray = [];
+          result.replace(',',';');
+          const splitArray = result.split(/\r?\n|\r/);
+          splitArray.forEach(function (item) {
+            let subArray = item.split(";");
+            csvArray.push(subArray);
+          })
+          // 1. Zeilen haben verschiedene Anzahl an Werten
           let array = [];
           csvArray.forEach(item => array.push(item.length));
-          return array.every((val,i, arr) => val === arr[0]);
+          if (array.every((val,i, arr) => val === arr[0])){
+            return csvArray
+          } else {
+            // Füge leere Werte an jeder Zeile damit die Anzahl an Werten pro Zeile gleich ist
+            const highest = Math.max(...array)
+            const copy = [];
+            for(let i = 0; i < csvArray.length ; i++) {
+              copy[i] = csvArray[i];
+              if (copy[i].length < highest) {
+                let difference = highest - copy[i].length
+                copy[i].push(...Array(difference).fill(''))
+              }
+            }
+            return copy
+          }
         }
 
         function createRowsColumnsFromCsv(csvArray){
@@ -281,10 +301,7 @@
               destroyColumn(i)
             }
           }
-
-
         }
-
 
         function errorHandler(event) {
           if(event.target.error.name === 'NotReadableError'){
