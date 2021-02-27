@@ -25,18 +25,11 @@
     components: {
       TitleText
     },
-    props: {
-      chart: {
-        type: Object,
-        required: false,
-      }
-    },
     emits:['changeScreen'],
     setup(props, { emit }){
       const store = useStore();
       const title = ref('');
       const isDisabled = ref(!store.getters.highChartsOptions.title);
-      console.log(props.chart);
       function setTitle(data){
         title.value = data;
         isDisabled.value = data === '';
@@ -50,7 +43,7 @@
   }
 </script>
 
-<style>
+<style scoped>
   #title_label {
     display: none;
   }

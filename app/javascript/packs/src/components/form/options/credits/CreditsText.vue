@@ -1,7 +1,11 @@
 <template>
-  <div class="mb-3">
-    <label for="credits_text" class="form-label">Credits Text</label>
-    <input type="text" id="credits_text" class="form-control" v-model="text"/>
+  <div class="mb-4 row">
+    <div class="col-4 text-right">
+      <label for="credits_text" class="form-label mt-2">Credits Text</label>
+    </div>
+    <div class="col-8">
+      <input type="text" id="credits_text" class="form-control" v-model="text"/>
+    </div>
   </div>
 </template>
 

@@ -1,7 +1,11 @@
 <template>
-  <div class="form-check">
-    <input id="enable_legend" class="form-check-input" type="checkbox" v-model="enableLegend">
-    <label for="enable_legend" class="form-check-label">Legende anzeigen</label>
+  <div class="mb-4 row">
+    <div class="col-4 text-right">
+      <label for="enable_legend" class="mt-2">Legende anzeigen</label>
+    </div>
+    <div class="col-8">
+      <input id="enable_legend" type="checkbox" v-model="enableLegend">
+    </div>
   </div>
 </template>
 

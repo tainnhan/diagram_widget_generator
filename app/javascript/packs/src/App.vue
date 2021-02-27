@@ -1,8 +1,6 @@
 <template>
   <the-navbar></the-navbar>
-  <div id="container" class="container mt-5">
     <router-view></router-view>
-  </div>
 </template>
 <script>
 import TheNavbar from './components/layout/TheNavbar';
@@ -18,6 +16,11 @@ export default {
   setup(){
     const store = useStore();
     store.dispatch('setPathName');
+    if(localStorage.getItem('user')){
+      const isBeginner = localStorage.getItem('user') === 'true';
+      //sollte man ändern bisschen bad practice, state so aufzurufen
+      store.state.isBeginner = isBeginner;
+    }
   }
 }
 </script>

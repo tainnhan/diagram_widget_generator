@@ -1,13 +1,18 @@
 <template>
-  <div class="mb-3">
-    <label for="background_color_tooltip" class="form-label">Hintergrundfarbe</label>
-    <input
-            id="background_color_tooltip"
-            type="color"
-            class="form-control-color form-color"
-            v-model="backgroundColorTooltip"
-    />
+  <div class="mb-4 row">
+    <div class="col-4 text-right">
+      <label for="background_color_tooltip" class="form-label mt-2">Hintergrundfarbe</label>
+    </div>
+    <div class="col-8">
+      <input
+              id="background_color_tooltip"
+              type="color"
+              class="form-control-color form-color"
+              v-model="backgroundColorTooltip"
+      />
+    </div>
   </div>
+
 </template>
 
 <script>

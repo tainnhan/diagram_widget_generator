@@ -1,30 +1,32 @@
 <template>
-  <div class="row">
-    <div class="col-6">
-      <div style="min-height: 500px" class="card">
-        <!-- Progress bar -->
-        <div class="card-header">
-          <ul class="progress-indicator mt-3">
-            <li class="completed"> <span class="bubble"></span> Titel </li>
-            <li :class="{completed: screen === 'second-screen' || screen === 'third-screen'}" > <span class="bubble"></span> Diagramm </li>
-            <li :class="{completed: screen === 'third-screen'}" > <span class="bubble" ></span> Daten </li>
-          </ul>
-        </div>
-        <component v-if="chartIsLoaded" @change-screen="changeScreen" :is="screen" ></component>
-      </div>
-    </div>
-    <div class="col-6">
-      <div class="card my-auto" style="min-height: 500px">
-        <div class="card-header text-center">
-          <p style="font-size: 18px">Diagrammvorschau</p>
+  <div id="container" class="container mt-5">
+
+    <div class="row">
+      <div class="col-6">
+        <div style="min-height: 500px" class="card">
+          <!-- Progress bar -->
+          <div class="card-header">
+            <ul class="progress-indicator mt-3">
+              <li class="completed"> <span class="bubble"></span> Titel </li>
+              <li :class="{completed: screen === 'second-screen' || screen === 'third-screen'}" > <span class="bubble"></span> Diagramm </li>
+              <li :class="{completed: screen === 'third-screen'}" > <span class="bubble" ></span> Daten </li>
+            </ul>
           </div>
-        <highcharts-preview :edit-id="id"></highcharts-preview>
-        <div class="card-footer" style="height: 40px">
+          <component @change-screen="changeScreen" :is="screen" ></component>
+        </div>
+      </div>
+      <div class="col-6">
+        <div class="card my-auto" style="min-height: 500px">
+          <div class="card-header text-center">
+            <p style="font-size: 18px">Diagrammvorschau</p>
+            </div>
+          <highcharts-preview ></highcharts-preview>
+          <div class="card-footer" style="height: 40px">
+          </div>
         </div>
       </div>
     </div>
   </div>
-
 </template>
 
 <script>
@@ -43,29 +45,17 @@
       SecondScreen,
       ThirdScreen,
     },
-    props: ['id'],
     setup(props){
         const screen = ref('first-screen');
         const store = useStore();
-        const chartIsLoaded = ref(false);
-
+        console.log(store.getters.highChartsOptions);
 
         function changeScreen(data) {
           screen.value = data;
         }
 
-        async function loadChart() {
-          if(props.id){
-            await store.dispatch('fetchChart', {id: props.id});
-          }
-          chartIsLoaded.value = true;
-        }
 
-        onUnmounted(function () {
-          store.dispatch('resetChart');
-        })
-        loadChart();
-        return { screen, changeScreen,chartIsLoaded, editId: props.id }
+        return { screen, changeScreen }
       }
     }
 </script>

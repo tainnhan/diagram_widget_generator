@@ -1,13 +1,20 @@
 <template>
-    <div class="mb-3">
-      <label for="border_color_tooltip" class="form-label">Border Farbe</label>
+
+  <div class="mb-4 row">
+    <div class="col-4 text-right">
+      <label for="border_color_tooltip" class="form-label mt-2">Border Farbe</label>
+
+    </div>
+    <div class="col-8">
       <input
-        id="border_color_tooltip"
-        type="color"
-        class="form-control-color form-color"
-        v-model="tooltipBorderColor"
+              id="border_color_tooltip"
+              type="color"
+              class="form-control-color form-color"
+              v-model="tooltipBorderColor"
       />
     </div>
+  </div>
+
 </template>
 
 <script>

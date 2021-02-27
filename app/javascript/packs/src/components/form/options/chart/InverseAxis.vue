@@ -1,7 +1,11 @@
 <template>
-  <div class="form-check mb-3">
-    <input id="inverse_axis" v-model="inverseAxis" type="checkbox" class="form-check-input"/>
-    <label for="inverse_axis">Achsen umkehren</label>
+  <div class="mb-4 row">
+    <div class="col-4 text-right">
+      <label for="inverse_axis">Achsen umkehren</label>
+    </div>
+    <div class="col-8">
+      <input id="inverse_axis" v-model="inverseAxis" type="checkbox" class=""/>
+    </div>
   </div>
 </template>
 <script>

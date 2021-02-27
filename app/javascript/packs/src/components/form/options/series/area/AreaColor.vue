@@ -1,7 +1,11 @@
 <template>
-  <div class="mb-3">
-    <label for="series_area_color" class="form-label" > Farbe für die Daten</label>
-    <input style="max-width: 100%"  v-model="selectedColor" id="series_area_color" type="color" class="form-control-color w-100">
+  <div class="mb-4 row">
+    <div class="col-4 text-right">
+      <label for="series_area_color" class="form-label mt-2" > Farbe für die Daten</label>
+    </div>
+    <div class="col-8">
+      <input style="max-width: 100%"  v-model="selectedColor" id="series_area_color" type="color" class="form-control-color w-100">
+    </div>
   </div>
 </template>
 

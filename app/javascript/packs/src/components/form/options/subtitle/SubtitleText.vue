@@ -1,7 +1,11 @@
 <template>
-  <div class="mb-3">
-    <label for="title" class="form-label">Subtitel</label>
-    <input id="title" class="form-control" type="text" v-model="subtitle"/>
+  <div class="mb-4 row">
+    <div class="col-4 text-right">
+      <label for="subtitle" class="form-label mt-2">Text</label>
+    </div>
+    <div class="col-8">
+      <input id="subtitle" class="form-control" type="text" v-model="subtitle"/>
+    </div>
   </div>
 </template>
 <script>

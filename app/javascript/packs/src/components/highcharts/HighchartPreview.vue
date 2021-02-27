@@ -1,6 +1,6 @@
 <template>
   <div class="text-center my-auto">
-    <highcharts :options="options"></highcharts>
+    <highcharts :options="options" ></highcharts>
 </div>
 </template>
 

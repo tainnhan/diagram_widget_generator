@@ -1,7 +1,11 @@
 <template>
-  <div class="mb-3">
-    <label for="title" class="form-label" id="title_label">Titel</label>
-    <input id="title" class="form-control" type="text" placeholder="Das ist mein Titel...." v-model="title"/>
+  <div class="mb-4 row">
+    <div class="col-4 text-right">
+      <label for="title" class="form-label mt-2" id="title_label">Text</label>
+    </div>
+    <div class="col-8">
+      <input id="title" class="form-control" type="text" placeholder="Das ist mein Titel...." v-model="title"/>
+    </div>
   </div>
 </template>
 <script>

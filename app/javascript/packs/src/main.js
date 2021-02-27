@@ -25,10 +25,9 @@ export default () => {
       routes: [
         { path: pathName, component: IndexPage },
         { path: pathName + '/new/wizard', component: WizardPage},
-        { path: pathName + '/new', component: WizardPage },
-        { path: pathName + '/edit/:id', component: WizardPage, props: true },
+        { path: pathName + '/new', component: FormPage },
+        { path: pathName + '/edit/:id', component: FormPage, props: true },
         { path: pathName + '/json-preview', component: UploadJsonPage }
-
       ]
     })
     app.use(router);

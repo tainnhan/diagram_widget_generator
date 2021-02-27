@@ -1,14 +1,19 @@
 <!-- Funktioniert nur wenn die SERIE auch wirklich existiert-->
 
 <template>
-  <div class="mb-3">
-    <label for="column_color" class="form-label">Farbe</label>
-    <input
-      id="column_color"
-      type="color"
-      class="form-control-color form-color"
-      v-model="selectedColor"
-    />
+  <div class="mb-4 row">
+    <div class="col-4 text-right">
+      <label for="column_color" class="form-label mt-2">Farbe</label>
+    </div>
+    <div class="col-8">
+      <input
+              id="column_color"
+              type="color"
+              class="form-control-color form-color"
+              v-model="selectedColor"
+      />
+    </div>
+
   </div>
 </template>
 <script>

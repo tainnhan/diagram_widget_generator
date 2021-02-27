@@ -1,8 +1,14 @@
 <template>
-  <div class="mb-3">
-    <label for="captions_text" class="form-label">Bildunterschrift Text</label>
-    <textarea id="captions_text" class="form-control" v-model="text"/>
+  <div class="mb-4 row">
+    <div class="col-4 text-right">
+      <label for="captions_text" class="form-label mt-2">Bildunterschrift Text</label>
+
+    </div>
+    <div class="col-8">
+      <textarea id="captions_text" class="form-control" v-model="text"/>
+    </div>
   </div>
+
 </template>
 
 <script>

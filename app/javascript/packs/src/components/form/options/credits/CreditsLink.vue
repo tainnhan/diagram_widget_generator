@@ -1,7 +1,11 @@
 <template>
-  <div class="mb-3">
-    <label for="credits_links" class="form-label">Credits Verlinkung</label>
-    <input id="credits_links" type="text" class="form-control" v-model="text"/>
+  <div class="mb-4 row">
+    <div class="col-4 text-right">
+      <label for="credits_links" class="form-label mt-2">Credits Verlinkung</label>
+    </div>
+    <div class="col-8">
+      <input id="credits_links" type="text" class="form-control" v-model="text"/>
+    </div>
   </div>
 </template>
 

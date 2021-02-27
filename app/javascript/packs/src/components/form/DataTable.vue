@@ -73,18 +73,22 @@
       </div>
     </div>
   </div>
-  <div class="float-left">
-  <input @change="importCsv($event)" type="file" class="csv-input float-right" id="csv-input" accept="text/csv">
-  <label class=" mt-3 btn btn-outline-primary" style="cursor:pointer" for="csv-input">Import CSV</label>
+  <div class="clearfix">
+    <div class="float-left">
+      <input @change="importCsv($event)" type="file" class="csv-input float-right" id="csv-input" accept="text/csv">
+      <label class=" mt-3 btn btn-outline-primary" style="cursor:pointer" for="csv-input">Import CSV</label>
+    </div>
   </div>
+
 </template>
 
 <script>
-  import { reactive, ref, onUpdated, watch } from 'vue';
+  import { reactive, ref, onUpdated, watch, onMounted} from 'vue';
+  import { useStore} from 'vuex';
   import ToastMessage from "../UI/ToastMessage";
 
   export default {
-    emits: ['getData'],
+    emits: ['getData','destroySeries'],
     props: {
       data: {
         type: Array,
@@ -107,10 +111,10 @@
       const numbersOfRows = ref(props.rows);
       const numberOfColumns = ref(props.columns);
       const dataArray = reactive({data: createDataArray()})
+      const store = useStore();
       let inputId = ''
       let csvValid = true;
       let toast;
-
 
 
       function addRows() {
@@ -127,16 +131,18 @@
 
       function destroyRow(n){
         numbersOfRows.value -= 1;
-        dataArray.data = dataArray.data.filter((item,i) => n !== i)
+        dataArray.data = dataArray.data.filter((item,i) => n !== i);
       }
 
       function destroyColumn(index) {
-
         for(let i = 0; i < dataArray.data.length; i++) {
          dataArray.data[i] =  dataArray.data[i].filter((item,i) => i !== index)
         }
-
         numberOfColumns.value -= 1;
+        const number = index - 1
+        //emit
+        emit('destroySeries', number)
+
       }
 
 
@@ -315,6 +321,11 @@
       }
       /************************************************************************************/
 
+      onMounted(function () {
+        if(!store.getters.isBeginner){
+          emit('getData', { data:dataArray, csvValid: csvValid });
+        }
+      })
     return {
         setToast,
       numberOfColumns, numbersOfRows,

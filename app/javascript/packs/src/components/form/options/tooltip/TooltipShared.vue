@@ -1,7 +1,12 @@
 <template>
-  <div class="form-check mb-3">
-    <input class="form-check-input" id="enable_shared_tooltip" type="checkbox" v-model="enableSharedTooltip">
-    <label for="enable_shared_tooltip" class="form-check-label">Tooltips werden geteilt</label>
+  <div class="mb-4 row">
+    <div class="col-4 text-right">
+      <label for="enable_shared_tooltip" class="mt-2">Tooltips werden geteilt</label>
+    </div>
+    <div class="col-8">
+      <input id="enable_shared_tooltip" type="checkbox" v-model="enableSharedTooltip">
+
+    </div>
   </div>
 </template>
 

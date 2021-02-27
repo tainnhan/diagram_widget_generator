@@ -1,8 +1,13 @@
 <template>
-  <div class="mb-3 form-check">
-    <input type="checkbox" class="form-check-input" id="plotOptions_column_color_by_point" v-model="enableColorByPoint">
-    <label for="plotOptions_column_color_by_point" class="form-check-label">Farbe für jeden Datenpunkt</label>
+  <div class="mb-4 row">
+    <div class="col-4 text-right">
+      <label for="plotOptions_column_color_by_point" class="mt-2">Farbe für jeden Datenpunkt</label>
+    </div>
+    <div class="col-8">
+      <input type="checkbox" id="plotOptions_column_color_by_point" v-model="enableColorByPoint">
+    </div>
   </div>
+
 </template>
 
 <script>

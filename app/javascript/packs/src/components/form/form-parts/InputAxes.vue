@@ -20,12 +20,12 @@
 <script>
   import { useStore } from 'vuex';
   import inverseAxis from "../options/chart/InverseAxis";
-  import xAxisTitleText from "../options/xAxis/title/TitleText";
+  import xAxisTitleText from "../options/xAxis/title/XAxisTitleText";
   import xAxisOpposite from "../options/xAxis/XAxisOpposite";
   import xAxisReversed from "../options/xAxis/XAxisReversed";
   import YAxisOpposite from "../options/yAxis/YAxisOpposite";
   import YAxisReversed from "../options/yAxis/YAxisReversed";
-  import YAxisTitleText from "../options/yAxis/title/TitleText";
+  import YAxisTitleText from "../options/yAxis/title/YAxisTitleText";
   export default {
     components: {
        xAxisTitleText, xAxisOpposite,

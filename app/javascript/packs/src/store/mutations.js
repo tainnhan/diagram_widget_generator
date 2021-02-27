@@ -20,7 +20,6 @@ export default {
   },
   changePropertyWithKeyIndex(state, { first_key, first_index, data }){
     state.highChartsOptions[first_key][first_index] = data
-
   },
   changePropertyWithKeyIndexKey(state, { first_key,second_key, first_index, data }){
     state.highChartsOptions[first_key][first_index][second_key] = data
@@ -45,6 +44,10 @@ export default {
     state.highChartsOptions = payload.data;
   },
 
+  setUser(state) {
+    state.isBeginner = !state.isBeginner;
+    localStorage.setItem('user', state.isBeginner.toString());
+  },
   setPathName(state, payload) {
     state.pathName = payload.pathname
   },
@@ -64,11 +67,19 @@ export default {
         series: {
           animation: false
         }
-      }
+      },
+      title: {
+        text: "Das ist mein Titel"
+      },
+      series: []
     }
   },
   setDoEdit(state, payload){
     state.doEdit = payload.data
+  },
+  removeSeries(state, payload){
+    state.highChartsOptions.series = [];
+
   }
 }
 

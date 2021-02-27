@@ -1,46 +1,38 @@
 <template>
-  <div class="row">
-    <div class="col-md-6">
-      <wizard-form></wizard-form>
-    </div>
-    <div class="col-md-6">
-      <div class="card">
-        <div class="card-body">
-            <high-charts-preview></high-charts-preview>
-        </div>
-      </div>
-    </div>
+  <div v-if="chartIsLoaded">
+    <wizard-page v-if="isBeginner" ></wizard-page>
+    <editor-page v-else></editor-page>
   </div>
 </template>
 
-
 <script>
-  import WizardForm from './form/WizardForm';
-  import HighChartsPreview from './highcharts/HighchartPreview';
-  import { useStore } from 'vuex';
-  import { useRouter } from 'vue-router';
-  export default {
-    props: ['id'],
-    components: {
-      WizardForm,
-      HighChartsPreview
-    },
-     setup(props){
-      const store = useStore();
-      const router = useRouter();
-      editChart()
-
-      async function editChart() {
-        if(props.id) {
-          await store.dispatch('fetchCharts');
-          const chart = store.getters.chartList.find(x => x.id === parseInt(props.id))
-          if(chart && chart.fromImport === false) {
-            await store.dispatch('editChart', {id: parseInt(props.id)})
-          } else {
-            await router.push(store.getters.pathName)
-          }
-        }
+import WizardPage from "./pages/WizardPage";
+import EditorPage from "./pages/EditorPage";
+import { useStore } from 'vuex';
+import {ref, computed, onMounted } from "vue";
+export default {
+  components: {
+    WizardPage,
+    EditorPage
+  },
+  props: ['id'],
+  setup(props){
+    const store = useStore();
+    const isBeginner = computed(function () {
+      return store.getters.isBeginner;
+    })
+    const chartIsLoaded = ref(false);
+    async function loadChart() {
+      if(props.id){
+        await store.dispatch('fetchChart', {id: props.id});
       }
+      chartIsLoaded.value = true;
     }
+    loadChart();
+
+
+    return { isBeginner, chartIsLoaded }
   }
+}
+
 </script>

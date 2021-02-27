@@ -1,8 +1,13 @@
 <template>
-  <div class="form-check mb-3">
-    <input class="form-check-input" id="checkbox_marker" type="checkbox" v-model="enableMarkers"/>
-    <label class="form-check-label" for="checkbox_marker">Marker anzeigen</label>
+  <div class="mb-4 row">
+    <div class="col-4 text-right">
+      <label class="mt-2" for="checkbox_marker">Marker anzeigen</label>
+    </div>
+    <div class="col-8">
+      <input id="checkbox_marker" type="checkbox" v-model="enableMarkers"/>
+    </div>
   </div>
+
 </template>
 
 <script>

@@ -2,35 +2,7 @@
   <toast-message toastIdName="toast_data_input" @send-toast="setToast">
     Die Rot markieren Felder dürfen nicht leer gelassen werden und nur Zahlen sind zugelassen. Bitte korregieren Sie diese.
   </toast-message>
-  <!-------
-  <div class="row">
-    <div class="col-11">
-      <p class="text-left">Geben Sie hier ihre Chart Daten ein</p>
-    </div>
-    <div class="col-1 text-right">
-      <i
-        id="help_tooltip"
-        class="fas fa-question-circle "
-        data-toggle="popover"
-        data-container="body"
-        data-placement="bottom"
-        data-content="Sie können mithilfe der Pfeiltasten zwischen den verschienden Feldern wechseln oder gegebenfalls neue Zeilen oder Spalten erstellen."
-        style="cursor: pointer"
-      >
-      </i>
-    </div>
-  </div>
-  ------>
-  <data-table @get-data="setData" :data="startingData" :rows="rows" :columns="columns"></data-table>
-  <!----
-    <div class="float-right">
-    <button
-          type="button"
-          class="btn btn-outline-primary mt-3"
-          @click="submitData"
-  >Werte auf Richtigkeit checken</button>
-  </div>
-  --->
+  <data-table @get-data="setData" :data="startingData" :rows="rows" :columns="columns" @destroy-series="executeDestroySeries"></data-table>
 </template>
 
 <script>
@@ -39,7 +11,6 @@
   import ToastMessage from "../../UI/ToastMessage";
   import dataTable from "../DataTable";
   import { useStore } from 'vuex';
-  import bootstrap from "bootstrap/dist/js/bootstrap.bundle";
 
   export default {
     components: {
@@ -50,13 +21,20 @@
       const tableData = reactive({ data: [] })
       const { headerToCsv, arrayToCsv, csvToArray } = arrayToCsvConverter()
       const store = useStore();
-      let series = [];
       let invalidRows = [];
-      const rows = ref(4);
-      const columns = ref(2);
-      const startingData = ref([['','Serie'],['Europa', 10.2], ['America',9.8], ['Afrika', 30.2]])
+      const rows = ref(10);
+      const columns = ref(5);
+      const startingData = ref([])
       let toast;
       let csvValid = ref(true);
+
+
+      let destroySeries = false;
+      let index;
+      function executeDestroySeries(data) {
+        destroySeries = true;
+        index = data;
+      }
 
 
       /************************************************************************************/
@@ -90,27 +68,23 @@
         watch(tableData, function (newValue) {
           invalidRows = [];
           let csv = headerToCsv(newValue.data[0]) + arrayToCsv(newValue.data.filter((item,i) => i !== 0 ))
-          for(let i = 1; i < newValue.data[0].length; i++){
-
-            // In der Form [[x,y],[x,y], [x,y]] -> HighChart Api unter series/chart/data
-             series.push({ name: newValue.data[0][i] === '' ? "null" : newValue.data[0][i] })
-          }
           validate()
           if(invalidRows.length === 0 && csvValid) {
             store.dispatch('changePropertyWithOneKey', {
-              first_key: 'series',
-              data: series
-            })
-             store.dispatch('changePropertyWithOneKey', {
                first_key: 'data',
                data: {
                csv: csv
                }
              })
+            console.log(store.getters.highChartsOptions);
+            if(destroySeries){
+              store.dispatch('removeSeries', index );
+              destroySeries = false;
+            }
             emit('submitData', submitData);
             }
-           series = [];
           })
+
 
 
       /************************************************************************************/
@@ -145,7 +119,7 @@
 
 
 
-      /************************************************************************************/
+      /******************************************f******************************************/
       // 1. Checkt ob die Eingebenenen Werte Zahlen sind
       // 2. Fügt die Inputs die Invalid sind in ein Array
       // 3. Die Inputs die valide sind, werden zurückgefärbt bzw. bleiben wie gehabt
@@ -176,18 +150,7 @@
         toast = data;
       }
 
-
-      /*
-      let popover;
-      onMounted(function () {
-        const tooltipElement = document.getElementById('help_tooltip');
-         popover = new bootstrap.Popover(tooltipElement)
-      })
-      onUnmounted(function () {
-        popover.hide();
-      })
-       */
-      return { setData, submitData, setToast, startingData, rows , columns }
+      return { setData, submitData, setToast, startingData, rows , columns, executeDestroySeries}
 
   }
   }

@@ -1,9 +1,13 @@
 <template>
-  <div class="mb-3">
-    <label for="title_align">Ausrichtung Subtitel</label>
-    <select id="title_align" class="form-select" v-model="alignSelected">
-      <option v-for="align in alignOptions" :value="align.value" :key="align.text">{{align.text}}</option>
-    </select>
+  <div class="mb-4 row">
+    <div class="col-4 text-right">
+      <label for="subtitle_align" class="mt-2">Ausrichtung</label>
+    </div>
+    <div class="col-8">
+      <select id="subtitle_align" class="form-select" v-model="alignSelected">
+        <option v-for="align in alignOptions" :value="align.value" :key="align.text">{{align.text}}</option>
+      </select>
+    </div>
   </div>
 </template>
 <script>

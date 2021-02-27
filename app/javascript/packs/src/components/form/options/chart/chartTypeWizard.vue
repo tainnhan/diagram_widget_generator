@@ -61,21 +61,15 @@
 
       function updateChartData() {
         if(!store.getters.highChartsOptions.data?.csv){
-          const series = [];
-          const exampleData = [['','Serie'],['Europa', 10.2], ['America',9.8], ['Afrika', 30.2]];
-          const csv = headerToCsv(exampleData[0]) + arrayToCsv(exampleData.filter((item,i) => i !== 0 ));
-          for(let i = 1; i < exampleData[0].length; i++){
-            // In der Form [[x,y],[x,y], [x,y]] -> HighChart Api unter series/chart/data
-            series.push({ name: exampleData[0][i] === '' ? "null" : exampleData[0][i] })
-          }
+          const exampleData = store.getters.exampleData;
           store.dispatch('changePropertyWithOneKey', {
             first_key: 'series',
-            data: series
+            data: exampleData.series
           })
           store.dispatch('changePropertyWithOneKey', {
             first_key: 'data',
             data: {
-              csv: csv
+              csv: exampleData.csv
             }
           })
         }

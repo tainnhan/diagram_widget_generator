@@ -1,6 +1,8 @@
 <template>
-  <index-button></index-button>
-  <high-chart-list></high-chart-list>
+  <div id="container" class="container mt-5">
+    <index-button></index-button>
+    <high-chart-list></high-chart-list>
+  </div>
 </template>
 <script>
   import HighChartList from './highcharts/HighchartList';
@@ -12,7 +14,6 @@
       IndexButton
     },
     setup() {
-
     }
   }
 </script>

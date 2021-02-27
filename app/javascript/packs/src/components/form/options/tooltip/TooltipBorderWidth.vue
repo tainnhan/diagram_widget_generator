@@ -1,13 +1,19 @@
 <template>
-  <div class="mb-3">
-    <label class="form-label" for="border_width_tooltip">Border Width</label>
-    <input
-      id="border_width_tooltip"
-      type="number"
-      v-model="tooltipBorderWidth"
-      class="form-control"
-    />
+  <div class="mb-4 row">
+    <div class="col-4 text-right">
+      <label class="form-label mt-2" for="border_width_tooltip">Border Width</label>
+
+    </div>
+    <div class="col-8">
+      <input
+              id="border_width_tooltip"
+              type="number"
+              v-model="tooltipBorderWidth"
+              class="form-control"
+      />
+    </div>
   </div>
+
 </template>
 
 <script>

@@ -38,5 +38,11 @@ export default {
   },
   doEdit(state){
     return state.doEdit
+  },
+  isBeginner(state){
+    return state.isBeginner;
+  },
+  exampleData(state){
+    return state.exampleData;
   }
 }

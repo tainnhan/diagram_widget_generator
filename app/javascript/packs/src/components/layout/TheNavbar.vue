@@ -5,16 +5,37 @@
         <img src="../../../../../assets/images/diagram_widget_generator/logo.png" alt="Logo für die Bachelorarbeit"
                               width="75" height="75">
       </router-link>
+      <button class="btn btn-primary" @click="changeUser">{{ user }}</button>
     </div>
   </nav>
 </template>
 <script>
   import { useStore } from 'vuex';
+  import { computed } from 'vue';
+  import { useRouter } from 'vue-router';
   export default {
     setup(){
       const store = useStore();
       const pathname = store.getters.pathName;
-      return { pathname }
+      const router = useRouter();
+      const user = computed(function () {
+        return store.getters.isBeginner ? 'Anfänger' : 'Fortgeschrittene';
+      })
+      function changeUser() {
+        let r;
+        if(pathname !== window.location.pathname ){
+          r = confirm("Befinden Sie sich grad im Bearbeitungsmodus so wird dieser beendet und Änderungen gehen verloren. Sind Sie sicher dass sie fortfahren wollen ?");
+          if(r){
+            store.dispatch('setUser');
+            store.dispatch('resetForm');
+          }
+        } else {
+          store.dispatch('setUser');
+        }
+       router.push(pathname);
+      }
+      return { pathname,changeUser, user }
+
     }
   }
 </script>

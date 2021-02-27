@@ -30,9 +30,6 @@
       const pathname = store.getters.pathName;
       function selectPage() {
         store.dispatch('resetForm');
-        store.dispatch('setFormPart',{
-          data: 'InputGeneral'
-          })
         router.push(pathname+ '/new');
       }
 

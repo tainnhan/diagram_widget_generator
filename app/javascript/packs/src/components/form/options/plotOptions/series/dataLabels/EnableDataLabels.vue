@@ -1,8 +1,14 @@
 <template>
-  <div class="form-check mb-3">
-    <label class="form-check-label" for="checkbox_data_labels">Data Label anzeigen</label>
-    <input class="form-check-input" type="checkbox" id="checkbox_data_labels" v-model="checkDataLabels">
+
+  <div class="mb-4 row">
+    <div class="col-4 text-right">
+      <label class="mt-2" for="checkbox_data_labels">Data Label anzeigen</label>
+    </div>
+    <div class="col-8">
+      <input  type="checkbox" id="checkbox_data_labels" v-model="checkDataLabels">
+    </div>
   </div>
+
 </template>
 
 <script>

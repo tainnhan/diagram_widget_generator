@@ -1,9 +1,13 @@
 <template>
-  <div class="mb-3">
-    <label class="form-label" for="legend_align">Legende Ausrichtung</label>
-    <select id="legend_align" class="form-select" v-model="selectedLegendAlign">
-      <option v-for="align in options" :value="align.value">{{ align.name }}</option>
-    </select>
+  <div class="mb-4 row">
+    <div class="col-4 text-right">
+      <label class="form-label mt-2" for="legend_align">Legende Ausrichtung</label>
+    </div>
+    <div class="col-8">
+      <select id="legend_align" class="form-select" v-model="selectedLegendAlign">
+        <option v-for="align in options" :value="align.value">{{ align.name }}</option>
+      </select>
+    </div>
   </div>
 </template>
 

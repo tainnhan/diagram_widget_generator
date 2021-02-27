@@ -1,8 +1,13 @@
 <template>
-  <div class="form-check mb-3">
-    <input class="form-check-input" id="enable_tooltip" type="checkbox" v-model="enableTooltip">
-    <label for="enable_tooltip" class="form-check-label">Tooltip anzeigen</label>
+  <div class="mb-4 row">
+    <div class="col-4 text-right">
+      <label for="enable_tooltip" class="mt-2">Tooltip anzeigen</label>
+    </div>
+    <div class="col-8">
+      <input  id="enable_tooltip" type="checkbox" v-model="enableTooltip">
+    </div>
   </div>
+
 </template>
 
 <script>

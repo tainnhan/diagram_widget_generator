@@ -1,9 +1,14 @@
 <template>
-  <div class="mb-3">
-    <label class="form-label" for="dash_select">Dash Styling</label>
-    <select class="form-select" id="dash_select" v-model="selectedDash">
-      <option v-for="dash in dashStyle" :value="dash"> {{ dash }}</option>
-    </select>
+  <div class="mb-4 row">
+    <div class="col-4 text-right">
+      <label class="form-label mt-2" for="dash_select">Dash Styling</label>
+    </div>
+    <div class="col-8">
+      <select class="form-select" id="dash_select" v-model="selectedDash">
+        <option v-for="dash in dashStyle" :value="dash"> {{ dash }}</option>
+      </select>
+    </div>
+
   </div>
 </template>
 <script>

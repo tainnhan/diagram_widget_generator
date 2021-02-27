@@ -1,7 +1,12 @@
 <template>
-  <div class="mb-3">
-    <label for="yAxis_text" class="form-label">Y-Achse Text</label>
-    <input class="form-control" id="yAxis_text" type="text" v-model="text" >
+  <div class="mb-4 row">
+    <div class="col-4 text-right">
+      <label for="yAxis_text" class="form-label">Text</label>
+    </div>
+    <div class="col-8">
+      <input class="form-control" id="yAxis_text" type="text" v-model="text" >
+    </div>
+
   </div>
 </template>
 <script>

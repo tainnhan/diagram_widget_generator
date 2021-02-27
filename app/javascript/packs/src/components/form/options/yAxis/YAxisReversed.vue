@@ -1,7 +1,12 @@
 <template>
-  <div class="form-check mb-3">
-    <input id="reverse_yAxis" v-model="reversed" type="checkbox" class="form-check-input"/>
-    <label for="reverse_yAxis">Y-Achse Werte inversieren</label>
+  <div class="row mb-4">
+    <div class="col-4 text-right">
+      <label for="reverse_yAxis">Y-Achse Werte inversieren</label>
+    </div>
+    <div class="col 8">
+      <input id="reverse_yAxis" v-model="reversed" type="checkbox"/>
+    </div>
+
   </div>
 </template>
 <script>

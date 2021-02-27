@@ -1,7 +1,12 @@
 <template>
-  <div class="form-check mb-3">
-    <input id="opposite_xAxis" v-model="opposite" type="checkbox" class="form-check-input"/>
-    <label for="opposite_xAxis" >X-Achse invertieren</label>
+  <div class="mb-4 row">
+    <div class="col-4 text-right">
+      <label for="opposite_xAxis" >Invertieren</label>
+    </div>
+    <div class="col-8">
+      <input id="opposite_xAxis" v-model="opposite" type="checkbox"/>
+    </div>
+
   </div>
 </template>
 <script>

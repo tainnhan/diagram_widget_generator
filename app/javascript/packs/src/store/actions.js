@@ -129,6 +129,14 @@ export default {
   },
   setDoEdit(context, payload){
     context.commit('setDoEdit', payload);
+  },
+
+  setUser(context){
+    context.commit('setUser');
+  },
+
+  removeSeries(context, payload){
+    context.commit('removeSeries', payload);
   }
 }
 

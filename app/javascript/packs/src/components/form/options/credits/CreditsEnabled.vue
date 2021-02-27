@@ -1,8 +1,16 @@
 <template>
-  <div class="form-check mb-3">
-    <input id="enable_credits" class="form-check-input" type="checkbox" v-model="enableCredits"/>
-    <label class="form-check-label">Credits anzeigen</label>
+
+  <div class="mb-4 row">
+    <div class="col-4 text-right">
+      <label class="mt-2">Credits anzeigen</label>
+
+    </div>
+    <div class="col-8">
+      <input id="enable_credits" type="checkbox" v-model="enableCredits"/>
+
+    </div>
   </div>
+
 </template>
 
 <script>
