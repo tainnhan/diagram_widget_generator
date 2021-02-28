@@ -6,7 +6,6 @@ export default {
     const url = window.location.origin + context.state.pathName + '/api' + '/create';
     const csrf = document.querySelector("meta[name='csrf-token']").getAttribute('content');
     const data = {
-      fromImport: payload.fromImport,
       options: payload.data
     };
 
@@ -110,13 +109,6 @@ export default {
 
   /***********************************************************************************************************/
 
-  // EDIT INTERNAL VUE HIGHCHARTS OPTIONS
-  editChart(context, payload){
-    context.commit('editChart', payload)
-  },
-  setFormPart(context, payload){
-    context.commit('setFormPart', payload)
-  },
   resetForm(context) {
     context.commit('resetForm')
   },
@@ -127,16 +119,21 @@ export default {
       pathname: pathname
     })
   },
-  setDoEdit(context, payload){
-    context.commit('setDoEdit', payload);
-  },
-
   setUser(context){
     context.commit('setUser');
   },
 
   removeSeries(context, payload){
     context.commit('removeSeries', payload);
+  },
+  setDataList(context, payload){
+    context.commit('setDataList', payload);
+  },
+  setDataIsValid(context, payload){
+    context.commit('setDataIsValid', payload)
+  },
+  setTab(context, payload){
+    context.commit('setTab', payload)
   }
 }
 

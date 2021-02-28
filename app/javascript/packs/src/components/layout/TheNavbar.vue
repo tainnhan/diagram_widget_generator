@@ -28,11 +28,11 @@
           if(r){
             store.dispatch('setUser');
             store.dispatch('resetForm');
+            router.push(pathname);
           }
         } else {
           store.dispatch('setUser');
         }
-       router.push(pathname);
       }
       return { pathname,changeUser, user }
 

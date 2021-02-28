@@ -1,8 +1,6 @@
 import { iframeResize } from 'iframe-resizer';
 import Highcharts from 'highcharts';
 import loadData from 'highcharts/modules/data';
-import loadExporting from 'highcharts/modules/exporting';
-loadExporting(Highcharts);
 loadData(Highcharts);
 
 document.addEventListener('DOMContentLoaded', setHighcharts)
@@ -14,6 +12,9 @@ async function setHighcharts(){
 
   await fetch(pathName + '/api' + '/chart' + '/' + chartId)
       .then(response => response.json())
-      .then(data => Highcharts.chart('showChart', data))
+      .then(data =>{
+        console.log(data);
+        Highcharts.chart('showChart', data.data)
+      } )
       .catch((error) => console.log(error))
 }

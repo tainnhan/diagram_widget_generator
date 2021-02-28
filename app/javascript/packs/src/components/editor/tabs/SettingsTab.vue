@@ -82,44 +82,44 @@
   import {computed, ref} from 'vue';
   import { useStore } from 'vuex';
   import CollapseItem from "../form/CollapseItem";
-  import TitleText from "../../form/options/title/TitleText";
-  import TitleAlign from "../../form/options/title/TitleAlign";
-  import TitleVerticalAlign from "../../form/options/title/TitleVerticalAlign";
-  import SubtitleText from "../../form/options/subtitle/SubtitleText";
-  import SubtitleAlign from "../../form/options/subtitle/SubtitleAlign";
-  import SubtitleVerticalAlign from "../../form/options/subtitle/SubtitleVerticalAlign";
-  import InverseAxis from "../../form/options/chart/InverseAxis";
-  import XAxisTitleText from "../../form/options/xAxis/title/XAxisTitleText";
-  import XAxisOpposite from "../../form/options/xAxis/XAxisOpposite";
-  import XAxisReversed from "../../form/options/xAxis/XAxisReversed";
-  import YAxisTitleText from "../../form/options/yAxis/title/YAxisTitleText";
-  import YAxisOpposite from "../../form/options/yAxis/YAxisOpposite";
-  import YAxisReversed from "../../form/options/yAxis/YAxisReversed";
-  import LineColor from "../../form/options/series/line/LineColor";
-  import LineDashStyle from "../../form/options/series/line/LineDashStyle";
-  import LineMarkerSymbol from "../../form/options/series/line/marker/LineMarkerSymbol";
-  import ColumnColorByPoint from "../../form/options/plotOptions/column/ColumnColorByPoint";
-  import ColumnColor from "../../form/options/series/column/ColumnColor";
-  import EnableDataLabels from "../../form/options/plotOptions/series/dataLabels/EnableDataLabels";
-  import EnabledMarkers from "../../form/options/plotOptions/series/marker/EnabledMarkers";
-  import AreaColor from "../../form/options/series/area/AreaColor";
-  import AreaMarkerSymbol from "../../form/options/series/area/marker/AreaMarkerSymbol";
-  import AreaDashStyle from "../../form/options/series/area/AreaDashStyle";
-  import PieColor from "../../form/options/series/pie/PieColor";
-  import EnableLegend from "../../form/options/legend/EnableLegend";
-  import LegendLayout from "../../form/options/legend/LegendLayout";
-  import LegendAlign from "../../form/options/legend/LegendAlign";
-  import LegendVerticalAlign from "../../form/options/legend/LegendVerticalAlign";
-  import TooltipEnabled from "../../form/options/tooltip/TooltipEnabled";
-  import TooltipBorderColor from "../../form/options/tooltip/TooltipBorderColor";
-  import TooltipBorderRadius from "../../form/options/tooltip/TooltipBorderRadius";
-  import TooltipBorderWidth from "../../form/options/tooltip/TooltipBorderWidth";
-  import TooltipShared from "../../form/options/tooltip/TooltipShared";
-  import TooltipBackgroundColor from "../../form/options/tooltip/TooltipBackgroundColor";
-  import CreditsEnabled from "../../form/options/credits/CreditsEnabled";
-  import CreditsText from "../../form/options/credits/CreditsText";
-  import CreditsLink from "../../form/options/credits/CreditsLink";
-  import CaptionText from "../../form/options/caption/CaptionText";
+  import TitleText from "../../highcharts/options/title/TitleText";
+  import TitleAlign from "../../highcharts/options/title/TitleAlign";
+  import TitleVerticalAlign from "../../highcharts/options/title/TitleVerticalAlign";
+  import SubtitleText from "../../highcharts/options/subtitle/SubtitleText";
+  import SubtitleAlign from "../../highcharts/options/subtitle/SubtitleAlign";
+  import SubtitleVerticalAlign from "../../highcharts/options/subtitle/SubtitleVerticalAlign";
+  import InverseAxis from "../../highcharts/options/chart/InverseAxis";
+  import XAxisTitleText from "../../highcharts/options/xAxis/title/XAxisTitleText";
+  import XAxisOpposite from "../../highcharts/options/xAxis/XAxisOpposite";
+  import XAxisReversed from "../../highcharts/options/xAxis/XAxisReversed";
+  import YAxisTitleText from "../../highcharts/options/yAxis/title/YAxisTitleText";
+  import YAxisOpposite from "../../highcharts/options/yAxis/YAxisOpposite";
+  import YAxisReversed from "../../highcharts/options/yAxis/YAxisReversed";
+  import LineColor from "../../highcharts/options/series/line/LineColor";
+  import LineDashStyle from "../../highcharts/options/series/line/LineDashStyle";
+  import LineMarkerSymbol from "../../highcharts/options/series/line/marker/LineMarkerSymbol";
+  import ColumnColorByPoint from "../../highcharts/options/plotOptions/column/ColumnColorByPoint";
+  import ColumnColor from "../../highcharts/options/series/column/ColumnColor";
+  import EnableDataLabels from "../../highcharts/options/plotOptions/series/dataLabels/EnableDataLabels";
+  import EnabledMarkers from "../../highcharts/options/plotOptions/series/marker/EnabledMarkers";
+  import AreaColor from "../../highcharts/options/series/area/AreaColor";
+  import AreaMarkerSymbol from "../../highcharts/options/series/area/marker/AreaMarkerSymbol";
+  import AreaDashStyle from "../../highcharts/options/series/area/AreaDashStyle";
+  import PieColor from "../../highcharts/options/series/pie/PieColor";
+  import EnableLegend from "../../highcharts/options/legend/EnableLegend";
+  import LegendLayout from "../../highcharts/options/legend/LegendLayout";
+  import LegendAlign from "../../highcharts/options/legend/LegendAlign";
+  import LegendVerticalAlign from "../../highcharts/options/legend/LegendVerticalAlign";
+  import TooltipEnabled from "../../highcharts/options/tooltip/TooltipEnabled";
+  import TooltipBorderColor from "../../highcharts/options/tooltip/TooltipBorderColor";
+  import TooltipBorderRadius from "../../highcharts/options/tooltip/TooltipBorderRadius";
+  import TooltipBorderWidth from "../../highcharts/options/tooltip/TooltipBorderWidth";
+  import TooltipShared from "../../highcharts/options/tooltip/TooltipShared";
+  import TooltipBackgroundColor from "../../highcharts/options/tooltip/TooltipBackgroundColor";
+  import CreditsEnabled from "../../highcharts/options/credits/CreditsEnabled";
+  import CreditsText from "../../highcharts/options/credits/CreditsText";
+  import CreditsLink from "../../highcharts/options/credits/CreditsLink";
+  import CaptionText from "../../highcharts/options/caption/CaptionText";
   export default {
     components: {
       ColumnColor,
@@ -136,12 +136,10 @@
     setup(){
         const store = useStore();
         const selected = ref(0);
-
       const series = computed(function () { return store.getters.highChartsOptions.series })
-      console.log(store.getters.highChartsOptions);
       const selectedSeries = computed(function () { return store.getters.highChartsOptions.series[selected.value] })
       const chartType = computed(function () {
-        return store.getters.highChartsOptions.chart.type;
+        return store.getters.highChartsOptions.chart?.type;
       });
 
       return { series, selected, selectedSeries, chartType }

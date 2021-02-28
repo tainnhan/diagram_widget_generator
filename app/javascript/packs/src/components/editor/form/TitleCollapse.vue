@@ -26,9 +26,9 @@
 
 <script>
   import bootstrap from "bootstrap/dist/js/bootstrap.bundle";
-  import TitleText from "../../form/options/title/TitleText";
-  import TitleAlign from "../../form/options/title/TitleAlign";
-  import TitleVerticalAlign from "../../form/options/title/TitleVerticalAlign";
+  import TitleText from "../../highcharts/options/title/TitleText";
+  import TitleAlign from "../../highcharts/options/title/TitleAlign";
+  import TitleVerticalAlign from "../../highcharts/options/title/TitleVerticalAlign";
   import { onMounted,ref } from 'vue';
   import SettingsTab from "../tabs/SettingsTab";
   export default {

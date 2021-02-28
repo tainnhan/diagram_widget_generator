@@ -27,22 +27,22 @@ export default {
   pathName(state){
     return state.pathName;
   },
-  page(state){
-    return state.page;
-  },
   chartList(state) {
     return state.chartList
-  },
-  formPart(state) {
-    return state.formPart
-  },
-  doEdit(state){
-    return state.doEdit
   },
   isBeginner(state){
     return state.isBeginner;
   },
   exampleData(state){
     return state.exampleData;
+  },
+  dataList(state){
+    return state.dataList;
+  },
+  dataIsValid(state) {
+    return state.dataIsValid;
+  },
+  tabs(state){
+    return state.tabs;
   }
 }

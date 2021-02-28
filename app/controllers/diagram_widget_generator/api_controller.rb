@@ -4,7 +4,7 @@ module DiagramWidgetGenerator
 
     def create_chart
       head :no_content
-      Widget.create(payload: widget_params[:options], import_json: widget_params[:fromImport])
+      Widget.create(payload: widget_params[:options])
     end
 
     def delete_chart
@@ -25,7 +25,6 @@ module DiagramWidgetGenerator
       charts.each do |chart|
         options = {
             id: chart.id,
-            fromImport: chart.import_json,
             data: chart.payload
         }
         array.push(options)

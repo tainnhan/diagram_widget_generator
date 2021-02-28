@@ -5,12 +5,13 @@
     </li>
   </ul>
   <div class="m-3">
-    <component :is="tab"></component>
+      <component :is="tab"></component>
   </div>
 </template>
 
 <script>
-  import { ref } from 'vue';
+  import { ref, computed } from 'vue';
+  import { useStore } from 'vuex';
   import DataTab from "./tabs/DataTab";
   import ImportTab from "./tabs/ImportTab";
   import SettingsTab from "./tabs/SettingsTab";
@@ -21,17 +22,15 @@
       SettingsTab
     },
     setup(){
-      const tabs = ref([
-        { name: 'data-tab', text: 'Daten', isActive: true },
-        { name: 'import-tab', text: 'Import', isActive: false },
-        { name: 'settings-tab', text: 'Einstellungen', isActive: false }
-      ])
-      const tab = ref('data-tab');
+      const store = useStore();
+      const tabs = computed(function () {
+        return store.getters.tabs.data;
+      })
+      const tab = computed(function () {
+        return store.getters.tabs.selected;
+      })
       function changeTab(selectedTab) {
-        tab.value = selectedTab;
-        tabs.value.forEach(tab => {
-          tab.isActive = tab.name === selectedTab;
-        })
+        store.dispatch('setTab', selectedTab);
       }
 
       return { tab, changeTab,tabs  }

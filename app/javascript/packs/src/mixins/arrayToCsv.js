@@ -10,11 +10,19 @@ export default function () {
 
   function arrayToCsv(data) {
     let csv = ""
-    data.forEach(function (item) {
+    data.forEach(function (item, index) {
       item.forEach(function (item_2, index_2) {
         if(item_2 !== '' && index_2 !== 0){
-          csv += item_2
+
+          //erste zeile -> highchart api
+          if(!/^-?\d*[.]?\d*$/.test(item_2) || item_2 === '.' || item_2 === "-"){
+            csv += '0';
+          } else {
+            csv += item_2
+          }
         }
+
+        // erste spalte
         if(item_2 !=='' && index_2 === 0) {
           csv += `${item_2}`
         }

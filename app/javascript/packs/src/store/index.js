@@ -22,11 +22,20 @@ const store = createStore({
       isBeginner: true,
       chartList: [],
       pathName: '',
-      doEdit: false,
       exampleData: {
         series: [{name: "1990", data: [["Äpfeln", 10.2], ["Bananen", 9.8], ["Weintrauben", 30.2]], turboThreshold: 0}],
         csv: "null;1990\nEuropa;10.2\nAmerika;9.8\nAfrika;30.2\n"
       },
+      dataList: null,
+      dataIsValid: true,
+      tabs: {
+        selected: 'data-tab',
+        data: [
+          { name: 'data-tab', text: 'Daten', isActive: true },
+          { name: 'import-tab', text: 'Import', isActive: false },
+          { name: 'settings-tab', text: 'Einstellungen', isActive: false }
+        ]
+      }
     }
   },
   getters,

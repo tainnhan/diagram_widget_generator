@@ -24,7 +24,7 @@
 
 <script>
   import { useStore } from "vuex"
-  import chartTypeWizard from "../form/options/chart/chartTypeWizard";
+  import chartTypeWizard from "../highcharts/options/chart/chartTypeWizard";
   import { ref } from 'vue';
   export default {
     components: {

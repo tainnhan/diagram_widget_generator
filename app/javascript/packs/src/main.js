@@ -5,12 +5,10 @@ import Highcharts from 'highcharts';
 import { createRouter, createWebHistory } from "vue-router";
 import FormPage from "./components/FormPage";
 import IndexPage from "./components/IndexPage";
-import UploadJsonPage from "./components/UploadJsonPage";
-import WizardPage from "./components/pages/WizardPage";
-import loadExporting from 'highcharts/modules/exporting';
+//import loadExporting from 'highcharts/modules/exporting';
 import loadData from 'highcharts/modules/data';
 import VueHighcharts from 'vue-highcharts';
-loadExporting(Highcharts);
+//loadExporting(Highcharts);
 loadData(Highcharts);
 
 const app = createApp(App);
@@ -24,10 +22,8 @@ export default () => {
       history: createWebHistory(),
       routes: [
         { path: pathName, component: IndexPage },
-        { path: pathName + '/new/wizard', component: WizardPage},
         { path: pathName + '/new', component: FormPage },
         { path: pathName + '/edit/:id', component: FormPage, props: true },
-        { path: pathName + '/json-preview', component: UploadJsonPage }
       ]
     })
     app.use(router);

@@ -83,9 +83,11 @@
 </template>
 
 <script>
-  import { reactive, ref, onUpdated, watch, onMounted} from 'vue';
+  import { reactive, ref, onUpdated, watch, onMounted } from 'vue';
   import { useStore} from 'vuex';
+  import { useRoute } from 'vue-router';
   import ToastMessage from "../UI/ToastMessage";
+  import arrayToCsvConverter from "../../mixins/arrayToCsv";
 
   export default {
     emits: ['getData','destroySeries'],
@@ -113,8 +115,9 @@
       const dataArray = reactive({data: createDataArray()})
       const store = useStore();
       let inputId = ''
-      let csvValid = true;
       let toast;
+      const route = useRoute();
+      const { headerToCsv, arrayToCsv } = arrayToCsvConverter()
 
 
       function addRows() {
@@ -123,7 +126,7 @@
       }
 
       function addColumns() {
-        for(let i = 0; i < numbersOfRows.value; i++) {
+         for(let i = 0; i < numbersOfRows.value; i++) {
           dataArray.data[i].push('')
         }
         numberOfColumns.value += 1
@@ -141,6 +144,10 @@
         numberOfColumns.value -= 1;
         const number = index - 1
         //emit
+        //wenn wir den Column löschen dann müssen wir das auch entsprechend im csv so abbilden und nicht im series verändern
+       // let csv = headerToCsv(dataArray[0]) + arrayToCsv(dataArray.filter((item,i) => i !== 0 ))
+
+
         emit('destroySeries', number)
 
       }
@@ -168,12 +175,6 @@
       }
     }
 
-      onUpdated(function () {
-          if(inputId !== '') {
-            document.getElementById(inputId).focus();
-            inputId = ''
-          }
-      })
 
       function inputClass (m) { return m === 1 ? 'bg-light' : 'check-value' }
       function thClass(m) { return m === 1 ? 'bg-light' : '' }
@@ -192,13 +193,7 @@
       }
 
     watch(dataArray, function (newValue) {
-        emit('getData', {
-          data:newValue,
-          csvValid: csvValid
-        });
-        if(csvValid === false) {
-          csvValid = true;
-        }
+        emit('getData', { data:newValue });
     })
 
     function changeFocus(inputId,event) {
@@ -233,29 +228,11 @@
         }
 
         function loaded(event) {
+          resetData();
           const result = event.target.result.trim();
           let csvArray = transformCsv(result)
-
-          if(valuesAreNumbers(csvArray)){
-            createRowsColumnsFromCsv(csvArray)
-            dataArray.data = csvArray;
-          } else{
-            createRowsColumnsFromCsv(csvArray)
-            csvValid = false;
-            dataArray.data = csvArray;
-          }
-
-        }
-
-        function valuesAreNumbers(csvArray){
-          let removeHeaderArray = csvArray.filter((item, index) => index !== 0);
-          for(let i = 0; i < removeHeaderArray.length; i++ ){
-            removeHeaderArray[i] = removeHeaderArray[i].filter( (item, index) => index !== 0);
-          }
-          const data = removeHeaderArray.flat()
-
-          //if every value in an array is a number return true
-          return !data.some(isNaN);
+          createRowsColumnsFromCsv(csvArray)
+          dataArray.data = csvArray;
         }
 
 
@@ -316,18 +293,49 @@
 
       }
 
+      function resetData() {
+        store.dispatch('changePropertyWithOneKey', {
+          first_key: 'data',
+          data: {
+            csv: ''
+          }
+        })
+          store.dispatch('removeSeries' );
+
+      }
+
+
       function setToast(payload) {
         toast = payload;
       }
       /************************************************************************************/
 
+
+
+      onUpdated(function () {
+        if(inputId !== '') {
+          document.getElementById(inputId).focus();
+          inputId = ''
+        }
+        const list = document.getElementsByClassName('check-value');
+        store.dispatch('setDataList', list);
+      })
+
       onMounted(function () {
         if(!store.getters.isBeginner){
-          emit('getData', { data:dataArray, csvValid: csvValid });
+          let csv = headerToCsv(dataArray.data[0]) + arrayToCsv(dataArray.data.filter((item,i) => i !== 0 ))
+          const list = document.getElementsByClassName('check-value');
+          store.dispatch('setDataList', list);
+          store.dispatch('changePropertyWithOneKey', {
+            first_key: 'data',
+            data: {
+              csv: csv
+            }
+          })
         }
       })
     return {
-        setToast,
+      setToast,
       numberOfColumns, numbersOfRows,
       dataArray, inputClass,
       changeInputFocus, thClass,

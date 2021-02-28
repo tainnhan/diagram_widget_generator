@@ -1,6 +1,6 @@
 <template>
   <teleport to="body">
-    <div style="position: absolute; top: 10px; right: 10px">
+    <div style="position: absolute; top: 10px; right: 100px">
       <div :id="toastIdName" class="toast bg-danger text-white" role="alert" aria-live="assertive" aria-atomic="true">
         <div class="toast-header">
           <strong class="mr-auto">Fehlermeldung</strong>

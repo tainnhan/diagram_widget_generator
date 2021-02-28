@@ -18,7 +18,7 @@
 </template>
 
 <script>
-  import TitleText from "../form/options/title/TitleText";
+  import TitleText from "../highcharts/options/title/TitleText";
   import { useStore } from 'vuex';
   import { ref } from 'vue';
   export default {

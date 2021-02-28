@@ -7,7 +7,7 @@
       <highcharts :options="options"></highcharts>
     </div>
     <div class="card-footer">
-      <button v-if="!fromImport" data-toggle="tooltip"
+      <button  data-toggle="tooltip"
         data-placement="bottom"
         title="Bearbeiten"
         class="btn btn-outline-success"
@@ -75,7 +75,7 @@
           </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary">Close</button>
+          <button type="button" class="btn btn-secondary" @click="closeModal">Schließen</button>
         </div>
       </div>
     </div>
@@ -96,10 +96,6 @@
       },
       chartId: {
         type: Number,
-        required: true
-      },
-      fromImport: {
-        type: Boolean,
         required: true
       }
     },

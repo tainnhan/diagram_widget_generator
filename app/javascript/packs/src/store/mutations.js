@@ -6,41 +6,41 @@ export default {
   //Mit Diesen Mutationen können bis zur dritten Ebene zugegriffen werden,
   // Falls mehr nötig sein sollten, können welche hinzugefügt werdn.
 
-  changePropertyWithOneKey(state, { first_key, data }){
+  changePropertyWithOneKey(state, {first_key, data}) {
     state.highChartsOptions[first_key] = data
 
   },
-  changePropertyWithTwoKeys(state, { first_key, second_key, data }){
+  changePropertyWithTwoKeys(state, {first_key, second_key, data}) {
     state.highChartsOptions[first_key][second_key] = data
 
   },
-  changePropertyWithThreeKeys(state, { first_key, second_key, third_key, data }){
+  changePropertyWithThreeKeys(state, {first_key, second_key, third_key, data}) {
     state.highChartsOptions[first_key][second_key][third_key] = data
 
   },
-  changePropertyWithKeyIndex(state, { first_key, first_index, data }){
+  changePropertyWithKeyIndex(state, {first_key, first_index, data}) {
     state.highChartsOptions[first_key][first_index] = data
   },
-  changePropertyWithKeyIndexKey(state, { first_key,second_key, first_index, data }){
+  changePropertyWithKeyIndexKey(state, {first_key, second_key, first_index, data}) {
     state.highChartsOptions[first_key][first_index][second_key] = data
 
   },
-  changePropertyWithKeyIndexKeyKey(state, { first_key, first_index, second_key, third_key, data }){
+  changePropertyWithKeyIndexKeyKey(state, {first_key, first_index, second_key, third_key, data}) {
     state.highChartsOptions[first_key][first_index][second_key][third_key] = data
   },
-  changePropertyWithKeyIndexKeyIndexKey(state, { first_key,second_index, first_index, second_key, third_key, data }){
+  changePropertyWithKeyIndexKeyIndexKey(state, {first_key, second_index, first_index, second_key, third_key, data}) {
     state.highChartsOptions[first_key][first_index][second_key][second_index][third_key] = data
   },
 
-  changePropertyWithFourKeys(state, { first_key, second_key, third_key, fourth_key,  data }){
+  changePropertyWithFourKeys(state, {first_key, second_key, third_key, fourth_key, data}) {
     state.highChartsOptions[first_key][second_key][third_key][fourth_key] = data
   },
 
-  setChartsList(state, payload){
+  setChartsList(state, payload) {
     state.chartList = payload.reverse()
   },
 
-  setChart(state, payload){
+  setChart(state, payload) {
     state.highChartsOptions = payload.data;
   },
 
@@ -53,13 +53,6 @@ export default {
   },
   deleteChart(state, payload) {
     state.chartList = state.chartList.filter(item => item.id !== payload.id).reverse()
-  },
-  editChart(state, payload) {
-    const chart = state.chartList.find(item => payload.id === item.id)
-    state.highChartsOptions = chart.data;
-  },
-  setFormPart(state, payload) {
-    state.formPart = payload.data
   },
   resetForm(state) {
     state.highChartsOptions = {
@@ -74,12 +67,24 @@ export default {
       series: []
     }
   },
-  setDoEdit(state, payload){
-    state.doEdit = payload.data
+  removeSeries(state, payload) {
+    if(payload){
+      state.highChartsOptions.series.splice(payload,1);
+    } else {
+      state.highChartsOptions.series = [];
+    }
   },
-  removeSeries(state, payload){
-    state.highChartsOptions.series = [];
-
+  setDataList(state, payload) {
+    state.dataList = payload;
+  },
+  setDataIsValid(state, payload){
+    state.dataIsValid = payload;
+  },
+  setTab(state, payload){
+    state.tabs.selected = payload;
+    state.tabs.data.forEach(tab => {
+      tab.isActive = tab.name === payload;
+    })
   }
 }
 

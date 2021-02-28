@@ -1,11 +1,14 @@
 <template>
-  <div class="mb-4 row">
+  <div class="mb-4 row" v-if="!isBeginner">
     <div class="col-4 text-right">
       <label for="title" class="form-label mt-2" id="title_label">Text</label>
     </div>
     <div class="col-8">
       <input id="title" class="form-control" type="text" placeholder="Das ist mein Titel...." v-model="title"/>
     </div>
+  </div>
+  <div v-else>
+    <input id="title" class="form-control" type="text" placeholder="Das ist mein Titel...." v-model="title"/>
   </div>
 </template>
 <script>
@@ -22,7 +25,9 @@
     emits: ['sendTitle'],
     setup(props, { emit }) {
       const store = useStore();
-
+      const isBeginner = computed(function () {
+        return store.getters.isBeginner;
+      })
       const highChartsOptions = computed(function () {
         return store.getters.highChartsOptions
       })
@@ -62,7 +67,7 @@
       })
 
 
-      return { title,highChartsOptions }
+      return { title,highChartsOptions, isBeginner }
     }
   }
 </script>

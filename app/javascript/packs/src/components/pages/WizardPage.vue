@@ -47,9 +47,6 @@
     },
     setup(props){
         const screen = ref('first-screen');
-        const store = useStore();
-        console.log(store.getters.highChartsOptions);
-
         function changeScreen(data) {
           screen.value = data;
         }
