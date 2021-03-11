@@ -103,7 +103,7 @@
       let modal;
       const store = useStore();
       const router = useRouter();
-      const url = window.location.origin + store.getters.pathName + '/chart' + '/' + props.chartId
+      const url = window.location.origin + store.getters.pathName + '/charts' + '/' + props.chartId
       const scriptSrc = window.location.origin + store.getters.pathName + '/widget' + '/' + props.chartId + '.js'
       let clipboard;
 
@@ -130,14 +130,12 @@
       function deleteChart() {
         const result = confirm("Wollen Sie diese Chart wirklich löschen ?")
         if (result ) {
-          store.dispatch('deleteChart', {
-            id: props.chartId
-          })
+          store.dispatch('deleteChart', { id: props.chartId })
         }
       }
 
        function editChart(id){
-        router.push(pathname + '/edit/' + id)
+        router.push(pathname + '/charts/'+ id + '/edit')
       }
 
       function download() {
@@ -174,3 +172,5 @@
     }
   }
 </script>
+
+  rails diagram_widget_generator:install:migrations

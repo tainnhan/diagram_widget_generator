@@ -33,11 +33,10 @@
       })
 
       // edit
-      const hasTitle = computed(function () {
-        return highChartsOptions.value.title?.text ? highChartsOptions.value.title.text : ''
-      })
+      const hasTitle = highChartsOptions.value.title?.text ? highChartsOptions.value.title.text : ''
 
-      const title = ref(hasTitle.value);
+
+      const title = ref(hasTitle);
 
 
       if(!highChartsOptions.value.title) {

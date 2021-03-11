@@ -1,13 +1,15 @@
-import { createStore  } from 'vuex';
-import getters from './getters';
-import actions from './actions';
-import mutations from './mutations';
+
 import titleConfiguration from './config/title';
 import subtitleConfiguration from './config/subtitle';
 import seriesConfiguration from './config/seriesOptions'
 import chartConfiguration from './config/chart';
 import legendConfiguration from './config/legend';
 import highChartsOptions from './config/highChartsOptions';
+
+import { createStore  } from 'vuex';
+import getters from './getters';
+import actions from './actions';
+import mutations from './mutations';
 
 const store = createStore({
   state() {

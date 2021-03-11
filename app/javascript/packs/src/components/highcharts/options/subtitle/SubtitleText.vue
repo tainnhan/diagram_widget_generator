@@ -14,11 +14,12 @@
   export default {
     setup() {
       const store = useStore();
-      const hasSubtitle = computed(function () {
-        return store.getters.highChartsOptions.subtitle?.text ? store.getters.highChartsOptions.subtitle.text : ''
-      })
-      const subtitle = ref(hasSubtitle.value);
       const highChartsOptions = computed(function () { return store.getters.highChartsOptions })
+
+
+      const hasSubtitle = store.getters.highChartsOptions.subtitle?.text ? store.getters.highChartsOptions.subtitle.text : ''
+      const subtitle = ref(hasSubtitle);
+
 
       if(!highChartsOptions.value.subtitle) {
         store.dispatch('changePropertyWithOneKey', {

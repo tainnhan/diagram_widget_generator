@@ -1,5 +1,4 @@
 module DiagramWidgetGenerator
-  class Widget < ApplicationRecord
-
+  class Chart < ApplicationRecord
   end
 end

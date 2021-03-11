@@ -1,4 +1,6 @@
 <template>
+  <the-navbar :container="isBeginner ? 'container' : 'container-fluid'" ></the-navbar>
+
   <div v-if="chartIsLoaded">
     <wizard-page v-if="isBeginner" ></wizard-page>
     <editor-page v-else></editor-page>
@@ -8,12 +10,14 @@
 <script>
 import WizardPage from "./pages/WizardPage";
 import EditorPage from "./pages/EditorPage";
+import TheNavbar from "./layout/TheNavbar";
 import { useStore } from 'vuex';
 import {ref, computed, onMounted } from "vue";
 export default {
   components: {
     WizardPage,
-    EditorPage
+    EditorPage,
+    TheNavbar
   },
   props: ['id'],
   setup(props){

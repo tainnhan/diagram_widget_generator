@@ -1,5 +1,4 @@
 <template>
-  <the-navbar></the-navbar>
     <router-view></router-view>
 </template>
 <script>
@@ -18,9 +17,9 @@ export default {
     store.dispatch('setPathName');
     if(localStorage.getItem('user')){
       const isBeginner = localStorage.getItem('user') === 'true';
-      //sollte man ändern bisschen bad practice, state so aufzurufen
       store.state.isBeginner = isBeginner;
     }
   }
 }
 </script>
+

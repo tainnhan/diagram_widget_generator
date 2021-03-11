@@ -1,4 +1,5 @@
 export default function () {
+
   function headerToCsv(data){
     let csvHeader = "";
     data.forEach(function (item, index) {
@@ -13,7 +14,6 @@ export default function () {
     data.forEach(function (item, index) {
       item.forEach(function (item_2, index_2) {
         if(item_2 !== '' && index_2 !== 0){
-
           //erste zeile -> highchart api
           if(!/^-?\d*[.]?\d*$/.test(item_2) || item_2 === '.' || item_2 === "-"){
             csv += '0';
@@ -21,12 +21,10 @@ export default function () {
             csv += item_2
           }
         }
-
         // erste spalte
         if(item_2 !=='' && index_2 === 0) {
           csv += `${item_2}`
         }
-
         csv += index_2 < item.length - 1 ? ';' : '\n'
       })
     })

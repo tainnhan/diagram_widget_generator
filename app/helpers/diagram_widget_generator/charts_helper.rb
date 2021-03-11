@@ -1,4 +1,4 @@
 module DiagramWidgetGenerator
-  module ApiHelper
+  module ChartsHelper
   end
 end

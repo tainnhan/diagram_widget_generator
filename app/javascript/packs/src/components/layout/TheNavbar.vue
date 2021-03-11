@@ -1,6 +1,6 @@
 <template>
   <nav class="navbar navbar-dark bg-dark">
-    <div class="container">
+    <div :class="container">
       <router-link :to="pathname">
         <img src="../../../../../assets/images/diagram_widget_generator/logo.png" alt="Logo für die Bachelorarbeit"
                               width="75" height="75">
@@ -14,6 +14,13 @@
   import { computed } from 'vue';
   import { useRouter } from 'vue-router';
   export default {
+    props: {
+      container: {
+        type: String,
+        required: false,
+        default: 'container'
+      }
+    },
     setup(){
       const store = useStore();
       const pathname = store.getters.pathName;

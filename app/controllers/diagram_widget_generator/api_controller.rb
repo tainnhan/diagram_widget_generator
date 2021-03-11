@@ -2,49 +2,18 @@
 module DiagramWidgetGenerator
   class ApiController < ApplicationController
 
-    def create_chart
-      head :no_content
-      Widget.create(payload: widget_params[:options])
-    end
-
-    def delete_chart
-      head :no_content
-      widget = Widget.find(params[:id])
-      widget.destroy
-    end
-
-    def edit_chart
-      head :no_content
-      widget = Widget.find(params[:id])
-      widget.update(payload: widget_params[:options])
-    end
-
     def charts
-      charts = Widget.all
-      array = []
-      charts.each do |chart|
-        options = {
-            id: chart.id,
-            data: chart.payload
-        }
-        array.push(options)
-      end
-
+      charts = Chart.all
       respond_to do |format|
-        format.json {  render json: array.to_json }
+        format.json {  render json: charts.to_json }
       end
     end
 
-    def get_single_chart
-      widget = Widget.find(params[:id])
-      chart = {
-          id: widget.id,
-          data: widget.payload
-      }
+    def chart
+      chart = Chart.find(params[:id])
       respond_to do |format|
         format.json { render json: chart.to_json }
       end
-
     end
 
     private

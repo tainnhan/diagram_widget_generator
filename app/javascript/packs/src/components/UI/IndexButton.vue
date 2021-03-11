@@ -15,7 +15,7 @@
       const pathname = store.getters.pathName;
       function selectPage() {
         store.dispatch('resetForm');
-        router.push(pathname+ '/new');
+        router.push(pathname+ '/charts/new');
       }
 
 
