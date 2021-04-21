@@ -41,7 +41,7 @@ export default {
   },
 
   setChart(state, payload) {
-    state.highChartsOptions = payload.payload;
+    state.highChartsOptions = payload.data;
   },
 
   setUser(state) {

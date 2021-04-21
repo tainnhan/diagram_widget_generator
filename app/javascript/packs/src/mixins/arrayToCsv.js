@@ -15,7 +15,7 @@ export default function () {
       item.forEach(function (item_2, index_2) {
         if(item_2 !== '' && index_2 !== 0){
           //erste zeile -> highchart api
-          if(!/^-?\d*[.]?\d*$/.test(item_2) || item_2 === '.' || item_2 === "-"){
+          if(!/^-?\d*[.,]?\d+$/.test(item_2) || item_2 === '.' || item_2 === "-"){
             csv += '0';
           } else {
             csv += item_2

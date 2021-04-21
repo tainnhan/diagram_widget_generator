@@ -6,7 +6,7 @@
   import {reactive, watch, computed,ref, onMounted } from 'vue';
   import arrayToCsvConverter from "../../mixins/arrayToCsv";
   import ToastMessage from "../UI/ToastMessage";
-  import dataTable from "./DataTable";
+  import dataTable from "../form/DataTable";
   import { useStore } from 'vuex';
 
   export default {

@@ -20,7 +20,7 @@
           <div class="card-header text-center">
             <p style="font-size: 18px">Diagrammvorschau</p>
             </div>
-          <highcharts-preview ></highcharts-preview>
+          <highcharts-preview></highcharts-preview>
           <div class="card-footer" style="height: 40px">
           </div>
         </div>

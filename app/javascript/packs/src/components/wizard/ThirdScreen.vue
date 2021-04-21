@@ -24,7 +24,7 @@
 </template>
 
 <script>
-  import DataTable from "../table/DataTable";
+  import DataTable from "../form/DataTable";
   import InputData from "../table/InputData";
   import checkData from "../../mixins/checkData";
   import ToastMessage from "../UI/ToastMessage";
